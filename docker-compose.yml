@@ -14,7 +14,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB} # Имя базы данных
     ports:
       # Настройка портов
-      - 5433:5432 # Проброс порта 5432 контейнера на порт 5433 хоста
+      - ${POSTGRES_PORT}:5432 # Проброс порта 5432 контейнера на порт 5433 хоста
     volumes:
       # Настройка томов для хранения данных
       - postgres_data:/var/lib/postgresql/data # Хранение данных PostgreSQL в томе postgres_data
