@@ -37,7 +37,7 @@ jobs:
           psql -h localhost -p 5432 -U postgres -c 'CREATE DATABASE test;'
         env:
           PGPASSWORD: postgres
-      - run: npm install pm2 -g 
+      - run: npm install pm2 -g
       - run: bun i --no-cache
       - run: npx prisma db push
       - run: bun run lint
@@ -45,6 +45,17 @@ jobs:
       - run: bun run test
       - run: bun run build
       - run: npx pm2 start npm --name test -- bun run start
+      - run: |
+          # Wait for the app to start
+          for i in {1..10}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "App is up and running!"
+              break
+            fi
+            echo "Waiting for the app to start..."
+            sleep 3
+          done
+      - run: npx playwright install-deps
       - run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: bun run test:e2e
