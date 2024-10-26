@@ -42,6 +42,7 @@ jobs:
       - run: npx prisma db push
       - run: bun run lint
       - run: bun run lint:types
+      - run: bun run test
       - run: bun run build
       - run: npx pm2 start npm --name test -- bun run start
-      - run: bun run test
+      - run: bun run test:e2e
