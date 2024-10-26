@@ -45,4 +45,14 @@ jobs:
       - run: bun run test
       - run: bun run build
       - run: npx pm2 start npm --name test -- bun run start
-      - run: bun run test:e2e
+      - run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: bun run test:e2e
+        env:
+          TEST_ENV_BASE_URL: http://localhost:3000
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
