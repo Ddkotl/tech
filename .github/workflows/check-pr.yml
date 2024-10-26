@@ -43,5 +43,5 @@ jobs:
       - run: bun run lint
       - run: bun run lint:types
       - run: bun run build
-      - run: npx pm2 start npm --name "$GIT_DIR_NAME" -- bun run start
+      - run: npx pm2 start npm --name test -- bun run start
       - run: bun run test
