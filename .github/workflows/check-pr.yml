@@ -37,10 +37,11 @@ jobs:
           psql -h localhost -p 5432 -U postgres -c 'CREATE DATABASE test;'
         env:
           PGPASSWORD: postgres
+      - run: npm install pm2 -g 
       - run: bun i --no-cache
       - run: npx prisma db push
       - run: bun run lint
       - run: bun run lint:types
       - run: bun run build
-      - run: bun run start
+      - run: npx pm2 start npm --name "$GIT_DIR_NAME" -- bun run start
       - run: bun run test
