@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-   "dev": "next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:types":"tsc --noEmit",
+    "lint:types": "tsc --noEmit",
     "prettier": "prettier -w .",
     "test": "jest",
-    "test:e2e":"playwright test"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

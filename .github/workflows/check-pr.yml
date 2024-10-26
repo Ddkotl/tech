@@ -1,10 +1,10 @@
 name: Pull requests check
 
 on:
-   push:
-      branches: [ "main" ]
-   pull_request:
-      branches: [ "main" ]
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   lint:
@@ -15,11 +15,10 @@ jobs:
         with:
           node-version: latest
       - uses: oven-sh/setup-bun@v2
-      
+
         with:
           bun-version: latest
       - run: bun i --no-cache
       - run: bun run lint
       - run: bun run lint:types
       - run: bun run test
-    
