@@ -42,3 +42,5 @@ jobs:
       - run: bun run lint
       - run: bun run lint:types
       - run: bun run test
+      - run: bun run build
+      - run: bun run start
