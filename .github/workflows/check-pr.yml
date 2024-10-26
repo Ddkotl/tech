@@ -1,7 +1,10 @@
 name: Pull requests check
 
 on:
-  pull_request:
+   push:
+      branches: [ "main" ]
+   pull_request:
+      branches: [ "main" ]
 
 jobs:
   lint:
@@ -27,6 +30,7 @@ jobs:
         with:
           node-version: latest
       - uses: oven-sh/setup-bun@v2
+      
         with:
           bun-version: latest
       - run: |
@@ -44,10 +48,9 @@ jobs:
       - run: bun run lint:types
       - run: bun run test
       - run: bun run build
-      - run: |
-          # Start the app and wait for it to be ready
-          npx pm2 start npm --name test -- bun run start &
-          wait-on http://localhost:3000
+      - uses: cypress-io/github-action@v6
+        with:
+          start: npx pm2 start npm --name test -- bun run start & wait-on http://localhost:3000
       - run: npx playwright install-deps
       - run: npx playwright install --with-deps
       - name: Run Playwright tests
