@@ -33,7 +33,7 @@ export function Profile() {
         <DropdownMenuLabel>
           <p>Мой аккаунт</p>
           <p className="text-xs text-muted-foreground overflow-hidden text-ellipsis">
-            Paromov
+            Dmitry
           </p>
         </DropdownMenuLabel>
         <DropdownMenuGroup></DropdownMenuGroup>
