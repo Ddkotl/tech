@@ -3,8 +3,7 @@ export interface NavItems {
   path: string;
 }
 
-
-export const mainNavItems: NavItems[]  =[
+export const mainNavItems: NavItems[] = [
   {
     name: "Главная",
     path: "/",
@@ -13,4 +12,4 @@ export const mainNavItems: NavItems[]  =[
     name: "Статьи",
     path: "/posts",
   },
-] 
+];
