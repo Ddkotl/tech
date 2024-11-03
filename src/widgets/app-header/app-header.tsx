@@ -14,7 +14,7 @@ export function AppHeader({
   variant: "auth" | "private" | "public" | "admin";
 }) {
   const isProfile = variant !== "auth";
-  const isAdmin =  variant !== "auth";
+  const isAdmin = variant !== "auth";
   return (
     <Layout
       logo={<Logo />}
