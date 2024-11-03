@@ -3,6 +3,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -10,8 +11,7 @@ import {
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { NavItems } from "./main-nav-items";
-
+import { NavItems } from "../settings/main-nav-items";
 
 export function MobileMenu({
   logo,
@@ -28,7 +28,10 @@ export function MobileMenu({
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
-        <SheetTitle>Меню</SheetTitle>
+        <SheetTitle className="sr-only">Меню</SheetTitle>
+        <SheetDescription className="sr-only">
+          Главное меню, выберите пункт меню ниже
+        </SheetDescription>
         <SheetHeader className=" border-b pb-5 mb-5">
           <SheetClose asChild>{logo}</SheetClose>
         </SheetHeader>
