@@ -10,6 +10,10 @@ import { AuthOptions } from "next-auth";
 
 export const nextAuthConfig: AuthOptions = {
   adapter: PrismaAdapter(dataBase) as AuthOptions["adapter"],
+  pages: {
+    signIn: "/auth/sign-in",
+    newUser: "/auth/new-user",
+  },
   providers: compact([
     privateConfig.GITHUB_ID &&
       privateConfig.GITHUB_SECRET &&

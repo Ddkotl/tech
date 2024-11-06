@@ -11,3 +11,4 @@ export * from "./sheet";
 export * from "./skeleton";
 export * from "./logo-icon";
 export * from "./admin-icon";
+export * from "./spinner";
