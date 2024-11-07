@@ -12,6 +12,8 @@ const privateConfigSchema = z.object({
 
   MAILRU_CLIENT_ID: z.string().optional(),
   MAILRU_CLIENT_SECRET: z.string().optional(),
+
+  ADMIN_EMAILS: z.string().optional(),
 });
 
 export const privateConfig = privateConfigSchema.parse(process.env);

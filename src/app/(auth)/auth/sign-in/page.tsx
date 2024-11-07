@@ -6,7 +6,7 @@ export default async function AuthenticationPage() {
   return (
     <>
       {" "}
-      <div className="container relative  flex-col items-center justify-center self-center pt-24">
+      <div className="xl:container   flex-col items-center justify-center self-center pt-24">
         <Card className="max-w-[350px] mx-auto">
           <CardHeader className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">

@@ -9,7 +9,7 @@ export function SignInForm({ className }: { className?: string }) {
   ];
 
   return (
-    <div className={cn("grid gap-6", className)}>
+    <div className={cn("grid gap-4", className)}>
       {oauthProviders.map((provider) => (
         <ProviderButton key={provider.id} provider={provider} />
       ))}

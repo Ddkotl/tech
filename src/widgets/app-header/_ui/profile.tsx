@@ -40,7 +40,7 @@ export function Profile() {
           className="p-px rounded-full self-center h-8 w-8"
         >
           <Avatar className="w-8 h-8">
-            <AvatarImage src={session.data?.user?.image} />
+            <AvatarImage src={session.data?.user?.image ?? undefined} />
             <AvatarFallback>AC</AvatarFallback>
           </Avatar>
         </Button>
