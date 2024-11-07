@@ -9,28 +9,42 @@ export function Spinner(props: SVGProps<SVGSVGElement>) {
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
-        fill="currentColor"
-        d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"
-      ></path>
-      <rect width="2" height="7" x="11" y="6" fill="currentColor" rx="1">
+      <g stroke="currentColor">
+        <circle
+          cx="12"
+          cy="12"
+          r="9.5"
+          fill="none"
+          strokeLinecap="round"
+          strokeWidth="3"
+        >
+          <animate
+            attributeName="stroke-dasharray"
+            calcMode="spline"
+            dur="1.5s"
+            keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1"
+            keyTimes="0;0.475;0.95;1"
+            repeatCount="indefinite"
+            values="0 150;42 150;42 150;42 150"
+          ></animate>
+          <animate
+            attributeName="stroke-dashoffset"
+            calcMode="spline"
+            dur="1.5s"
+            keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1"
+            keyTimes="0;0.475;0.95;1"
+            repeatCount="indefinite"
+            values="0;-16;-59;-59"
+          ></animate>
+        </circle>
         <animateTransform
           attributeName="transform"
-          dur="9s"
+          dur="2s"
           repeatCount="indefinite"
           type="rotate"
           values="0 12 12;360 12 12"
         ></animateTransform>
-      </rect>
-      <rect width="2" height="9" x="11" y="11" fill="currentColor" rx="1">
-        <animateTransform
-          attributeName="transform"
-          dur="0.75s"
-          repeatCount="indefinite"
-          type="rotate"
-          values="0 12 12;360 12 12"
-        ></animateTransform>
-      </rect>
+      </g>
     </svg>
   );
 }
