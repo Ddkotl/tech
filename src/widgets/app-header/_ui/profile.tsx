@@ -11,11 +11,8 @@ import {
   DropdownMenuTrigger,
   Skeleton,
 } from "@/components/ui";
-import {
-  getProfileDisplayName,
-  ProfileAvatar,
-} from "@/entities/session/profile";
-import { useAppSession } from "@/entities/session/session.client";
+import { getProfileDisplayName, ProfileAvatar } from "@/entities/user/profile";
+import { useAppSession } from "@/entities/user/session";
 import { SignInButton } from "@/features/auth/sign-in-button";
 import { useSignOut } from "@/features/auth/use-sign-out";
 import { LogOut, User } from "lucide-react";
@@ -52,7 +49,7 @@ export function Profile() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href={`/`}>
+            <Link href={`/profile/${user?.id}`}>
               <User className="mr-2 h-4 w-4" />
               <span>Профиль</span>
             </Link>
