@@ -1,11 +1,9 @@
-version: "3.7" # Указывает версию Docker Compose
-
 services:
   # Начало секции с сервисами
   db:
     # Определение сервиса базы данных
     container_name: postgres # Имя контейнера для базы данных
-    image: postgres:15.2 # Используемый образ PostgreSQL версии 15.2
+    image: postgres:15.2 # Используемый образ PostgreSQL 
     restart: always # Перезапускать контейнер всегда в случае сбоя
     environment:
       # Переменные окружения для настройки базы данных
@@ -19,14 +17,57 @@ services:
       # Настройка томов для хранения данных
       - postgres_data:/var/lib/postgresql/data # Хранение данных PostgreSQL в томе postgres_data
     networks:
-      # Настройка сетей
-      - backend # Подключение к сети backend
-
+    # Настройка сетей
+    - backend # Подключение к сети backend
+  minio:
+    container_name: minio
+    image: minio/minio
+    restart: always
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: minio server --console-address ":9001" /data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+    # Настройка сетей
+    - backend # Подключение к сети backend
+  createbuckets:
+    container_name: minio-bucket
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set myminio ${S3_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}); do
+        echo 'Waiting for MinIO to be available...';
+        sleep 5;
+      done;
+      if ! /usr/bin/mc ls myminio/${S3_IMAGES_BUCKET}; then
+        echo 'Creating bucket ${S3_IMAGES_BUCKET}...';
+        /usr/bin/mc mb myminio/${S3_IMAGES_BUCKET};
+      else
+        echo 'Bucket ${S3_IMAGES_BUCKET} already exists';
+      fi;
+      /usr/bin/mc anonymous set public myminio/${S3_IMAGES_BUCKET};
+      exit 0;
+      "
+    networks:
+    # Настройка сетей
+    - backend # Подключение к сети backend
+  
 volumes:
   # Определение томов
   postgres_data:
-    # Том для хранения данных PostgreSQL
+  minio-data:
 
 networks:
-  # Определение сетей
-  backend: # Сеть для внутреннего взаимодействия сервисов
+  backend:
