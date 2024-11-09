@@ -20,6 +20,7 @@ services:
     # Настройка сетей
     - backend # Подключение к сети backend
   minio:
+    container_name: minio
     image: minio/minio
     restart: always
     ports:
@@ -40,14 +41,22 @@ services:
     # Настройка сетей
     - backend # Подключение к сети backend
   createbuckets:
+    container_name: minio-bucket
     image: minio/mc
-    restart: always
     depends_on:
       - minio
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc alias set myminio ${S3_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
-      /usr/bin/mc mb myminio/${S3_IMAGES_BUCKET};
+      until (/usr/bin/mc alias set myminio ${S3_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}); do
+        echo 'Waiting for MinIO to be available...';
+        sleep 5;
+      done;
+      if ! /usr/bin/mc ls myminio/${S3_IMAGES_BUCKET}; then
+        echo 'Creating bucket ${S3_IMAGES_BUCKET}...';
+        /usr/bin/mc mb myminio/${S3_IMAGES_BUCKET};
+      else
+        echo 'Bucket ${S3_IMAGES_BUCKET} already exists';
+      fi;
       /usr/bin/mc anonymous set public myminio/${S3_IMAGES_BUCKET};
       exit 0;
       "
