@@ -1,3 +1,4 @@
+import AdminGuard from "@/features/auth/admin-guard";
 import { AppHeader } from "@/widgets/app-header/app-header";
 
 export default async function Layout({
@@ -8,7 +9,7 @@ export default async function Layout({
   return (
     <>
       <AppHeader variant="admin" />
-      {children}
+      <AdminGuard>{children}</AdminGuard>
     </>
   );
 }
