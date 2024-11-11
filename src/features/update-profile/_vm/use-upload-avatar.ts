@@ -13,8 +13,7 @@ export const useUploadAvatar = ({
   const { mutateAsync, isPending } = useMutation({
     mutationFn: uploadAvatarAction,
     onSuccess(data) {
-      console.log(data);
-        onSuccess?.(data.avatar.path);
+      onSuccess?.(data.avatar.path);
     },
   });
 

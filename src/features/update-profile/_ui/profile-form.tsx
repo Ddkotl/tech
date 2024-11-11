@@ -69,9 +69,6 @@ export function ProfileForm({
     onSuccess?.();
   }
 
-  const email = form.watch("email");
-  const name = form.watch("name");
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -105,7 +102,6 @@ export function ProfileForm({
         <FormField
           control={form.control}
           name="image"
-          disabled
           render={({ field }) => (
             <FormItem>
               <FormDescription>Аватарка</FormDescription>
@@ -113,8 +109,7 @@ export function ProfileForm({
                 <AvatarField
                   value={field.value}
                   onChange={field.onChange}
-                  name={name ?? ""}
-                  email={email ?? ""}
+                  profile={profile}
                 />
               </FormControl>
               <FormMessage />
