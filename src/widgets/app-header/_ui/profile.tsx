@@ -17,6 +17,7 @@ import { SignInButton } from "@/features/auth/sign-in-button";
 import { useSignOut } from "@/features/auth/use-sign-out";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
+import { FaRegBookmark } from "react-icons/fa";
 
 export function Profile() {
   const session = useAppSession();
@@ -52,6 +53,12 @@ export function Profile() {
             <Link href={`/profile/${user?.id}`}>
               <User className="mr-2 h-4 w-4" />
               <span>Профиль</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`/bookmarks/${user?.id}`}>
+              <FaRegBookmark className="mr-2 h-4 w-4" />
+              <span>Закладки</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem disabled={isPending} onClick={() => signOut()}>

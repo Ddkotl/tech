@@ -12,8 +12,4 @@ export const mainNavItems: NavItems[] = [
     name: "Статьи",
     path: "/posts",
   },
-  {
-    name: "Закладки",
-    path: "/bookmarks",
-  },
 ];

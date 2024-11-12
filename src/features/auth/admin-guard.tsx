@@ -5,6 +5,7 @@ import { ROLES } from "@/entities/user/_domain/types";
 import { useAppSession } from "@/entities/user/session";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function AdminGuard({
   children,
@@ -18,6 +19,9 @@ export default function AdminGuard({
 
   useEffect(() => {
     if (!isAdmin || isUnauthenticated) {
+      toast("Не взламывайте меня, пожалуйста", {
+        description: "Спасибо 🥺",
+      });
       router.replace("/", { scroll: false });
     }
   }, [isAdmin, isUnauthenticated, router]);

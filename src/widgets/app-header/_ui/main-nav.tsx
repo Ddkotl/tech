@@ -12,12 +12,12 @@ export function MainNav({ items }: { items: NavItems[] }) {
         Меню
       </p>
       <p id="menu-description" className="sr-only">
-        Главное меню, выберите пункт меню ниже
+        Главное меню, выберите пункт меню
       </p>
       {items.map((item, index) => (
         <Link
           key={index}
-          className="transition-colors hover:text-foreground/80 text-foreground/60"
+          className="transition-colors hover:text-foreground/80 text-foreground/80"
           href={item.path}
         >
           {item.name}

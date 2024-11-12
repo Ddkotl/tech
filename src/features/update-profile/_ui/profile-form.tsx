@@ -19,7 +19,7 @@ import {
 import { Profile } from "@/entities/user/profile";
 import { useUpdateProfileMutation } from "../_vm/use-update-profile";
 import { UserId } from "@/entities/user/user";
-import { useToast } from "@/shared/hooks/use-toast";
+import { toast } from "sonner";
 
 const profileFormSchema = z.object({
   name: z
@@ -58,7 +58,7 @@ export function ProfileForm({
     resolver: zodResolver(profileFormSchema),
     defaultValues: getDefaultValues(profile),
   });
-  const { toast } = useToast();
+
   const updateProfileMutation = useUpdateProfileMutation();
 
   async function onSubmit(data: ProfileFormValues) {
@@ -68,9 +68,7 @@ export function ProfileForm({
     });
     form.reset(getDefaultValues(newProfileValues.profile));
     onSuccess?.();
-    toast({
-      title: "Профиль успешно обновлен",
-    });
+    toast("Профиль успешно обновлен");
   }
 
   return (

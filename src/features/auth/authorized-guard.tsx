@@ -5,6 +5,7 @@ import { useAppSession } from "@/entities/user/session";
 
 import { signIn } from "next-auth/react";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function AuthorizedGuard({
   children,
@@ -17,6 +18,9 @@ export default function AuthorizedGuard({
 
   useEffect(() => {
     if (isUnauthenticated) {
+      toast("Войдите в систему", {
+        description: "Для доступа необходимо зарегистрироваться на сайте",
+      });
       signIn();
     }
   }, [isUnauthenticated]);
