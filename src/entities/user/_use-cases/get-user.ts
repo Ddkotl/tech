@@ -1,5 +1,5 @@
-import { AuthorizationError } from "@/lib/errors";
-import {  SessionEntity, UserEntity, UserId } from "../_domain/types";
+import { AuthorizationError } from "@/shared/lib/errors";
+import { SessionEntity, UserEntity, UserId } from "../_domain/types";
 import { createUserAbility } from "../_domain/user-ability";
 
 import { userRepository } from "../_repositories/user.repository";

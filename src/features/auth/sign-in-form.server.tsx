@@ -1,5 +1,5 @@
 import { ProviderButton } from "./_ui/provider-button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 export function SignInForm({ className }: { className?: string }) {
   const oauthProviders = [

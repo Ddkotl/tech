@@ -1,5 +1,5 @@
 "use client";
-import { useAppearanceDelay } from "@/lib/react";
+import { useAppearanceDelay } from "@/shared/lib/react";
 import { Spinner } from "./spinner";
 
 export function FullPageSpinner({ isLoading }: { isLoading?: boolean }) {

@@ -1,4 +1,4 @@
-import { dataBase } from "@/lib/db_conect";
+import { dataBase } from "@/shared/lib/db_conect";
 import { Profile, UserEntity, UserId } from "../_domain/types";
 
 export class UserRepository {

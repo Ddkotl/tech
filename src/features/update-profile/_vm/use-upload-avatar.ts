@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { AVATAR_FILE_KEY, AVATAR_MAX_SIZE } from "../_constants";
-import { selectFile, validateFileSize } from "@/lib/file";
+import { selectFile, validateFileSize } from "@/shared/lib/file";
 import { uploadAvatarAction } from "../_actions/upload-avatar";
 
 export const useUploadAvatar = ({

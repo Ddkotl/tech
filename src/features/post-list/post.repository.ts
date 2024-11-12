@@ -1,4 +1,4 @@
-import { dataBase } from "@/lib/db_conect";
+import { dataBase } from "@/shared/lib/db_conect";
 import { cache } from "react";
 import {
   CreatePostListElementCommand,

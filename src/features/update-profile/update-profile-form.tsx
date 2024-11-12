@@ -1,5 +1,5 @@
 "use client";
-import { Spinner } from "@/components/ui";
+import { Spinner } from "@/shared/components/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ProfileForm } from "./_ui/profile-form";

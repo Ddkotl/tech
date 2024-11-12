@@ -3,10 +3,10 @@ import GoogleProvider from "next-auth/providers/google";
 import YandexProvider from "next-auth/providers/yandex";
 import MailRuProvider from "next-auth/providers/mailru";
 import { compact } from "lodash-es";
-import { privateConfig } from "@/lib/config/private";
+import { privateConfig } from "@/shared/lib/config/private";
 import { AuthOptions } from "next-auth";
 import { createUserUseCase } from "./_use-cases/create-user";
-import { dataBase } from "@/lib/db_conect";
+import { dataBase } from "@/shared/lib/db_conect";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { UserEntity } from "./_domain/types";
 

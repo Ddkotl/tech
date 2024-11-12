@@ -1,8 +1,8 @@
-import { createId } from "@/lib/id";
+import { createId } from "@/shared/lib/id";
 import { ROLES, UserEntity } from "../_domain/types";
 
 import { userRepository } from "../_repositories/user.repository";
-import { privateConfig } from "@/lib/config/private";
+import { privateConfig } from "@/shared/lib/config/private";
 
 type CreateUser = {
   email: string;
@@ -12,7 +12,7 @@ type CreateUser = {
 };
 
 export class CreateUserUseCase {
-  async exec(data: CreateUser):Promise<UserEntity> {
+  async exec(data: CreateUser): Promise<UserEntity> {
     const adminEmails = privateConfig.ADMIN_EMAILS?.split(",") ?? [];
     const role = adminEmails.includes(data.email) ? ROLES.ADMIN : ROLES.USER;
 

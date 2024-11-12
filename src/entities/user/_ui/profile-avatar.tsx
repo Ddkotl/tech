@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
 import { Profile } from "../_domain/types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { getProfileLetters } from "../_vm/get-profile-letters";
 
 export const ProfileAvatar = ({
@@ -16,7 +16,7 @@ export const ProfileAvatar = ({
 
   return (
     <Avatar className={cn(className)}>
-      <AvatarImage src={profile.image ?? ""} />
+      <AvatarImage src={profile.image ?? ""} className="object-cover" />
       <AvatarFallback>{getProfileLetters(profile)}</AvatarFallback>
     </Avatar>
   );

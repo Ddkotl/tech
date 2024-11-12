@@ -1,4 +1,4 @@
-import { AuthorizationError } from "@/lib/errors";
+import { AuthorizationError } from "@/shared/lib/errors";
 import { Profile, SessionEntity, UserId } from "../_domain/types";
 import { createUserAbility } from "../_domain/user-ability";
 

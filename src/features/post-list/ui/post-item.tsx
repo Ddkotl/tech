@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui";
+} from "@/shared/components/ui";
 
 import { useTransition } from "react";
 import { PostListElement } from "../model/types";

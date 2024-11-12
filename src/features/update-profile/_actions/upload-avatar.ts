@@ -1,8 +1,8 @@
 "use server";
 import { z } from "zod";
 import { AVATAR_FILE_KEY } from "../_constants";
-import { BadRequest } from "@/lib/errors";
-import { fileStorage } from "@/lib/file-storage";
+import { BadRequest } from "@/shared/lib/errors";
+import { fileStorage } from "@/shared/lib/file-storage";
 
 const resultSchema = z.object({
   avatar: z.object({

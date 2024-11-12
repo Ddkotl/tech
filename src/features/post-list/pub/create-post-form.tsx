@@ -14,9 +14,9 @@ import {
   FormMessage,
   Input,
   Textarea,
-} from "@/components/ui";
+} from "@/shared/components/ui";
 import { createPostAction } from "../actions";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 const createPostFormSchema = z.object({
   title: z.string(),

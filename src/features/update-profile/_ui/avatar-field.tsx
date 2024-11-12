@@ -1,6 +1,6 @@
 import { Profile, ProfileAvatar } from "@/entities/user/profile";
 import { useUploadAvatar } from "../_vm/use-upload-avatar";
-import { Button, Spinner } from "@/components/ui";
+import { Button, Spinner } from "@/shared/components/ui";
 
 export function AvatarField({
   value,
