@@ -11,7 +11,7 @@ import {
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { NavItems } from "../settings/main-nav-items";
+import { NavItems } from "../_settings/main-nav-items";
 
 export function MobileMenu({
   logo,

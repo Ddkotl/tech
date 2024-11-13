@@ -1,7 +1,7 @@
 import { Layout } from "./_ui/layout";
 import { Logo } from "./_ui/logo";
 import { MainNav } from "./_ui/main-nav";
-import { mainNavItems } from "./settings/main-nav-items";
+import { mainNavItems } from "./_settings/main-nav-items";
 import { MobileMenu } from "./_ui/mobile-menu";
 import { Profile } from "./_ui/profile";
 import { ToggleTheme } from "@/features/theme/toggle-theme";
@@ -15,7 +15,7 @@ export function AppHeader({
 }) {
   const isProfile = variant !== "auth";
   const isAdmin = variant !== "auth";
-  
+
   return (
     <Layout
       logo={<Logo />}
