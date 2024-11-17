@@ -1,9 +1,7 @@
 "use client";
 import { AppSessionProvider } from "@/entities/user/session";
 import { ThemeProvider } from "@/features/theme/theme-provider";
-import { Toaster } from "@/shared/components/ui";
-
-
+import { Toaster } from "@/shared/components";
 
 import { queryClient } from "@/shared/lib/api/query-client";
 import { ComposeChildren } from "@/shared/lib/react";

@@ -1,4 +1,4 @@
-import { Separator } from "@/shared/components/ui";
+import { Separator } from "@/shared/components";
 import { getAppSessionServer } from "@/entities/user/get-app-session.server";
 import { UpdateProfileForm } from "@/features/update-profile/update-profile-form";
 import { redirect } from "next/navigation";

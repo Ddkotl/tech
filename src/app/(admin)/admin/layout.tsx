@@ -1,8 +1,5 @@
 import AdminGuard from "@/features/auth/admin-guard";
-import { AdminSidebarLayout } from "@/widgets/admin-sidebar/admin-sidebar-layout";
-
-import { AppHeader } from "@/widgets/app-header/app-header";
-
+import AdminLayout from "@/widgets/admin-nav/admin-nav";
 export default async function Layout({
   children,
 }: {
@@ -10,9 +7,8 @@ export default async function Layout({
 }) {
   return (
     <>
-      <AppHeader variant="admin" />
       <AdminGuard>
-        <AdminSidebarLayout>{children}</AdminSidebarLayout>
+        <AdminLayout>{children}</AdminLayout>
       </AdminGuard>
     </>
   );

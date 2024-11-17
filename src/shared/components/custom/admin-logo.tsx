@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/shared/components/ui";
-import { AdminIcon } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
+import { AdminIcon } from "@/shared/components";
 import { ROLES } from "@/entities/user/_domain/types";
 import { useRole } from "@/entities/user/session";
 import Link from "next/link";

@@ -3,7 +3,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaYandex } from "react-icons/fa";
 import { useOAuthSignIn } from "../_vm/use-oauth-sign-in";
-import { Button, Spinner } from "@/shared/components/ui";
+import { Button, Spinner } from "@/shared/components";
 
 interface ProviderButtonProps {
   id: string;

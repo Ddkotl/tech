@@ -1,4 +1,4 @@
-import { Separator } from "@/shared/components/ui";
+import { Separator } from "@/shared/components";
 import { UpdateProfileForm } from "@/features/update-profile/update-profile-form";
 
 export default function ProfilePage({ params }: { params: { id: string } }) {

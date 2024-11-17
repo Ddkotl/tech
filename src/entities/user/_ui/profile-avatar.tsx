@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { Profile } from "../_domain/types";
 import { cn } from "@/shared/lib/utils";
 import { getProfileLetters } from "../_vm/get-profile-letters";

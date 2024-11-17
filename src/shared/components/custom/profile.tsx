@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Skeleton,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { getProfileDisplayName, ProfileAvatar } from "@/entities/user/profile";
 import { useAppSession } from "@/entities/user/session";
 import { SignInButton } from "@/features/auth/sign-in-button";

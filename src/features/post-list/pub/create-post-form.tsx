@@ -14,7 +14,7 @@ import {
   FormMessage,
   Input,
   Textarea,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { createPostAction } from "../actions";
 import { cn } from "@/shared/lib/utils";
 

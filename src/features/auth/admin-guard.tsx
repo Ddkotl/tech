@@ -1,6 +1,6 @@
 "use client";
 
-import { FullPageSpinner } from "@/shared/components/ui";
+import { FullPageSpinner } from "@/shared/components";
 import { ROLES } from "@/entities/user/_domain/types";
 import { useAppSession } from "@/entities/user/session";
 import { useRouter } from "next/navigation";

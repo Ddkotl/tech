@@ -15,7 +15,7 @@ import {
   FormMessage,
   Input,
   Spinner,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { Profile } from "@/entities/user/profile";
 import { useUpdateProfileMutation } from "../_vm/use-update-profile";
 import { UserId } from "@/entities/user/user";

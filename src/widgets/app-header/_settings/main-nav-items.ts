@@ -12,4 +12,8 @@ export const mainNavItems: NavItems[] = [
     name: "Статьи",
     path: "/posts",
   },
+  {
+    name: "Популярное",
+    path: "/popular",
+  },
 ];

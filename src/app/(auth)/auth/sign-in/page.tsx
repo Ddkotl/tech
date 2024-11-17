@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@/shared/components/ui";
+import { Card, CardContent, CardHeader } from "@/shared/components";
 import { SignInForm } from "@/features/auth/sign-in-form.server";
 import Link from "next/link";
 

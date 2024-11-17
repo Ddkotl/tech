@@ -23,7 +23,7 @@ export function MainNav({ items }: { items: NavItems[] }) {
           key={index}
           href={item.path}
           className={cn(
-            "transition-colors hover:text-foreground/80 text-foreground/60 py-2 w-20 flex items-center justify-center",
+            "transition-colors hover:text-foreground/80 text-foreground/60 p-2 min-w-20 flex items-center justify-center",
             { "text-foreground border rounded-md ": pathmane === item.path },
           )}
         >
