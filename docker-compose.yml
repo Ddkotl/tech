@@ -3,7 +3,7 @@ services:
   db:
     # Определение сервиса базы данных
     container_name: postgres # Имя контейнера для базы данных
-    image: postgres:15.2 # Используемый образ PostgreSQL 
+    image: postgres:15.2 # Используемый образ PostgreSQL
     restart: always # Перезапускать контейнер всегда в случае сбоя
     environment:
       # Переменные окружения для настройки базы данных
@@ -17,8 +17,8 @@ services:
       # Настройка томов для хранения данных
       - postgres_data:/var/lib/postgresql/data # Хранение данных PostgreSQL в томе postgres_data
     networks:
-    # Настройка сетей
-    - backend # Подключение к сети backend
+      # Настройка сетей
+      - backend # Подключение к сети backend
   minio:
     container_name: minio
     image: minio/minio
@@ -38,8 +38,8 @@ services:
       timeout: 20s
       retries: 3
     networks:
-    # Настройка сетей
-    - backend # Подключение к сети backend
+      # Настройка сетей
+      - backend # Подключение к сети backend
   createbuckets:
     container_name: minio-bucket
     image: minio/mc
@@ -47,23 +47,16 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
-      until (/usr/bin/mc alias set myminio ${S3_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}); do
-        echo 'Waiting for MinIO to be available...';
-        sleep 5;
-      done;
-      if ! /usr/bin/mc ls myminio/${S3_IMAGES_BUCKET}; then
-        echo 'Creating bucket ${S3_IMAGES_BUCKET}...';
-        /usr/bin/mc mb myminio/${S3_IMAGES_BUCKET};
-      else
-        echo 'Bucket ${S3_IMAGES_BUCKET} already exists';
-      fi;
+      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_USER};
+      /usr/bin/mc mb myminio/${S3_IMAGES_BUCKET};
       /usr/bin/mc anonymous set public myminio/${S3_IMAGES_BUCKET};
       exit 0;
       "
+
     networks:
-    # Настройка сетей
-    - backend # Подключение к сети backend
-  
+      # Настройка сетей
+      - backend # Подключение к сети backend
+
 volumes:
   # Определение томов
   postgres_data:

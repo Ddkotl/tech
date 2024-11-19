@@ -5,10 +5,15 @@ import { MdCategory } from "react-icons/md";
 import { FaTags } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { MdOutlineQueryStats } from "react-icons/md";
-export const adminNavItems = [
+export type AdminNavItem = {
+  name: string;
+  path: string;
+  icon: React.ElementType;
+};
+export const adminNavItems: AdminNavItem[] = [
   {
-    name: "Главная",
-    path: "/admin/dashboard",
+    name: "Админка",
+    path: "/admin",
     icon: MdDashboard,
   },
   {

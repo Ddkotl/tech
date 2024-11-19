@@ -24,7 +24,10 @@ export function MainNav({ items }: { items: NavItems[] }) {
           href={item.path}
           className={cn(
             "transition-colors hover:text-foreground/80 text-foreground/60 p-2 min-w-20 flex items-center justify-center",
-            { "text-foreground border rounded-md ": pathmane === item.path },
+            {
+              "bg-accent/60 text-foreground rounded-lg ":
+                pathmane === item.path,
+            },
           )}
         >
           {item.name}

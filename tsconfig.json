@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -22,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.tsx","**/*.ts", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.tsx", "**/*.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

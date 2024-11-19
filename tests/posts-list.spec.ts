@@ -1,9 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("create delete post list", async ({ page }) => {
-  await page.goto(
-    "https://paranormal-spooky-mummy-pxqwx4pgx6vc6r9-3000.app.github.dev",
-  );
+  await page.goto("https://tech24view.ru");
   await page.getByPlaceholder("название").click();
   await page.getByPlaceholder("название").fill("Test title");
   await page.getByPlaceholder("описание").click();

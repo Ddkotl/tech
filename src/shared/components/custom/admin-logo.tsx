@@ -11,7 +11,7 @@ export function AdminLogo() {
     return null;
   }
   return (
-    <Link className="flex items-center space-x-2" href="/admin/dashboard">
+    <Link className="flex items-center space-x-2" href="/admin">
       <Button variant="ghost" size="icon">
         <AdminIcon className="h-5 w-5" />
       </Button>

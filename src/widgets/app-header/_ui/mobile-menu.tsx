@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Sheet,
@@ -12,6 +13,8 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { NavItems } from "../_settings/main-nav-items";
+import { cn } from "@/shared/lib/utils";
+import { usePathname } from "next/navigation";
 
 export function MobileMenu({
   logo,
@@ -20,6 +23,7 @@ export function MobileMenu({
   logo: React.ReactNode;
   items: NavItems[];
 }) {
+  const pathname = usePathname();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -39,7 +43,12 @@ export function MobileMenu({
           {items.map((item, index) => (
             <SheetClose asChild key={index}>
               <Link
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
+                className={cn(
+                  "flex items-center w-full gap-4 px-2.5 text-muted-foreground hover:text-foreground p-2 rounded-lg",
+                  {
+                    "bg-accent text-foreground": pathname === item.path,
+                  },
+                )}
                 href={item.path}
               >
                 {item.name}
