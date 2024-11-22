@@ -1,3 +1,4 @@
+import { PostsList } from "@/features/posts-list-admin/posts-list";
 import {
   Button,
   Tabs,
@@ -5,6 +6,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components";
+
 import { FaRegPlusSquare } from "react-icons/fa";
 export default async function PostsPage() {
   return (
@@ -28,12 +30,7 @@ export default async function PostsPage() {
         </div>
       </div>
       <TabsContent value="all">
-        content
-        {/* <ProductsTable
-          products={products}
-          offset={newOffset ?? 0}
-          totalProducts={totalProducts}
-        /> */}
+        <PostsList />
       </TabsContent>
     </Tabs>
   );
