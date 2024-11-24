@@ -4,8 +4,8 @@ export type PostEntity = {
   id: PostId;
   title: string;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 };
 
 export type CreatePostDto = {

@@ -2,7 +2,7 @@ import { AuthorizationError } from "@/shared/lib/errors";
 import { CreatePostDto, PostEntity, PostId } from "../_domain/types";
 import { SessionEntity } from "@/entities/user/user";
 import { createPostAbility } from "../_domain/post-ability";
-import { postRepository } from "../_repositories/user.repository";
+import { postRepository } from "../_repositories/post.repository";
 
 type UpdatePost = {
   postId: PostId;

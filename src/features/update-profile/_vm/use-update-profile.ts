@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { updateProfileAction } from "../_actions/update-profile";
 import { useAppSession } from "@/entities/user/session";
-import { useInvalidateProfile } from "@/entities/user/_queries";
+import { useInvalidateProfile } from "@/entities/user/_queries/get-profile";
 
 export const useUpdateProfileMutation = () => {
   const { update: updateSession } = useAppSession();

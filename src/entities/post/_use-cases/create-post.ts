@@ -1,6 +1,6 @@
 import { SessionEntity } from "@/entities/user/user";
 import { CreatePostDto, PostEntity } from "../_domain/types";
-import { postRepository } from "../_repositories/user.repository";
+import { postRepository } from "../_repositories/post.repository";
 import { createPostAbility } from "../_domain/post-ability";
 import { AuthorizationError } from "@/shared/lib/errors";
 

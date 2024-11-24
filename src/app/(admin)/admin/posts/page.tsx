@@ -1,4 +1,3 @@
-import { PostsList } from "@/features/posts-list-admin/posts-list";
 import {
   Button,
   Tabs,
@@ -6,9 +5,15 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components";
+import { DataTable } from "@/shared/components/custom/data-table";
+import Link from "next/link";
+import { columns } from "@/entities/post/post";
 
 import { FaRegPlusSquare } from "react-icons/fa";
+import { getAllPostsAction } from "@/entities/post/_actions/get-all-posts.action";
+
 export default async function PostsPage() {
+  const posts = await getAllPostsAction();
   return (
     <Tabs defaultValue="all">
       <div className="flex items-center">
@@ -21,16 +26,18 @@ export default async function PostsPage() {
           </TabsTrigger>
         </TabsList>
         <div className="ml-auto flex items-center gap-2">
-          <Button size="sm" className="h-8 gap-1">
-            <FaRegPlusSquare className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Product
-            </span>
-          </Button>
+          <Link href="/admin/posts/create">
+            <Button size="sm" className="h-8 gap-1">
+              <FaRegPlusSquare className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Добавить
+              </span>
+            </Button>
+          </Link>
         </div>
       </div>
       <TabsContent value="all">
-        <PostsList />
+        <DataTable data={posts} columns={columns} />
       </TabsContent>
     </Tabs>
   );

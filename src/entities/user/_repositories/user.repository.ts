@@ -9,6 +9,10 @@ export class UserRepository {
       },
     });
   }
+  async getAllUsers(): Promise<UserEntity[]> {
+    return await dataBase.user.findMany();
+  }
+
   async createUser(user: UserEntity): Promise<UserEntity> {
     return await dataBase.user.create({
       data: user,
