@@ -39,8 +39,8 @@ model Post {
   likes     Like[]
   bookmarks Bookmark[]
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String   @map("category_id")
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId String?   @map("category_id")
 
   @@map("posts")
 }
@@ -103,10 +103,10 @@ model Like {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now()) @map("created_at")
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String @map("post_id")
 
   @@unique([userId, postId])
@@ -117,10 +117,10 @@ model Bookmark {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now()) @map("created_at")
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String @map("post_id")
 
   @@unique([userId, postId])
