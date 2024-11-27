@@ -7,3 +7,4 @@ export {
 export type { PostId, PostEntity, CreatePostDto } from "./_domain/types";
 export { postSchema } from "./_domain/schemas";
 export { columns } from "./_ui/table-columns";
+export {getAllPostsAction} from './_actions/get-all-posts.action'

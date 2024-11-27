@@ -7,10 +7,10 @@ import {
 } from "@/shared/components";
 import { DataTable } from "@/shared/components/custom/data-table";
 import Link from "next/link";
-import { columns } from "@/entities/post/post";
+import { columns } from "@/entities/post";
 
 import { FaRegPlusSquare } from "react-icons/fa";
-import { getAllPostsAction } from "@/entities/post/_actions/get-all-posts.action";
+import { getAllPostsAction } from "@/entities/post";
 
 export default async function PostsPage() {
   const posts = await getAllPostsAction();
