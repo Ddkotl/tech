@@ -1,9 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components";
 import { DataTable } from "@/shared/components/custom/data-table";
 
-import { columns } from "@/entities/user/user";
+import { columns } from "@/entities/user";
 
-import { getAllUsersAction } from "@/entities/user/user";
+import { getAllUsersAction } from "@/entities/user";
 
 export default async function UsersPage() {
   const users = await getAllUsersAction();
@@ -20,7 +20,7 @@ export default async function UsersPage() {
         </TabsList>
       </div>
       <TabsContent value="all">
-        <DataTable data={users} columns={columns} />
+        <DataTable data={users} columns={columns} searchColumn="name" />
       </TabsContent>
     </Tabs>
   );

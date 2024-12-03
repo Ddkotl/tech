@@ -1,4 +1,4 @@
-import { ROLES, SessionEntity } from "@/entities/user/user";
+import { ROLES, SessionEntity } from "@/entities/user";
 
 export const createPostAbility = (session: SessionEntity) => ({
   canCreatePost: () => {

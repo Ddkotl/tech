@@ -36,6 +36,8 @@ model Post {
   images       String[]
   published    Boolean  @default(false)
 
+  views Int @default(0)
+
   likes     Like[]
   bookmarks Bookmark[]
 
@@ -101,7 +103,6 @@ model VerificationToken {
 
 model Like {
   id        String   @id @default(cuid())
-  createdAt DateTime @default(now()) @map("created_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
@@ -115,7 +116,6 @@ model Like {
 
 model Bookmark {
   id        String   @id @default(cuid())
-  createdAt DateTime @default(now()) @map("created_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")

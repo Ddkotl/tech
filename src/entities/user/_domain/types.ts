@@ -1,4 +1,7 @@
+import { PostEntity } from "@/entities/post";
+
 export type UserId = string;
+export type BookmarkId = string;
 export type Role = "ADMIN" | "USER";
 
 export const ROLES: Record<Role, Role> = {
@@ -30,4 +33,14 @@ export type Profile = {
   email: string;
   name?: string | null;
   image?: string | null;
+};
+
+export type BookmarkEntity = {
+  id: BookmarkId;
+
+  user: UserEntity;
+  userId: string;
+
+  post: PostEntity;
+  postId: string;
 };

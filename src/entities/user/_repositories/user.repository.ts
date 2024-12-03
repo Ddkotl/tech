@@ -3,31 +3,47 @@ import { Profile, UserEntity, UserId } from "../_domain/types";
 
 export class UserRepository {
   async getUserById(userId: UserId): Promise<UserEntity> {
-    return await dataBase.user.findUniqueOrThrow({
-      where: {
-        id: userId,
-      },
-    });
+    try {
+      return await dataBase.user.findUniqueOrThrow({
+        where: {
+          id: userId,
+        },
+      });
+    } catch (error) {
+      throw new Error(`You have some error: ${error}`);
+    }
   }
   async getAllUsers(): Promise<UserEntity[]> {
-    return await dataBase.user.findMany();
+    try {
+      return await dataBase.user.findMany();
+    } catch (error) {
+      throw new Error(`You have some error: ${error}`);
+    }
   }
 
   async createUser(user: UserEntity): Promise<UserEntity> {
-    return await dataBase.user.create({
-      data: user,
-    });
+    try {
+      return await dataBase.user.create({
+        data: user,
+      });
+    } catch (error) {
+      throw new Error(`You have some error: ${error}`);
+    }
   }
   async updateProfile(
     userId: UserId,
     data: Partial<Profile>,
   ): Promise<Profile> {
-    return await dataBase.user.update({
-      where: { id: userId },
-      data: {
-        ...data,
-      },
-    });
+    try {
+      return await dataBase.user.update({
+        where: { id: userId },
+        data: {
+          ...data,
+        },
+      });
+    } catch (error) {
+      throw new Error(`You have some error: ${error}`);
+    }
   }
 }
 

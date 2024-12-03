@@ -18,7 +18,7 @@ import {
 } from "@/shared/components";
 import { Profile } from "@/entities/user/profile";
 import { useUpdateProfileMutation } from "../_vm/use-update-profile";
-import { UserId } from "@/entities/user/user";
+import { UserId } from "@/entities/user";
 import { toast } from "sonner";
 
 const profileFormSchema = z.object({

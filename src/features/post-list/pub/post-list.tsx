@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { postsRepository } from "../post.repository";
 import { PostItem } from "../ui/post-item";
 
-export async function PostsList({
+export async function PostList({
   revalidatePagePath,
 }: {
   revalidatePagePath: string;
