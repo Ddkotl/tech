@@ -13,7 +13,7 @@ export const mainNavItems: NavItems[] = [
     path: "/posts",
   },
   {
-    name: "Популярное",
-    path: "/popular",
+    name: "Рейтинг",
+    path: "/rating",
   },
 ];

@@ -1,5 +1,4 @@
 "use server";
-import { GetTimeFromNow } from "@/shared/lib/dataTime/get-time-from-now";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -12,5 +11,5 @@ dayjs.extend(relativeTime);
 export const getAllUsersAction = async (): Promise<UserEntity[]> => {
   const session = await getAppSessionStrictServer();
   const users = await getAllUsersUseCase.exec(session);
-  return GetTimeFromNow(users);
+  return users;
 };

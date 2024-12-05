@@ -16,6 +16,16 @@ if (isDev) {
   nextConfig.experimental = {
     serverActions: { allowedOrigins: ["localhost:3000", "**.app.github.dev"] },
   };
+  nextConfig.images = {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  };
 }
 
 export default nextConfig;
