@@ -1,26 +1,14 @@
-import { BookmarkEntity } from "@/entities/bookmark";
-import { CategoryEntity } from "@/entities/category";
-import { LikeEntity } from "@/entities/like";
+import { Prisma } from "@prisma/client";
 
-export type PostId = string;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const postWithCategoryAndCountLikesBookmarks =
+  Prisma.validator<Prisma.PostDefaultArgs>()({
+    include: {
+      category: true,
+      _count: { select: { likes: true, bookmarks: true } },
+    },
+  });
 
-export type PostEntity = {
-  id: PostId;
-  title: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  previewImage?: string | null;
-  images: string[];
-  published: boolean;
-  views: number;
-  likes: LikeEntity[];
-  bookmarks: BookmarkEntity[];
-  category?: CategoryEntity | null;
-  categoryId?: string | null;
-};
-
-export type CreatePostDto = {
-  title: string;
-  content: string;
-};
+export type PostWithCategoryAndCountLikesBookmarks = Prisma.PostGetPayload<
+  typeof postWithCategoryAndCountLikesBookmarks
+>;

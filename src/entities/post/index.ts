@@ -1,1 +1,1 @@
-export type { PostId, PostEntity, CreatePostDto } from "./_domain/types";
+export type { PostWithCategoryAndCountLikesBookmarks } from "./_domain/types";

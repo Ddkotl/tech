@@ -1,24 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { Heart } from "lucide-react";
 import { Button } from "@/shared/components";
+import { toggleLike } from "./post.actions";
 
-export default function LikeButton({ postId }: { postId: string }) {
-  const [isLiked, setIsLiked] = useState(false);
+export default function LikeButton({
+  postId,
+  initialIsLiked,
+}: {
+  postId: string;
+  initialIsLiked: boolean;
+}) {
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [isPending, startTransition] = useTransition();
 
-  const handleLike = async () => {
-    try {
-      const response = await fetch(`/api/posts/${postId}/like`, {
-        method: "POST",
-      });
-      if (response.ok) {
+  const handleLike = () => {
+    startTransition(async () => {
+      const result = await toggleLike(postId);
+      if (result.success) {
         setIsLiked(!isLiked);
+      } else {
+        console.error("Failed to toggle like:", result.error);
       }
-    } catch (error) {
-      console.error("Failed to like post:", error);
-    }
+    });
   };
 
   return (
@@ -26,9 +32,10 @@ export default function LikeButton({ postId }: { postId: string }) {
       variant={isLiked ? "default" : "outline"}
       size="sm"
       onClick={handleLike}
+      disabled={isPending}
     >
-      <Heart className="mr-2 h-4 w-4" />
-      {isLiked ? "Liked" : "Like"}
+      <Heart className="mr-1 h-4 w-4" />
+      {isLiked ? "Лайкнуто" : "Лайк"}
     </Button>
   );
 }

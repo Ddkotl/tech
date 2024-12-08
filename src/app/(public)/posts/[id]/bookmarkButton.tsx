@@ -1,24 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { Bookmark } from "lucide-react";
 import { Button } from "@/shared/components";
+import { toggleBookmark } from "./post.actions";
 
-export default function BookmarkButton({ postId }: { postId: string }) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+export default function BookmarkButton({
+  postId,
+  initialIsBookmarked,
+}: {
+  postId: string;
+  initialIsBookmarked: boolean;
+}) {
+  const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
+  const [isPending, startTransition] = useTransition();
 
-  const handleBookmark = async () => {
-    try {
-      const response = await fetch(`/api/posts/${postId}/bookmark`, {
-        method: "POST",
-      });
-      if (response.ok) {
+  const handleBookmark = () => {
+    startTransition(async () => {
+      const result = await toggleBookmark(postId);
+      if (result.success) {
         setIsBookmarked(!isBookmarked);
+      } else {
+        console.error("Failed to toggle bookmark:", result.error);
       }
-    } catch (error) {
-      console.error("Failed to bookmark post:", error);
-    }
+    });
   };
 
   return (
@@ -26,9 +32,10 @@ export default function BookmarkButton({ postId }: { postId: string }) {
       variant={isBookmarked ? "default" : "outline"}
       size="sm"
       onClick={handleBookmark}
+      disabled={isPending}
     >
-      <Bookmark className="mr-2 h-4 w-4" />
-      {isBookmarked ? "Bookmarked" : "Bookmark"}
+      <Bookmark className="mr-1 h-4 w-4" />
+      {isBookmarked ? "В закладах" : "В закладки"}
     </Button>
   );
 }

@@ -1,5 +1,5 @@
-import { PostEntity } from "@/entities/post";
 import { UserEntity } from "@/entities/user";
+import { Post } from "@prisma/client";
 
 export type LikeId = string;
 export type LikeEntity = {
@@ -8,6 +8,6 @@ export type LikeEntity = {
   user: UserEntity;
   userId: string;
 
-  post: PostEntity;
+  post: Post;
   postId: string;
 };

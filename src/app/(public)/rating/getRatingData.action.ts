@@ -2,8 +2,6 @@
 
 import { dataBase } from "@/shared/lib/db_conect";
 
-
-
 export type RatingPeriod = "today" | "yesterday" | "week" | "month" | "all";
 export type RatingType = "views" | "likes" | "bookmarks";
 

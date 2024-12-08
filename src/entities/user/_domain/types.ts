@@ -1,4 +1,4 @@
-import { PostEntity } from "@/entities/post";
+import { Post } from "@prisma/client";
 
 export type UserId = string;
 export type BookmarkId = string;
@@ -41,6 +41,6 @@ export type BookmarkEntity = {
   user: UserEntity;
   userId: string;
 
-  post: PostEntity;
+  post: Post;
   postId: string;
 };

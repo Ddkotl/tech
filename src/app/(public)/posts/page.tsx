@@ -1,20 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 
-import { Eye, Heart, Bookmark } from "lucide-react";
 import { dataBase } from "@/shared/lib/db_conect";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Container,
-  Title,
-} from "@/shared/components";
-import { AspectRatio } from "@/shared/components/ui/aspect-ratio";
+import { Button, Container, Title } from "@/shared/components";
+import { PostCard } from "@/entities/post/_ui/post-card";
 
 export default async function Posts({
   searchParams,
@@ -81,44 +69,7 @@ export default async function Posts({
       <Title text="Все посты" size="xs"></Title>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {posts.map((post) => (
-          <Card className="flex flex-col justify-between" key={post.id}>
-            <CardHeader>
-              <AspectRatio ratio={16 / 9}>
-                <Image
-                  src={post.previewImage || "/placeholder.png"}
-                  alt={post.title}
-                  fill
-                  className="h-10 rounded-md object-cover"
-                />
-              </AspectRatio>
-              <CardTitle className="text-2xl">{post.title}</CardTitle>
-              <CardDescription className="text-foreground/40">
-                {post.category?.name}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>{post.content.substring(0, 150)}...</p>
-            </CardContent>
-            <CardFooter className="flex justify-between items-center">
-              <div className="flex flex-col justify-between items-center m-auto gap-4">
-                <div className="flex space-x-4">
-                  <span className="flex items-center">
-                    <Eye className="mr-1" size={16} /> {post.views}
-                  </span>
-                  <span className="flex items-center">
-                    <Heart className="mr-1" size={16} /> {post._count.likes}
-                  </span>
-                  <span className="flex items-center">
-                    <Bookmark className="mr-1" size={16} />{" "}
-                    {post._count.bookmarks}
-                  </span>
-                </div>
-                <Button asChild>
-                  <Link href={`/posts/${post.id}`}>Читать дальше</Link>
-                </Button>{" "}
-              </div>
-            </CardFooter>
-          </Card>
+          <PostCard key={post.id} post={post} />
         ))}
       </div>
       <div className="mt-4 flex flex-wrap gap-2 justify-center items-center space-x-2">

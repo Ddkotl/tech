@@ -1,4 +1,4 @@
-import { PostEntity } from "@/entities/post";
+import { Post } from "@prisma/client";
 
 export type CategoryId = string;
 
@@ -11,5 +11,5 @@ export type CategoryEntity = {
   name: string;
   description: string;
 
-  posts: PostEntity[];
+  posts: Post[];
 };
