@@ -1,11 +1,14 @@
+"use client";
+
+import { getPostsCountQuery } from "@/entities/post";
+import { getPaginatedPostQuery } from "@/entities/post/_queries/get-paginated-posts-query";
+import { PostCard } from "@/entities/post/_ui/post-card";
+import { Button } from "@/shared/components";
+
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-import { dataBase } from "@/shared/lib/db_conect";
-import { PostWithCategoryAndCountLikesBookmarks } from "@/entities/post/_domain/types";
-import { Button } from "@/shared/components";
-import { PostCard } from "@/entities/post/_ui/post-card";
-
-export default async function Posts({
+export function PostPaginated({
   searchParams,
 }: {
   searchParams: { page?: string };
@@ -13,21 +16,16 @@ export default async function Posts({
   const page = Number(searchParams.page) || 1;
   const pageSize = 9;
 
-  const totalPosts = await dataBase.post.count();
-  const totalPages = Math.ceil(totalPosts / pageSize);
+  const totalPosts = useQuery({
+    ...getPostsCountQuery(),
+  });
+  const totalPages = Math.ceil(
+    totalPosts.data ? totalPosts.data : 0 / pageSize,
+  );
 
-  const posts: PostWithCategoryAndCountLikesBookmarks[] =
-    await dataBase.post.findMany({
-      orderBy: { createdAt: "desc" },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      include: {
-        category: true,
-        _count: {
-          select: { likes: true, bookmarks: true },
-        },
-      },
-    });
+  const posts = useQuery({
+    ...getPaginatedPostQuery(page, pageSize),
+  });
 
   const getPageNumbers = () => {
     const pageNumbers = [];
@@ -66,14 +64,11 @@ export default async function Posts({
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Все посты</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {posts.data?.map((post) => <PostCard key={post.id} post={post} />)}
       </div>
-      <div className="mt-8 flex justify-center items-center space-x-2">
+      <div className="mt-4 flex flex-wrap gap-2 justify-center items-center space-x-2">
         {page > 1 && (
           <Button asChild variant="outline">
             <Link href={`/posts?page=${page - 1}`}>Предыдущая</Link>
@@ -100,6 +95,6 @@ export default async function Posts({
           </Button>
         )}
       </div>
-    </div>
+    </>
   );
 }

@@ -36,7 +36,6 @@ async function seed() {
     data: Array.from({ length: 200 }, () => ({
       title: faker.lorem.words({ min: 2, max: 6 }),
       content: faker.lorem.paragraphs(3),
-      published: faker.datatype.boolean(),
       previewImage: faker.image.url(),
       images: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
         faker.image.url(),

@@ -61,7 +61,6 @@ export async function getRatingData(
   const [topPosts, remainingPosts, totalCount] = await Promise.all([
     dataBase.post.findMany({
       where: {
-        published: true,
         createdAt: dateFilter,
       },
       orderBy,
@@ -75,7 +74,6 @@ export async function getRatingData(
     }),
     dataBase.post.findMany({
       where: {
-        published: true,
         createdAt: dateFilter,
       },
       orderBy,
@@ -90,7 +88,6 @@ export async function getRatingData(
     }),
     dataBase.post.count({
       where: {
-        published: true,
         createdAt: dateFilter,
       },
     }),

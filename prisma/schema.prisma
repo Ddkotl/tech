@@ -34,7 +34,7 @@ model Post {
   content      String
   previewImage String?  @map("preview_image")
   images       String[]
-  published    Boolean  @default(false)
+
 
   views Int @default(0)
 

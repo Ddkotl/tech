@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Card,
@@ -9,16 +10,17 @@ import {
 } from "@/shared/components";
 
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Eye, Heart, Bookmark } from "lucide-react";
-import Image from "next/image";
-import { PostWithCategoryAndCountLikesBookmarks } from "../_domain/types";
-import Link from "next/link";
 
-export async function PostCard({
+import Image from "next/image";
+import Link from "next/link";
+import { PostWithCategoryAndCountLikesBookmarks } from "../_domain/types";
+import { Bookmark, Eye, Heart } from "lucide-react";
+
+export function PostCard({
   post,
 }: {
   post: PostWithCategoryAndCountLikesBookmarks;
-}): Promise<JSX.Element> {
+}): JSX.Element {
   return (
     <Card className="flex flex-col justify-between">
       <CardHeader className="md:p-3 p-2">

@@ -14,7 +14,6 @@ CREATE TABLE "posts" (
     "updated_at" TIMESTAMP(3) NOT NULL,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
-    "published" BOOLEAN NOT NULL DEFAULT false,
     "category_id" TEXT NOT NULL,
 
     CONSTRAINT "posts_pkey" PRIMARY KEY ("id")

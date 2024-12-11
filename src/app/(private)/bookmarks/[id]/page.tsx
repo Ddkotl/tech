@@ -23,14 +23,18 @@ async function getBookmarkedPosts(userId: string) {
   return bookmarks.map((bookmark) => bookmark.post);
 }
 
-export default async function BookmarksPage() {
+export default async function BookmarksPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const session = await getAppSessionServer();
 
   if (!session) {
     redirect("/api/auth/signin");
   }
 
-  const bookmarkedPosts = await getBookmarkedPosts(session.user.id);
+  const bookmarkedPosts = await getBookmarkedPosts(params.id);
 
   return (
     <div className="container mx-auto px-4 py-8">
