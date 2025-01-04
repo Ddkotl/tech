@@ -25,40 +25,62 @@ model User {
   @@map("users")
 }
 
-model Post {
+model News {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  meta_title       String
+  meta_description String
 
   title        String   @unique
   content      String
   previewImage String?  @map("preview_image")
   images       String[]
 
+  views Int @default(0)
+
+  likes     Like[]
+  bookmarks Bookmark[]
+
+  tags Tag[] @relation("NewsTags")
+
+  @@map("news")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title   String    @unique
+  news    News[]    @relation("NewsTags")
+  reviews Reviews[] @relation("ReviewsTags")
+
+  @@map("tags")
+}
+
+model Reviews {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  meta_title       String
+  meta_description String
+
+  title        String   @unique
+  content      String
+  previewImage String?  @map("preview_image")
+  images       String[]
 
   views Int @default(0)
 
   likes     Like[]
   bookmarks Bookmark[]
 
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  categoryId String?   @map("category_id")
+  tags Tag[] @relation("ReviewsTags")
 
-  @@map("posts")
-}
-
-model Category {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  image       String?
-  name        String  @unique
-  description String
-
-  posts Post[]
-
-  @@map("categories")
+  @@map("reviews")
 }
 
 model Account {
@@ -102,29 +124,43 @@ model VerificationToken {
 }
 
 model Like {
-  id        String   @id @default(cuid())
+  id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String @map("post_id")
+  news      News    @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  newsId    String  @map("news_id")
+  reviews   Reviews @relation(fields: [reviewsId], references: [id])
+  reviewsId String  @map("reviews_id")
 
-  @@unique([userId, postId])
+  @@unique([userId, newsId, reviewsId])
   @@map("likes")
 }
 
 model Bookmark {
-  id        String   @id @default(cuid())
+  id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String @map("post_id")
+  news      News    @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  newsId    String  @map("news_id")
+  reviews   Reviews @relation(fields: [reviewsId], references: [id])
+  reviewsId String  @map("reviews_id")
 
-  @@unique([userId, postId])
+  @@unique([userId, newsId, reviewsId])
   @@map("bookmarks")
+}
+
+model NewsParsedTitles {
+  id    String @id @default(cuid())
+  title String @unique
+}
+
+model ReviewsParsedTitles {
+  id    String @id @default(cuid())
+  title String @unique
 }
 
 enum UserRoles {

@@ -11,7 +11,8 @@
     "prettier": "prettier -w .",
     "test": "jest",
     "test:e2e": "playwright test",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "parse": "tsx src/shared/lib/parsing/index.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
@@ -33,6 +34,7 @@
     "@radix-ui/react-tooltip": "^1.1.3",
     "@tanstack/react-query": "^5.59.15",
     "@tanstack/react-table": "^8.20.5",
+    "axios": "^1.7.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cuid": "^3.0.0",
@@ -45,10 +47,12 @@
     "next": "14.2.15",
     "next-auth": "^4.24.10",
     "next-themes": "^0.4.3",
+    "openai": "^4.77.3",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "react-icons": "^5.3.0",
+    "sharp": "^0.33.5",
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",

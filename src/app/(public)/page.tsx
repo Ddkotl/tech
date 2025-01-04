@@ -1,43 +1,41 @@
-import { getFeaturedPost } from "@/entities/post/_actions/posts.server.actions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components";
 import { FeaturedPost } from "@/widgets/featured-post/featured-post";
 import { RecentPosts } from "@/widgets/resent-posts/resent-posts";
 import { Suspense } from "react";
 
 export default async function Home() {
-  const post = getFeaturedPost();
-  console.log(post);
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Our Blog</h1>
+        <h1 className="text-4xl font-bold mb-4">Добро пожаловать в наш блог</h1>
         <p className="text-xl text-muted-foreground">
-          Discover insightful articles, expert opinions, and the latest trends.
+          Откройте для себя полезные статьи, мнения экспертов и последние
+          тенденции.
         </p>
       </section>
 
-      <Suspense fallback={<div>Loading featured post...</div>}>
+      <Suspense fallback={<div>Загрузка последнего поста...</div>}>
         <FeaturedPost />
       </Suspense>
 
       <Tabs defaultValue="recent" className="mb-12">
         <TabsList>
-          <TabsTrigger value="recent">Recent Posts</TabsTrigger>
-          <TabsTrigger value="popular">Popular Posts</TabsTrigger>
+          <TabsTrigger value="recent">Последние посты</TabsTrigger>
+          <TabsTrigger value="popular">Популярные посты</TabsTrigger>
         </TabsList>
         <TabsContent value="recent">
-          <Suspense fallback={<div>Loading recent posts...</div>}>
+          <Suspense fallback={<div>Загрузка последних постов ...</div>}>
             <RecentPosts />
           </Suspense>
         </TabsContent>
         <TabsContent value="popular">
-          <Suspense fallback={<div>Loading popular posts...</div>}>
+          <Suspense fallback={<div>Загрузка популярных постов...</div>}>
             {/* <PopularPosts /> */}
           </Suspense>
         </TabsContent>
       </Tabs>
 
-      <Suspense fallback={<div>Loading popular categories...</div>}>
+      <Suspense fallback={<div>Загрузка популярных категорий...</div>}>
         {/* <PopularCategories /> */}
       </Suspense>
     </div>
