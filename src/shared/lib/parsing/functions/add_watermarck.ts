@@ -66,8 +66,8 @@ export const replaceWatermarkWithSharp = async (
               </defs>
               <rect x="0" y="0" width="${regionWidth}" height="${regionHeight}" fill="url(#grad)" />
               <text 
-                x="${regionWidth / 1.9}" 
-                y="${regionHeight / 1.5}" 
+                x="${regionWidth / 2}" 
+                y="${regionHeight / 1.6}" 
                 font-size="${fontSize}" 
                 fill="rgba(255, 255, 255, 0.9)" 
                 font-weight="700" 
