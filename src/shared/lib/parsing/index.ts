@@ -14,4 +14,4 @@ export const StartParse = async () => {
   await browser.close();
 };
 
-// StartParse();
+StartParse();

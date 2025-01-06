@@ -41,6 +41,6 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /aaa
-/img
+public/img
 /har_and_cookies
 /generated_images

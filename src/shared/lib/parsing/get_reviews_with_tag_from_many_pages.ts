@@ -4,10 +4,13 @@ import { generateDataForPost } from "./functions/generate_data_for_post";
 import { downloadImage } from "./functions/download_image";
 import { translateAndUnicTitle } from "./openai/translate_and_untc_title";
 import { translateAndUnicText } from "./openai/translate_and_untc_content";
-import { GenerateMetaDescription, GenerateMetaTitle } from "./openai/generate_meta";
+import {
+  GenerateMetaDescription,
+  GenerateMetaTitle,
+} from "./openai/generate_meta";
 import { translateTags } from "./openai/translate_tags";
 import { ParseReviews } from "./db_seed/parse_reviews";
-
+import { transliterateToUrl } from "../transliteration";
 
 export const parseReviewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -144,9 +147,13 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
           return [];
         }
       })();
+      const slug: string = transliterateToUrl(
+        article.title ? article.title : "",
+      );
       await ParseReviews(
         metaTitle,
         metaDescription,
+        slug,
         generatedDate,
         article.title ? article.title : "",
         translatedTitle ? translatedTitle.replace(/\\"/g, "") : "",

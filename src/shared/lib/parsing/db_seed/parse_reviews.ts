@@ -1,10 +1,12 @@
 import { dataBaseParse } from "./db_connect";
-import {  Reviews, Tag } from "@prisma/client";
+import { Reviews, Tag } from "@prisma/client";
 import { delay } from "./delay";
+import { transliterateToUrl } from "../../transliteration";
 
 export async function ParseReviews(
   metaTitle: string,
   metaDescription: string,
+  slug: string,
   date: Date,
   ingTitle: string,
   ruTitle: string,
@@ -17,7 +19,7 @@ export async function ParseReviews(
     return dataBaseParse.tag.upsert({
       where: { title: tag },
       update: {}, // Если тег существует, ничего не изменяем
-      create: { title: tag }, // Если нет, создаем новый
+      create: { title: tag, slug: transliterateToUrl(slug) }, // Если нет, создаем новый
     });
   });
 
@@ -31,6 +33,7 @@ export async function ParseReviews(
     create: {
       meta_title: metaTitle,
       meta_description: metaDescription,
+      slug: slug,
       createdAt: date,
       title: ruTitle,
       content: content,

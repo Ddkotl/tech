@@ -1,7 +1,7 @@
-import { S3Client } from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
 import cuid from "cuid";
-import { privateConfig } from "./config/private";
+import { mkdir } from "fs/promises";
+import fs from "fs";
+import path from "path";
 
 export type StoredFile = {
   id: string;
@@ -12,42 +12,31 @@ export type StoredFile = {
   eTag?: string;
 };
 
-class FileStorage {
-  private s3Client = new S3Client({
-    forcePathStyle: true,
-    endpoint: privateConfig.S3_ENDPOINT,
-    region: privateConfig.S3_REGION,
-    credentials: {
-      accessKeyId: privateConfig.S3_ACCESS_KEY_ID,
-      secretAccessKey: privateConfig.S3_SECRET_ACCESS_KEY,
-    },
-  });
+const saveImgDir = "./public/img/avatar";
+const imgDir = "/img/avatar";
 
-  async uploadImage(file: File, tag: string) {
-    return this.upload(file, privateConfig.S3_IMAGES_BUCKET, tag);
+class FileStorage {
+  async uploadImage(file: File, tag: string): Promise<StoredFile> {
+    return this.upload(file, tag);
   }
 
-  async upload(file: File, bucket: string, tag: string): Promise<StoredFile> {
-    const res = await new Upload({
-      client: this.s3Client,
-      params: {
-        ACL: "public-read",
-        Bucket: bucket,
-        Key: `${tag}-${Date.now().toString()}-${file.name}`,
-        Body: file,
-      },
-      queueSize: 4, // optional concurrency configuration
-      partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
-      leavePartsOnError: false, // optional manually handle dropped parts
-    }).done();
+  async upload(file: File, tag: string): Promise<StoredFile> {
+    if (!fs.existsSync(saveImgDir)) {
+      await mkdir(saveImgDir, { recursive: true });
+    }
+    const uniqueName = `${tag}-${Date.now()}-${file.name}`;
+    const filePath = path.join(saveImgDir, uniqueName);
+
+    const buffer = Buffer.from(await file.arrayBuffer()); // Преобразуем File в Buffer
+    await fs.promises.writeFile(filePath, buffer);
 
     return {
       id: cuid(),
       name: file.name,
       type: file.type,
-      path: `/storage/${bucket}/${res.Key}`,
-      prefix: "/storage",
-      eTag: res.ETag,
+      path: `${imgDir}/${uniqueName}`,
+      prefix: imgDir,
+      eTag: undefined, // Для локальных файлов не нужен eTag
     };
   }
 }

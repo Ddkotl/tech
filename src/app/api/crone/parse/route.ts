@@ -9,5 +9,5 @@ export async function GET() {
     cronInitialized = true; // Убедитесь, что CRON запускается только один раз
   }
 
-  return NextResponse.json({ success: true, message: "Кроно процесс запущен" });
+  return NextResponse.json({ success: true, message: "Cron процесс запущен" });
 }

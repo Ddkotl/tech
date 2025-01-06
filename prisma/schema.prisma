@@ -33,6 +33,7 @@ model News {
   meta_title       String
   meta_description String
 
+  slug         String   @unique
   title        String   @unique
   content      String
   previewImage String?  @map("preview_image")
@@ -53,6 +54,7 @@ model Tag {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  slug    String    @unique
   title   String    @unique
   news    News[]    @relation("NewsTags")
   reviews Reviews[] @relation("ReviewsTags")
@@ -68,6 +70,7 @@ model Reviews {
   meta_title       String
   meta_description String
 
+  slug         String   @unique
   title        String   @unique
   content      String
   previewImage String?  @map("preview_image")
