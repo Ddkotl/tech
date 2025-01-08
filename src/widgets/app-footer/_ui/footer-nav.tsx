@@ -8,7 +8,7 @@ import { NavItems } from "../_settings/footer-nav-items";
 export function FooterNav({ items }: { items: NavItems[] }) {
   const pathmane = usePathname();
   return (
-    <div className="flex flex-wrap items-center justify-center  text-sm font-medium">
+    <nav className="flex flex-wrap items-center justify-center  text-sm font-medium">
       {items.map((item, index) => (
         <Link
           key={index}
@@ -23,6 +23,6 @@ export function FooterNav({ items }: { items: NavItems[] }) {
           {item.name}
         </Link>
       ))}
-    </div>
+    </nav>
   );
 }

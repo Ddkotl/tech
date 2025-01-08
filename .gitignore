@@ -40,7 +40,7 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/aaa
+/ex
 public/img
 /har_and_cookies
 /generated_images

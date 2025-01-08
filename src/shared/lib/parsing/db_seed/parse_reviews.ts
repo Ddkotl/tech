@@ -2,6 +2,7 @@ import { dataBaseParse } from "./db_connect";
 import { Reviews, Tag } from "@prisma/client";
 import { delay } from "./delay";
 import { transliterateToUrl } from "../../transliteration";
+import { isTagExist } from "./is_tag_exist";
 
 export async function ParseReviews(
   metaTitle: string,
@@ -15,17 +16,20 @@ export async function ParseReviews(
   images: string[],
   tags: string[],
 ) {
-  const tagPromises = tags.map((tag): Promise<Tag> => {
-    return dataBaseParse.tag.upsert({
-      where: { title: tag },
-      update: {}, // Если тег существует, ничего не изменяем
-      create: { title: tag, slug: transliterateToUrl(slug) }, // Если нет, создаем новый
-    });
+  const tagPromises = tags.map(async (tag): Promise<Tag | undefined> => {
+    const slug = transliterateToUrl(tag);
+    if (!isTagExist(slug)) {
+      return await dataBaseParse.tag.upsert({
+        where: { title: tag },
+        update: {}, // Если тег существует, ничего не изменяем
+        create: { title: tag, slug: slug }, // Если нет, создаем новый
+      });
+    }
   });
 
   // Ждем завершения добавления всех тегов
-  const createdTags = await Promise.all(tagPromises);
-
+  const addedTags: (Tag | undefined)[] = await Promise.all(tagPromises);
+  const createdTags: Tag[] = addedTags.filter((el) => el !== undefined);
   // Добавляем новость в базу
   const createdReview: Reviews = await dataBaseParse.reviews.upsert({
     where: { title: ruTitle },

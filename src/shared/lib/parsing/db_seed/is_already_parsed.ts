@@ -1,6 +1,6 @@
 import { dataBaseParse } from "./db_connect";
 
-export const IsNewsAlresdyParsed = async (title: string): Promise<boolean> => {
+export const IsNewsAlresdyParsed = async (title: string) => {
   const isTitliExist = await dataBaseParse.newsParsedTitles.findFirst({
     where: {
       title: title,

@@ -7,16 +7,43 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  display: "swap",
+  preload: true,
 });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
-  title: "Tech",
-  description: "Tech sait",
+  title: {
+    default: "tech24view",
+    template: "%s | tech24view",
+  },
+  description:
+    "Обзоры смартфонов, свежие новости технологий и полезные советы для пользователей современных гаджетов.",
+  keywords:
+    "технологии, смартфоны, обзоры, новости, гаджеты, мобильные телефоны, инновации",
+  metadataBase: new URL("https://tech24view.ru"),
+  openGraph: {
+    title: "tech24view - Обзоры смартфонов и новости технологий",
+    description:
+      "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",
+    url: "https://tech24view.ru",
+    type: "website",
+    locale: "ru_RU",
+    images: [
+      {
+        url: "/img/logo_opengraf.jpg",
+        width: 1200,
+        height: 630,
+        alt: "tech24view - Логотип",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -25,9 +52,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang="ru" dir="ltr" suppressHydrationWarning className="h-full">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable}  antialiased h-full`}
       >
         <AppProvider>{children}</AppProvider>
       </body>
