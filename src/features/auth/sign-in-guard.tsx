@@ -18,7 +18,6 @@ export default function SignInGuard({
   useEffect(() => {
     if (isAuthenticated) {
       router.replace("/", { scroll: false });
-     
     }
   }, [isAuthenticated, router]);
 
