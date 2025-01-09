@@ -13,7 +13,8 @@
     "test:e2e": "playwright test",
     "seed": "tsx prisma/seed.ts",
     "parse": "tsx src/shared/lib/parsing/index.ts",
-    "start_crone_parse": "wait-on http://localhost:3000/auth/sign-in && curl -X GET http://localhost:3000/api/crone/parse"
+    "start_crone_parse": "wait-on http://localhost:3000/auth/sign-in && curl -X GET http://localhost:3000/api/crone/parse",
+    "prepare": "husky"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
@@ -43,6 +44,8 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.456.0",
     "mime-types": "^2.1.35",

@@ -9,11 +9,11 @@ export const mainNavItems: NavItems[] = [
     path: "/",
   },
   {
-    name: "Статьи",
-    path: "/posts",
+    name: "Новости",
+    path: "/news",
   },
   {
-    name: "Рейтинг",
-    path: "/rating",
+    name: "Обзоры",
+    path: "/reviews",
   },
 ];

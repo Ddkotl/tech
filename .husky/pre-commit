@@ -1,0 +1,4 @@
+bun run prettier
+bun run lint
+bun run lint:types
+bun run test

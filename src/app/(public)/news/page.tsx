@@ -1,8 +1,8 @@
-import { Metadata } from "next";
 import { generateMetadata } from "@/features/seo/generate_metadata";
+import { Metadata } from "next";
 
 export const metadata: Metadata = generateMetadata({
-  title: "Главная",
+  title: "Новости",
   description:
     "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",
   keywords: [
@@ -10,6 +10,7 @@ export const metadata: Metadata = generateMetadata({
     "смартфоны",
     "обзоры",
     "новости",
+    "новости смартфонов",
     "гаджеты",
     "мобильные телефоны",
     "инновации",
@@ -18,6 +19,10 @@ export const metadata: Metadata = generateMetadata({
   canonical: "https://tech24view.ru",
 });
 
-export default async function Home() {
-  return <>home</>;
+export default async function NewsPage() {
+  return (
+    <div>
+      <h1>News Page</h1>
+    </div>
+  );
 }

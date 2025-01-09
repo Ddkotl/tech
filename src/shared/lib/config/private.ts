@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const privateConfigSchema = z.object({
-
   // S3_ACCESS_KEY_ID: z.string(),
   // S3_SECRET_ACCESS_KEY: z.string(),
   // S3_IMAGES_BUCKET: z.string(),

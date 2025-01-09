@@ -1,11 +1,11 @@
-import { Metadata } from 'next'
+import { Metadata } from "next";
 
 interface MetadataProps {
-  title: string
-  description: string
-  keywords?: string[]
-  ogImage?: string
-  canonical?: string
+  title: string;
+  description: string;
+  keywords?: string[];
+  ogImage?: string;
+  canonical?: string;
 }
 
 export function generateMetadata({
@@ -18,14 +18,14 @@ export function generateMetadata({
   return {
     title,
     description,
-    keywords: keywords?.join(', '),
+    keywords: keywords?.join(", "),
     openGraph: {
       title,
       description,
       images: ogImage ? [{ url: ogImage }] : undefined,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: ogImage ? [ogImage] : undefined,
@@ -33,6 +33,5 @@ export function generateMetadata({
     alternates: {
       canonical: canonical,
     },
-  }
+  };
 }
-

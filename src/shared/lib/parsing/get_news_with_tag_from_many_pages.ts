@@ -94,7 +94,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
           return [];
         }
       })();
-  
+
       const slug: string = transliterateToUrl(
         article.title ? article.title : "",
       );
