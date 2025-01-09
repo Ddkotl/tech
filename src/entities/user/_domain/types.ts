@@ -1,5 +1,3 @@
-import { Post } from "@prisma/client";
-
 export type UserId = string;
 export type BookmarkId = string;
 export type Role = "ADMIN" | "USER";
@@ -33,14 +31,4 @@ export type Profile = {
   email: string;
   name?: string | null;
   image?: string | null;
-};
-
-export type BookmarkEntity = {
-  id: BookmarkId;
-
-  user: UserEntity;
-  userId: string;
-
-  post: Post;
-  postId: string;
 };
