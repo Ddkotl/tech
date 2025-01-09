@@ -25,3 +25,4 @@ export * from "./custom/profile";
 export * from "./custom/app-container";
 export * from "./custom/app-title";
 export * from "./custom/app-search";
+export * from "./ui/badge";

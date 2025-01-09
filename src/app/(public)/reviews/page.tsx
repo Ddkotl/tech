@@ -20,10 +20,10 @@ export const metadata: Metadata = generateMetadata({
   canonical: "https://tech24view.ru",
 });
 
-export default async function NewsPage() {
+export default async function ReviewsPage() {
   return (
     <div>
-      <h1>News Page</h1>
+      <h1>Reviews Page</h1>
     </div>
   );
 }

@@ -17,7 +17,7 @@ export function ToggleTheme() {
       setTheme("light");
     }
     if (theme === "system") {
-      setTheme("light");
+      setTheme("dark");
     }
   }
 

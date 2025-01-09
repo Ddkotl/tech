@@ -5,7 +5,6 @@ import { useAppSession } from "@/entities/user/session";
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { toast } from "sonner";
 
 export default function SignInGuard({
   children,
@@ -19,7 +18,7 @@ export default function SignInGuard({
   useEffect(() => {
     if (isAuthenticated) {
       router.replace("/", { scroll: false });
-      toast("Вы успешно вошли в свой профиль");
+     
     }
   }, [isAuthenticated, router]);
 

@@ -1,7 +1,22 @@
 /** @type {import('next').NextConfig} */
 const isDev = process.env.NODE_ENV !== "production";
 
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+  rewrites: () => [
+    {
+      source: "/storage/:path*",
+      destination: `${process.env.S3_ENDPOINT}/:path*`,
+    },
+  ],
+};
 //Настройка для Github Codespace
 if (isDev) {
   nextConfig.experimental = {

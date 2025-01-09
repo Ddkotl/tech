@@ -11,7 +11,7 @@ export default async function Layout({
     <div className="flex min-h-screen w-full flex-col">
       {" "}
       <AppHeader variant="public" />
-      <main className="flex flex-auto flex-col p-2 md:p-6">{children}</main>
+      <main className="flex flex-auto flex-col p-2 ">{children}</main>
       <AppFooter />
     </div>
   );
