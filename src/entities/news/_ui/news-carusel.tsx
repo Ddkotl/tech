@@ -12,7 +12,7 @@ import NewsCard from "./news-card";
 export type NewsWithTags = News & {
   tags: Tag[];
 };
-export function CarouselSpacing({ news }: { news: NewsWithTags[] }) {
+export function NewsCarousel({ news }: { news: NewsWithTags[] }) {
   return (
     <div className="px-8">
       <Carousel className="w-full">
@@ -20,7 +20,7 @@ export function CarouselSpacing({ news }: { news: NewsWithTags[] }) {
           {news.map((newsItem) => (
             <CarouselItem
               key={newsItem.id}
-              className=" basis-full sm:basis-9/12 md:basis-6/12 lg:basis-3/12" 
+              className=" basis-full sm:basis-9/12 md:basis-6/12 lg:basis-3/12"
             >
               <NewsCard news={newsItem} />
             </CarouselItem>

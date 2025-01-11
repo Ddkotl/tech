@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { generateMetadata } from "@/features/seo/generate_metadata";
 import { dataBase } from "@/shared/lib/db_conect";
-import { CarouselSpacing } from "@/entities/news/_ui/news-carusel";
+import { NewsCarousel } from "@/entities/news/_ui/news-carusel";
 
 export const metadata: Metadata = generateMetadata({
   title: "Главная",
@@ -20,9 +20,9 @@ export const metadata: Metadata = generateMetadata({
   canonical: "https://tech24view.ru",
 });
 
-async function getLatestNews() {
+async function getLatestNews(count: number) {
   const news = await dataBase.news.findMany({
-    take: 20,
+    take: count,
     orderBy: {
       createdAt: "desc",
     },
@@ -34,7 +34,7 @@ async function getLatestNews() {
 }
 
 export default async function Home() {
-  const latestNews = await getLatestNews();
+  const latestNews = await getLatestNews(20);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -46,7 +46,7 @@ export default async function Home() {
           ))}
         </div>
       </div> */}
-      <CarouselSpacing news={latestNews} />
+      <NewsCarousel news={latestNews} />
     </div>
   );
 }
