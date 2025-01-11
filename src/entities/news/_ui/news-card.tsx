@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { News, Tag } from "@prisma/client";
 import {
   Badge,
   Card,
@@ -10,11 +9,7 @@ import {
   CardTitle,
   Separator,
 } from "@/shared/components";
-
-// Define the NewsWithTags type
-export type NewsWithTags = News & {
-  tags: Tag[];
-};
+import { NewsWithTags } from "../_domain/types";
 
 export default function NewsCard({ news }: { news: NewsWithTags }) {
   return (

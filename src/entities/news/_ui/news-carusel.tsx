@@ -5,13 +5,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/shared/components";
-import { News, Tag } from "@prisma/client";
 import * as React from "react";
 import NewsCard from "./news-card";
+import { NewsWithTags } from "../_domain/types";
 
-export type NewsWithTags = News & {
-  tags: Tag[];
-};
 export function NewsCarousel({ news }: { news: NewsWithTags[] }) {
   return (
     <div className="px-8">

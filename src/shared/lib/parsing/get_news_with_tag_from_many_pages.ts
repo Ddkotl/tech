@@ -11,6 +11,7 @@ import {
 import { translateTags } from "./openai/translate_tags";
 import { ParseNews } from "./db_seed/parse_news";
 import { transliterateToUrl } from "../transliteration";
+import { cleanAndParseArray } from "./functions/clean_and_parse_tags";
 
 export const parseNewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -77,25 +78,22 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         : "";
       const translatedContent = await translateAndUnicText(contentResponse);
       const metaTitle = await GenerateMetaTitle(
-        translatedTitle ? translatedTitle.replace(/\\"/g, "") : "",
+        translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
       );
       const metaDescription = await GenerateMetaDescription(
-        translatedContent ? translatedContent.replace(/\\"/g, "") : "",
+        translatedContent
+          ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "")
+          : "",
       );
-      console.log(tags);
       const translatedTags = await translateTags(tags);
       const parsedTags = (() => {
         try {
-          console.log(translatedTags);
-          return translatedTags
-            ? JSON.parse(translatedTags.replace(/\\"/g, '"'))
-            : [];
+          return translatedTags ? cleanAndParseArray(translatedTags) : [];
         } catch (error) {
           console.error("Ошибка при парсинге translatedTags:", error);
           return [];
         }
       })();
-
       const slug: string = transliterateToUrl(
         article.title ? article.title : "",
       );
@@ -105,8 +103,8 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         slug,
         generatedDate,
         article.title ? article.title : "",
-        translatedTitle ? translatedTitle.replace(/\\"/g, "") : "",
-        translatedContent ? translatedContent.replace(/\\"/g, "") : "",
+        translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
+        translatedContent ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "") : "",
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags,
