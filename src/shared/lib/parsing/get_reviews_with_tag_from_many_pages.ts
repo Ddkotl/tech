@@ -134,7 +134,9 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
       );
       const metaDescription = await GenerateMetaDescription(
-        translatedContent ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "") : "",
+        translatedContent
+          ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "")
+          : "",
       );
       console.log(tags);
       const translatedTags = await translateTags(tags);
@@ -158,7 +160,9 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         generatedDate,
         article.title ? article.title : "",
         translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
-        translatedContent ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "") : "",
+        translatedContent
+          ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "")
+          : "",
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags,

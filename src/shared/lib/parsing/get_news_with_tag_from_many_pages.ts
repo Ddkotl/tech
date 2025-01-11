@@ -104,7 +104,9 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         generatedDate,
         article.title ? article.title : "",
         translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
-        translatedContent ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "") : "",
+        translatedContent
+          ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "")
+          : "",
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags,
