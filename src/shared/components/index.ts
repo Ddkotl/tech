@@ -16,6 +16,8 @@ export * from "./ui/sonner";
 export * from "./ui/menubar";
 export * from "./ui/tooltip";
 export * from "./ui/tabs";
+export * from "./ui/badge";
+export * from "./ui/carousel";
 
 export * from "./custom/logo-icon";
 export * from "./custom/admin-logo";
@@ -25,4 +27,3 @@ export * from "./custom/profile";
 export * from "./custom/app-container";
 export * from "./custom/app-title";
 export * from "./custom/app-search";
-export * from "./ui/badge";

@@ -95,7 +95,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
 
       // Извлечение тегов
       const tags = await page
-        .locator(".article-tags .float-right a")
+        .locator(".article-tags > .float-right >  a")
         .evaluateAll((tags) =>
           tags
             .map((tag) => tag.textContent?.trim().toLowerCase())
@@ -135,10 +135,11 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       const metaDescription = await GenerateMetaDescription(
         translatedContent ? translatedContent.replace(/\\"/g, "") : "",
       );
-
+      console.log(tags);
       const translatedTags = await translateTags(tags);
       const parsedTags = (() => {
         try {
+          console.log(translatedTags);
           return translatedTags
             ? JSON.parse(translatedTags.replace(/\\"/g, '"'))
             : [];

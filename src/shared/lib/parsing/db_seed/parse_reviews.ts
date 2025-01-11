@@ -31,6 +31,14 @@ export async function ParseReviews(
   const addedTags: (Tag | undefined)[] = await Promise.all(tagPromises);
   const createdTags: Tag[] = addedTags.filter((el) => el !== undefined);
   // Добавляем новость в базу
+  await dataBaseParse.reviewsParsedTitles.upsert({
+    where: { title: ingTitle },
+    update: {},
+    create: {
+      title: ingTitle,
+    },
+  });
+
   const createdReview: Reviews = await dataBaseParse.reviews.upsert({
     where: { title: ruTitle },
     update: {},
@@ -46,14 +54,6 @@ export async function ParseReviews(
       tags: {
         connect: createdTags.map((tag) => ({ id: tag.id })), // Соединяем новость с тегами
       },
-    },
-  });
-
-  await dataBaseParse.reviewsParsedTitles.upsert({
-    where: { title: ingTitle },
-    update: {},
-    create: {
-      title: ingTitle,
     },
   });
 

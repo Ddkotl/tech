@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { generateMetadata } from "@/features/seo/generate_metadata";
 import { dataBase } from "@/shared/lib/db_conect";
-import NewsCard from "@/entities/news/_ui/news-card";
+import { CarouselSpacing } from "@/entities/news/_ui/news-carusel";
 
 export const metadata: Metadata = generateMetadata({
   title: "Главная",
@@ -22,7 +22,7 @@ export const metadata: Metadata = generateMetadata({
 
 async function getLatestNews() {
   const news = await dataBase.news.findMany({
-    take: 5,
+    take: 20,
     orderBy: {
       createdAt: "desc",
     },
@@ -39,11 +39,14 @@ export default async function Home() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Последние новости</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        {latestNews.map((newsItem) => (
-          <NewsCard key={newsItem.id} news={newsItem} />
-        ))}
-      </div>
+      {/* <div className="flex items-center justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 w-full">
+          {latestNews.map((newsItem) => (
+            <NewsCard key={newsItem.id} news={newsItem} />
+          ))}
+        </div>
+      </div> */}
+      <CarouselSpacing news={latestNews} />
     </div>
   );
 }

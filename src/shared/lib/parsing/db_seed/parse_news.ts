@@ -32,6 +32,14 @@ export async function ParseNews(
   const addedTags: (Tag | undefined)[] = await Promise.all(tagPromises);
   const createdTags: Tag[] = addedTags.filter((el) => el !== undefined);
   // Добавляем новость в базу
+  await dataBaseParse.newsParsedTitles.upsert({
+    where: { title: ingTitle },
+    update: {},
+    create: {
+      title: ingTitle,
+    },
+  });
+
   const createdNews: News = await dataBaseParse.news.upsert({
     where: { title: ruTitle },
     update: {},
@@ -47,14 +55,6 @@ export async function ParseNews(
       tags: {
         connect: createdTags.map((tag) => ({ id: tag.id })), // Соединяем новость с тегами
       },
-    },
-  });
-
-  await dataBaseParse.newsParsedTitles.upsert({
-    where: { title: ingTitle },
-    update: {},
-    create: {
-      title: ingTitle,
     },
   });
 

@@ -82,10 +82,11 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       const metaDescription = await GenerateMetaDescription(
         translatedContent ? translatedContent.replace(/\\"/g, "") : "",
       );
-
+      console.log(tags);
       const translatedTags = await translateTags(tags);
       const parsedTags = (() => {
         try {
+          console.log(translatedTags);
           return translatedTags
             ? JSON.parse(translatedTags.replace(/\\"/g, '"'))
             : [];
