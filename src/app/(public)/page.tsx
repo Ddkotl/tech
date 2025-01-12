@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import { generateMetadata } from "@/features/seo/generate_metadata";
-import { dataBase } from "@/shared/lib/db_conect";
 import { NewsCarousel } from "@/entities/news/_ui/news-carusel";
 import { Button } from "@/shared/components";
 import Link from "next/link";
+import { getLatestNewsAction } from "@/entities/news/_actons/get_newest_news_action";
 
 export const metadata: Metadata = generateMetadata({
   title: "Главная",
@@ -22,31 +22,18 @@ export const metadata: Metadata = generateMetadata({
   canonical: "https://tech24view.ru",
 });
 
-async function getLatestNews(count: number) {
-  const news = await dataBase.news.findMany({
-    take: count,
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      tags: true,
-    },
-  });
-  return news;
-}
-
 export default async function Home() {
-  const latestNews = await getLatestNews(20);
+  const latestNews = await getLatestNewsAction(20);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-row gap-4  justify-between items-center mb-4">
-        <h1 className="text-lg md:text-3xl font-bold ml-8">
+        <h1 className="text-lg md:text-3xl font-bold ml-6">
           Последние новости о смартфонах
         </h1>
         <Button
           variant="outline"
-          className="mr-8 flex items-center justify-center"
+          className="mr-6 flex items-center justify-center"
         >
           <Link href={"/news"}>Все новости</Link>
         </Button>

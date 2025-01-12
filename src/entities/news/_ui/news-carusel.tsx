@@ -1,3 +1,4 @@
+"use client";
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +12,7 @@ import { NewsWithTags } from "../_domain/types";
 
 export function NewsCarousel({ news }: { news: NewsWithTags[] }) {
   return (
-    <div className="px-8">
+    <section className="px-6">
       <Carousel className="w-full">
         <CarouselContent>
           {news.map((newsItem) => (
@@ -19,13 +20,13 @@ export function NewsCarousel({ news }: { news: NewsWithTags[] }) {
               key={newsItem.id}
               className=" basis-full sm:basis-9/12 md:basis-6/12 lg:basis-3/12"
             >
-              <NewsCard news={newsItem} />
+              <NewsCard news={newsItem} prioryty={true} />
             </CarouselItem>
           ))}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-    </div>
+    </section>
   );
 }

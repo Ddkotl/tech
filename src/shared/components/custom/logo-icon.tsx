@@ -8,6 +8,7 @@ export function LogoIcon({ className }: { className?: string }) {
       height={50}
       alt="Logo"
       src={"/logo.png"}
+      priority
     />
   );
 }
