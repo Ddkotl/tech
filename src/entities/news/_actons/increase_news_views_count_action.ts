@@ -2,7 +2,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 
 export const increaseNewsViewsCountAction = async (slug: string) => {
-  const updatedNews = await dataBase.news.update({
+  await dataBase.news.update({
     where: { slug: slug },
     data: {
       views: {
@@ -10,5 +10,4 @@ export const increaseNewsViewsCountAction = async (slug: string) => {
       },
     },
   });
-  return updatedNews.views;
 };
