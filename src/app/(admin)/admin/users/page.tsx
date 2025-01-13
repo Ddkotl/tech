@@ -1,12 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components";
-import { DataTable } from "@/shared/components/custom/data-table";
-
-import { columns } from "@/entities/user";
-
-import { getAllUsersAction } from "@/entities/user";
 
 export default async function UsersPage() {
-  const users = await getAllUsersAction();
   return (
     <Tabs defaultValue="all">
       <div className="flex items-center">
@@ -19,9 +13,7 @@ export default async function UsersPage() {
           </TabsTrigger>
         </TabsList>
       </div>
-      <TabsContent value="all">
-        <DataTable data={users} columns={columns} searchColumn="name" />
-      </TabsContent>
+      <TabsContent value="all"></TabsContent>
     </Tabs>
   );
 }
