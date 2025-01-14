@@ -3,7 +3,8 @@ export function cleanAndParseArray(inputString: string) {
     // Удаляем все лишние символы, кроме букв, цифр, пробелов, кавычек, запятых и скобок
     let cleanedString = inputString
       .replace(/[^a-zA-Zа-яА-Я0-9,\s'\[\]]/g, "") // Убираем лишние символы
-      .replace(/,\s*$/, ""); // Убираем запятую в конце строки
+      .replace(/,\s*$/, "")
+      .toLowerCase(); // Убираем запятую в конце строки
 
     // Добавляем кавычки для строковых элементов, если их нет
     cleanedString = cleanedString
@@ -13,7 +14,6 @@ export function cleanAndParseArray(inputString: string) {
     // Проверяем, что строка имеет корректный формат скобок
     if (!cleanedString.startsWith("[")) cleanedString = "[" + cleanedString;
     if (!cleanedString.endsWith("]")) cleanedString = cleanedString + "]";
-
     // Парсим как JSON
     const parsedArray = JSON.parse(cleanedString);
 

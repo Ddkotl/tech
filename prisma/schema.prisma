@@ -13,14 +13,15 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   name          String?
-  email         String     @unique
-  emailVerified DateTime?  @map("email_verified")
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
   image         String?
-  role          UserRoles  @default(USER)
+  role          UserRoles @default(USER)
   accounts      Account[]
   sessions      Session[]
-  likes         Like[]
-  bookmarks     Bookmark[]
+
+  newsDookmarks    NewsBookmark[]
+  reviewsDookmarks ReviewsBookmark[]
 
   @@map("users")
 }
@@ -41,8 +42,7 @@ model News {
 
   views Int @default(0)
 
-  likes     Like[]
-  bookmarks Bookmark[]
+  bookmarks NewsBookmark[]
 
   tags Tag[] @relation("NewsTags")
 
@@ -78,8 +78,7 @@ model Reviews {
 
   views Int @default(0)
 
-  likes     Like[]
-  bookmarks Bookmark[]
+  bookmarks ReviewsBookmark[]
 
   tags Tag[] @relation("ReviewsTags")
 
@@ -126,34 +125,30 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-model Like {
+model NewsBookmark {
   id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  news      News    @relation(fields: [newsId], references: [id], onDelete: Cascade)
-  newsId    String  @map("news_id")
-  reviews   Reviews @relation(fields: [reviewsId], references: [id])
-  reviewsId String  @map("reviews_id")
+  news   News   @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  newsId String @map("news_id")
 
-  @@unique([userId, newsId, reviewsId])
-  @@map("likes")
+  @@unique([userId, newsId])
+  @@map("news_bookmarks")
 }
 
-model Bookmark {
+model ReviewsBookmark {
   id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  news      News    @relation(fields: [newsId], references: [id], onDelete: Cascade)
-  newsId    String  @map("news_id")
   reviews   Reviews @relation(fields: [reviewsId], references: [id])
   reviewsId String  @map("reviews_id")
 
-  @@unique([userId, newsId, reviewsId])
-  @@map("bookmarks")
+  @@unique([userId, reviewsId])
+  @@map("reviews_bookmarks")
 }
 
 model NewsParsedTitles {

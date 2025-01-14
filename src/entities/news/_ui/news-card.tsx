@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,14 +11,15 @@ import {
   Separator,
   TimeAgo,
 } from "@/shared/components";
-import { NewsWithTags } from "../_domain/types";
-import NewsStats from "./news-stat";
+import { NewsWithIncludes } from "../_domain/types";
+import { FaBookmark, FaEye } from "react-icons/fa";
 
 export default function NewsCard({
   news,
+
   prioryty,
 }: {
-  news: NewsWithTags;
+  news: NewsWithIncludes;
   prioryty: boolean;
 }) {
   return (
@@ -37,11 +39,11 @@ export default function NewsCard({
       )}
       <CardContent className="p-2 flex justify-between flex-col flex-auto">
         <CardHeader className="space-y-2 p-2">
-          <CardTitle className="text-lg md:text-xl font-semibold  line-clamp-2">
-            <Link href={`/news/${news.slug}`} className="hover:text-blue-600">
+          <Link href={`/news/${news.slug}`} className="hover:text-blue-600">
+            <CardTitle className="text-lg md:text-xl font-semibold  line-clamp-2 cursor-pointer">
               {news.title}
-            </Link>
-          </CardTitle>
+            </CardTitle>
+          </Link>
           <CardDescription className="text-foreground/50 line-clamp-6 h-[120px]">
             {news.meta_description}
           </CardDescription>
@@ -62,7 +64,17 @@ export default function NewsCard({
           </div>
           {/* Render views count */}
           <div className="flex flex-col gap-4 text-sm text-foreground/50 w-full px-2">
-            <NewsStats slug={news.slug} bookmarks={33} likes={4} />
+            <div className="flex justify-center gap-10 items-center text-gray-700">
+              <div className="flex items-center space-x-2">
+                <FaEye className="text-blue-500" size={20} />
+                <span>{news.views}</span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <FaBookmark className="text-yellow-500 " size={20} />
+                <span>{news.bookmarksCount}</span>
+              </div>
+            </div>
             <div className="flex justify-between">
               Добавлено: <TimeAgo date={news.createdAt} />
             </div>

@@ -8,9 +8,9 @@ import {
 } from "@/shared/components";
 import * as React from "react";
 import NewsCard from "./news-card";
-import { NewsWithTags } from "../_domain/types";
+import { NewsWithIncludes } from "../_domain/types";
 
-export function NewsCarousel({ news }: { news: NewsWithTags[] }) {
+export function NewsCarousel({ news }: { news: NewsWithIncludes[] }) {
   return (
     <section className="px-6">
       <Carousel className="w-full">

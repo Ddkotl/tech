@@ -12,6 +12,7 @@ import { translateTags } from "./openai/translate_tags";
 import { ParseNews } from "./db_seed/parse_news";
 import { transliterateToUrl } from "../transliteration";
 import { cleanAndParseArray } from "./functions/clean_and_parse_tags";
+import { generateTags } from "./openai/generate_tags";
 
 export const parseNewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -78,34 +79,51 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         : "";
       const translatedContent = await translateAndUnicText(contentResponse);
       const metaTitle = await GenerateMetaTitle(
-        translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
+        translatedTitle
+          ? translatedTitle.replace(/[«»"`'*/<>[\]{}\\]/g, "")
+          : "",
       );
       const metaDescription = await GenerateMetaDescription(
         translatedContent
-          ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "")
+          ? translatedContent.replace(/[«»"`'*/<>[\]{}\\]/g, "")
           : "",
       );
       const translatedTags = await translateTags(tags);
+      const generatedTags = await generateTags(
+        translatedContent
+          ? translatedContent.replace(/[«»"`'*/<>[\]{}\\]/g, "")
+          : "",
+      );
       const parsedTags = (() => {
         try {
           return translatedTags ? cleanAndParseArray(translatedTags) : [];
-        } catch (error) {
-          console.error("Ошибка при парсинге translatedTags:", error);
-          return [];
+        } catch (e) {
+          console.error(
+            "Ошибка при парсинге translatedTag, тэги будут сгенерированы ии",
+            e,
+          );
+          try {
+            return generatedTags ? JSON.parse(generatedTags) : [];
+          } catch (error) {
+            console.error("Ошибка при парсинге generatedTags", error);
+            return [];
+          }
         }
       })();
       const slug: string = transliterateToUrl(
         article.title ? article.title : "",
       );
       await ParseNews(
-        metaTitle,
-        metaDescription,
+        metaTitle.replace(/[«»"`'*/<>[\]{}\\]/g, ""),
+        metaDescription.replace(/[«»"`'*/<>[\]{}\\]/g, ""),
         slug,
         generatedDate,
         article.title ? article.title : "",
-        translatedTitle ? translatedTitle.replace(/["'*/<>[\]{}\\]/g, "") : "",
+        translatedTitle
+          ? translatedTitle.replace(/[«»"`'*/<>[\]{}\\]/g, "")
+          : "",
         translatedContent
-          ? translatedContent.replace(/["'*/<>[\]{}\\]/g, "")
+          ? translatedContent.replace(/[«»"`'*/<>[\]{}\\]/g, "")
           : "",
         previewPath ? previewPath : "",
         contentImagesPaths,

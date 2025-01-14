@@ -2,10 +2,10 @@
 
 import { dataBase } from "@/shared/lib/db_conect";
 
-export const getNewsViewsActon = async (slug: string): Promise<number> => {
+export const getNewsViewsActon = async (newsId: string): Promise<number> => {
   try {
     const news = await dataBase.news.findFirst({
-      where: { slug: slug },
+      where: { id: newsId },
     });
     return news ? news.views : 0;
   } catch (error) {

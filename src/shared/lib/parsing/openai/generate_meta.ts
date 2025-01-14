@@ -4,6 +4,11 @@ export const GenerateMetaTitle = async (title: string): Promise<string> => {
   const chatCompletion = await client.chat.completions.create({
     messages: [
       {
+        role: "system",
+        content:
+          "Отвечай строго в указанном формате без добавления комментариев.",
+      },
+      {
         role: "user",
         content: `Ты профессиональный CEO специалист, занимаешься продвижением сайтов в топ поиска google. 
             Сделай мета заголок длиной 50 символов  для статьи на основе существующего .
@@ -11,6 +16,7 @@ export const GenerateMetaTitle = async (title: string): Promise<string> => {
             При ответе не добавляй свои комментарии, пояснения, символы(\`'"/|\<>) . Исходный заголовок: "${title}"`,
       },
     ],
+    temperature: 0.5,
     model: "gpt-4",
   });
 
@@ -25,6 +31,11 @@ export const GenerateMetaDescription = async (
   const chatCompletion = await client.chat.completions.create({
     messages: [
       {
+        role: "system",
+        content:
+          "Отвечай строго в указанном формате без добавления комментариев.",
+      },
+      {
         role: "user",
         content: `Ты профессиональный CEO специалист, занимаешься продвижением сайтов в топ поиска google. 
               Сделай мета описание длиной 140 символов для статьи на основе существующего текста.
@@ -32,6 +43,7 @@ export const GenerateMetaDescription = async (
               При ответе не добавляй свои комментарии, пояснения, символы(\`'"/|\<>) . Исходный текст: "${text}"`,
       },
     ],
+    temperature: 0.5,
     model: "gpt-4",
   });
   return chatCompletion.choices[0].message.content

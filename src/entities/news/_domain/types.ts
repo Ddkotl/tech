@@ -1,5 +1,7 @@
-import { News, Tag } from "@prisma/client";
+import { News, NewsBookmark, Tag } from "@prisma/client";
 
-export type NewsWithTags = News & {
+export type NewsWithIncludes = News & {
   tags: Tag[];
+  bookmarks: NewsBookmark[];
+  bookmarksCount: number;
 };

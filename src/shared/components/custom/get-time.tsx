@@ -39,6 +39,9 @@ export const TimeAgo = ({ date }: { date: Date }) => {
     if (hours >= 2 && hours <= 4) {
       return <span>{`${hours} часа назад`}</span>;
     }
+    if (hours >= 22 && hours <= 24) {
+      return <span>{`${hours} часа назад`}</span>;
+    }
     return <span>{`${hours} час${hours > 1 ? "ов" : ""} назад`}</span>;
   }
 

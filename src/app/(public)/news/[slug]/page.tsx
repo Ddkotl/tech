@@ -1,6 +1,5 @@
 import { getSingleNewsBySlug } from "@/entities/news/_actons/get_unic_news_acton";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
-import NewsStats from "@/entities/news/_ui/news-stat";
 import {
   Badge,
   Card,
@@ -116,8 +115,7 @@ export default async function NewsPage({
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         <div className="flex flex-col gap-4 text-sm text-foreground/50 w-full px-2">
-          <NewsStats slug={news.slug} bookmarks={33} likes={4} />
-          <div className="flex justify-between">
+          <div className="flex gap-4 items-center">
             Добавлено: <TimeAgo date={news.createdAt} />
           </div>
         </div>
