@@ -1,8 +1,15 @@
 "use client";
 
+import { cn } from "@/shared/lib/utils";
 import { useEffect, useState } from "react";
 
-export const TimeAgo = ({ date }: { date: Date }) => {
+export const TimeAgo = ({
+  date,
+  className,
+}: {
+  date: Date;
+  className?: string;
+}) => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -28,7 +35,9 @@ export const TimeAgo = ({ date }: { date: Date }) => {
     const month = date.getMonth() + 1; // Месяцы начинаются с 0
     const year = date.getFullYear();
     return (
-      <span>{`${day < 10 ? `0${day}` : day}/${
+      <span
+        className={cn(className, "text-2xl")}
+      >{`${day < 10 ? `0${day}` : day}/${
         month < 10 ? `0${month}` : month
       }/${year}`}</span>
     );
@@ -52,6 +61,9 @@ export const TimeAgo = ({ date }: { date: Date }) => {
     }
     if (minutes >= 2 && minutes <= 4) {
       return <span>{`${minutes} минуты назад`}</span>;
+    }
+    if (minutes === 21 || minutes === 31 || minutes === 41 || minutes === 51) {
+      return <span>{`${minutes} минуту назад`}</span>;
     }
 
     return <span>{`${minutes} минут назад`}</span>;
