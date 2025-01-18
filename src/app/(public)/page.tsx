@@ -30,7 +30,7 @@ export default async function Home() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-row gap-4  justify-between items-center mb-4">
         <h1 className="text-lg md:text-3xl font-bold ml-6">
-          Последние новости о смартфонах
+          Последние новости
         </h1>
         <Button
           variant="outline"

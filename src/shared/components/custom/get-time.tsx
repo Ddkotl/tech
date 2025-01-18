@@ -36,7 +36,7 @@ export const TimeAgo = ({
     const year = date.getFullYear();
     return (
       <span
-        className={cn(className, "text-2xl")}
+        className={cn(className, "text-sm")}
       >{`${day < 10 ? `0${day}` : day}/${
         month < 10 ? `0${month}` : month
       }/${year}`}</span>
@@ -69,6 +69,5 @@ export const TimeAgo = ({
     return <span>{`${minutes} минут назад`}</span>;
   }
 
-  // Если прошло меньше минуты, показываем "менее минуты назад"
   return <span>Только что</span>;
 };

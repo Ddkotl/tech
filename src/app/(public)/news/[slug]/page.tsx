@@ -1,14 +1,17 @@
 import { getSingleNewsBySlug } from "@/entities/news/_actons/get_unic_news_acton";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
+import { getSimilarNews } from "@/features/news/similar-news/_actions/get-similar-news";
+import { SimilarNews } from "@/features/news/similar-news/similar-news";
 import {
   Badge,
   Card,
   CardContent,
   CardFooter,
   CardHeader,
+  ImageGallery,
   TimeAgo,
 } from "@/shared/components";
-import ImageGallery from "@/shared/components/custom/images-galery";
+
 import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -70,7 +73,7 @@ export default async function NewsPage({
   const news = await getSingleNewsBySlug(params.slug);
 
   if (!news) notFound();
-
+  const similarNews = await getSimilarNews(params.slug);
   await increaseNewsViewsCountAction(params.slug);
 
   return (
@@ -95,13 +98,13 @@ export default async function NewsPage({
       </CardHeader>
       <CardContent>
         {news.previewImage && (
-          <div className="flex flex-col md:flex-row gap-6 mb-4">
+          <div className="flex flex-col md:flex-row gap-4 mb-4">
             <Image
-              src={news.previewImage || "/placeholder.svg"}
-              alt=""
+              src={news.previewImage || "/placeholder.png"}
+              alt={news.title}
               priority
-              width={500}
-              height={300}
+              width={400}
+              height={200}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="rounded-lg object-contain"
             />
@@ -121,23 +124,13 @@ export default async function NewsPage({
           </div>
         )}
         <div
-          className="prose max-w-none"
+          className="prose max-w-none pb-4"
           dangerouslySetInnerHTML={{ __html: news.content }}
         />
-        {news.images && news.images.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Галерея изображений</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {news.images && news.images.length > 0 && (
-                <ImageGallery images={news.images} />
-              )}
-            </div>
-          </div>
-        )}
+        <ImageGallery images={news.images} />
       </CardContent>
       <CardFooter className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold">Похожие новости:</h2>
-        {/* Здесь можно добавить компонент с похожими новостями */}
+        <SimilarNews news={similarNews} />
       </CardFooter>
     </Card>
   );

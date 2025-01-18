@@ -76,7 +76,7 @@ export default function NewsCard({
               </div>
             </div>
             <div className="flex justify-between">
-              Добавлено: <TimeAgo date={news.createdAt} />
+              Добавлено: <TimeAgo className="text-sm" date={news.createdAt} />
             </div>
           </div>
         </div>
