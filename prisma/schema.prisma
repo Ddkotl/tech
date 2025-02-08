@@ -151,6 +151,66 @@ model ReviewsBookmark {
   @@map("reviews_bookmarks")
 }
 
+model Brands {
+  id        String        @id @default(cuid())
+  name      String        @unique // Название бренда
+  slug      String        @unique
+  phones    PhoneModels[] // Модели телефонов, связанные с этим брендом
+  createdAt DateTime      @default(now())
+
+  @@map("brands")
+}
+
+model PhoneModels {
+  id             String          @id @default(cuid())
+  name           String          @unique // Название модели телефона
+  slug           String          @unique // URL-совместимый слаг для модели
+  brandId        String          @map("brand_id") // Ссылка на бренд
+  brand          Brands          @relation(fields: [brandId], references: [id]) // Связь с брендом
+  specifications Specification[] // Характеристики модели
+
+  createdAt DateTime @default(now())
+
+  @@map("phone_models")
+}
+
+model Specification {
+  id String @id @default(cuid())
+
+  releaseDate     DateTime // Дата релиза
+  weight          Int
+  thickness       Int
+  oc              String
+  storage         String
+  ram             String
+  processor       String
+  screen_duim     Int
+  screen_px       String
+  camera_photo    String
+  camera_video    String
+  batary_capasity String
+  charging        String
+
+  network  String
+  launch   String
+  body     String
+  display  String
+  platform String
+  memory   String
+  camera   String
+  sounds   String
+  comms    String
+  features String
+  batary   String
+  misk     String
+  tests    String
+
+  phoneModels  PhoneModels @relation(fields: [phoneModelId], references: [id])
+  phoneModelId String // Ссылка на модель телефона
+
+  @@map("specification")
+}
+
 model NewsParsedTitles {
   id    String @id @default(cuid())
   title String @unique

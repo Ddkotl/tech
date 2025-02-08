@@ -108,7 +108,6 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       const slug: string = transliterateToUrl(
         article.title ? article.title : "",
       );
-      console.log("create");
       await ParseNews(
         cleaneText(metaTitle),
         cleaneText(metaDescription),

@@ -56,13 +56,21 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
 
       const contentPages: string[] = [];
       const allImages: string[] = [];
+      let mobileModelDescriptionUrl: string = "";
       let currentUrl: string | null =
         `https://www.gsmarena.com/${article.link}`;
 
       // Обработка всех страниц обзора
       while (currentUrl) {
         await page.goto(currentUrl, { waitUntil: "domcontentloaded" });
-
+        if (!mobileModelDescriptionUrl) {
+          const url: string | null = await page
+            .locator(".article-info-meta-link .meta-link-specs > a")
+            .getAttribute("href");
+          if (url) {
+            mobileModelDescriptionUrl = url;
+          }
+        }
         // Извлечение текста текущей страницы
         const content: string[] = await page
           .locator(".review-body p")
