@@ -1,4 +1,4 @@
-import { client } from "./ai_client";
+import { client, TEXT_AI_MODEL } from "./ai_client";
 
 export const translateAndUnicTitle = async (
   text: string,
@@ -22,7 +22,7 @@ export const translateAndUnicTitle = async (
       },
     ],
     temperature: 0.5,
-    model: "gpt-4",
+    model: TEXT_AI_MODEL,
   });
   return chatCompletion.choices[0].message.content;
 };

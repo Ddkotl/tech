@@ -1,0 +1,37 @@
+/* Основные стили для текста */
+.prose {
+  max-width: none;
+  padding-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Стилизация заголовков h2 */
+.prose h2 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #007aff;
+  padding-bottom: 5px;
+}
+
+/* Стилизация параграфов */
+.prose p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Добавление отступов между элементами */
+.prose h2 + p {
+  margin-top: 0.5rem;
+}
+
+/* Дополнительный стиль для ссылок */
+.prose a {
+  color: #007aff;
+  text-decoration: none;
+}
+
+.prose a:hover {
+  text-decoration: underline;
+}

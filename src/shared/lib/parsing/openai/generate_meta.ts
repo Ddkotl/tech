@@ -1,4 +1,4 @@
-import { client } from "./ai_client";
+import { client, TEXT_AI_MODEL } from "./ai_client";
 
 export const GenerateMetaTitle = async (title: string): Promise<string> => {
   const chatCompletion = await client.chat.completions.create({
@@ -17,7 +17,7 @@ export const GenerateMetaTitle = async (title: string): Promise<string> => {
       },
     ],
     temperature: 0.5,
-    model: "gpt-4",
+    model: TEXT_AI_MODEL,
   });
 
   return chatCompletion.choices[0].message.content
@@ -44,7 +44,7 @@ export const GenerateMetaDescription = async (
       },
     ],
     temperature: 0.5,
-    model: "gpt-4",
+    model: TEXT_AI_MODEL,
   });
   return chatCompletion.choices[0].message.content
     ? chatCompletion.choices[0].message.content

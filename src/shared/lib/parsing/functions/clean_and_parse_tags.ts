@@ -1,10 +1,10 @@
-export function cleanAndParseArray(inputString: string) {
+export function cleanAndParseArray(inputString: string): string[] {
   try {
     // Удаляем все лишние символы, кроме букв, цифр, пробелов, кавычек, запятых и скобок
     let cleanedString = inputString
       .replace(/[^a-zA-Zа-яА-Я0-9,\s'\[\]]/g, "") // Убираем лишние символы
-      .replace(/,\s*$/, "")
-      .toLowerCase(); // Убираем запятую в конце строки
+      .replace(/,\s*$/, "") // Убираем запятую в конце строки
+      .toLowerCase();
 
     // Добавляем кавычки для строковых элементов, если их нет
     cleanedString = cleanedString
@@ -25,6 +25,6 @@ export function cleanAndParseArray(inputString: string) {
     }
   } catch (error) {
     console.error("Ошибка обработки строки:", error);
-    return [];
+    return [""];
   }
 }

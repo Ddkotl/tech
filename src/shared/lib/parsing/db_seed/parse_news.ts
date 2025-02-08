@@ -16,7 +16,7 @@ export async function ParseNews(
   images: string[],
   tags: string[],
 ) {
-  const tagPromises = tags.map(async (tag): Promise<Tag | undefined> => {
+  const tagPromises = tags.map(async (tag) => {
     const slug = transliterateToUrl(tag);
     const isTagE = await isTagExist(slug);
     if (!isTagE) {
@@ -25,11 +25,13 @@ export async function ParseNews(
         update: {}, // Если тег существует, ничего не изменяем
         create: { title: tag, slug: slug }, // Если нет, создаем новый
       });
+    } else {
+      return isTagE;
     }
   });
 
   // Ждем завершения добавления всех тегов
-  const addedTags: (Tag | undefined)[] = await Promise.all(tagPromises);
+  const addedTags = await Promise.all(tagPromises);
   const createdTags: Tag[] = addedTags.filter((el) => el !== undefined);
   // Добавляем новость в базу
   await dataBaseParse.newsParsedTitles.upsert({

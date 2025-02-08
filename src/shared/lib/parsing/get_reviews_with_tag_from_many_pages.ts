@@ -13,6 +13,7 @@ import { ParseReviews } from "./db_seed/parse_reviews";
 import { transliterateToUrl } from "../transliteration";
 import { cleanAndParseArray } from "./functions/clean_and_parse_tags";
 import { generateTags } from "./openai/generate_tags";
+import { cleaneText } from "./functions/cleane_text";
 
 export const parseReviewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -51,9 +52,8 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         continue;
       }
 
-      const generatedDate = article.data
-        ? generateDataForPost(article.data)
-        : new Date();
+      const generatedDate = generateDataForPost(article.data);
+
       const contentPages: string[] = [];
       const allImages: string[] = [];
       let currentUrl: string | null =
@@ -64,7 +64,9 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         await page.goto(currentUrl, { waitUntil: "domcontentloaded" });
 
         // Извлечение текста текущей страницы
-        const content = await page.locator(".review-body p").allTextContents();
+        const content: string[] = await page
+          .locator(".review-body p")
+          .allTextContents();
         contentPages.push(...content);
 
         // Извлечение изображений текущей страницы
@@ -132,36 +134,25 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         contentPages.join(" "),
       );
       const metaTitle = await GenerateMetaTitle(
-        translatedTitle
-          ? translatedTitle.replace(/[«»"`'*/<>[\]{}\\]/g, "")
-          : "",
+        translatedTitle ? translatedTitle : "",
       );
       const metaDescription = await GenerateMetaDescription(
-        translatedContent
-          ? translatedContent.replace(/[«»"`'*/<>[\]{}\\]/g, "")
-          : "",
+        translatedContent ? translatedContent : "",
       );
 
       const translatedTags = await translateTags(tags);
       const generatedTags = await generateTags(
-        translatedContent
-          ? translatedContent.replace(/[«»"`'*/<>[\]{}\\]/g, "")
-          : "",
+        translatedContent ? translatedContent : "",
       );
       const parsedTags = (() => {
         try {
-          return translatedTags ? cleanAndParseArray(translatedTags) : [];
+          return translatedTags
+            ? cleanAndParseArray(translatedTags)
+            : generatedTags
+              ? cleanAndParseArray(generatedTags)
+              : [""];
         } catch (e) {
-          console.error(
-            "Ошибка при парсинге translatedTag, тэги будут сгенерированы ии",
-            e,
-          );
-          try {
-            return generatedTags ? JSON.parse(generatedTags) : [];
-          } catch (error) {
-            console.error("Ошибка при парсинге generatedTags", error);
-            return [];
-          }
+          console.log("Ошибка при парсинге tags", e);
         }
       })();
 
@@ -169,20 +160,16 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         article.title ? article.title : "",
       );
       await ParseReviews(
-        metaTitle.replace(/[«»"`'*/<>[\]{}\\]/g, ""),
-        metaDescription.replace(/[«»"`'*/<>[\]{}\\]/g, ""),
+        cleaneText(metaTitle),
+        cleaneText(metaDescription),
         slug,
         generatedDate,
         article.title ? article.title : "",
-        translatedTitle
-          ? translatedTitle.replace(/[«»"`'*/<>[\]{}\\]/g, "")
-          : "",
-        translatedContent
-          ? translatedContent.replace(/[«»"`'*/<>[\]{}\\]/g, "")
-          : "",
+        translatedTitle ? cleaneText(translatedTitle) : "",
+        translatedContent ? cleaneText(translatedContent) : "",
         previewPath ? previewPath : "",
         contentImagesPaths,
-        parsedTags,
+        parsedTags ? parsedTags : [""],
       );
     }
   }

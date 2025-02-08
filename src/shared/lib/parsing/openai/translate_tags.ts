@@ -1,13 +1,8 @@
-import { client } from "./ai_client";
+import { client, TEXT_AI_MODEL } from "./ai_client";
 
 export const translateTags = async (tags: string[]): Promise<string | null> => {
   const chatCompletion = await client.chat.completions.create({
     messages: [
-      {
-        role: "system",
-        content:
-          "Отвечай строго в указанном формате без добавления комментариев.",
-      },
       {
         role: "user",
         content: ` Переведи данные тэги на русский язык, используя только строчные буквы. Оставь тэг без изменений , если он относится к следующим категориям:
@@ -21,7 +16,7 @@ export const translateTags = async (tags: string[]): Promise<string | null> => {
       },
     ],
     temperature: 0,
-    model: "gpt-4",
+    model: TEXT_AI_MODEL,
   });
 
   return chatCompletion.choices[0].message.content
