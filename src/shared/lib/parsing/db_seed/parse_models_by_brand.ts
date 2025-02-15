@@ -1,0 +1,117 @@
+import { Page } from "@playwright/test";
+import { transliterateToUrl } from "../../transliteration";
+import { downloadImage } from "../functions/download_image";
+import { extractTableData } from "../functions/extract_model_table_data";
+import { safeTranslate } from "../functions/safe_translate";
+export const parseModelsByBrand = async (
+  modelNotExist: {
+    model: string;
+    url: string;
+  }[],
+  brandName: string,
+  page: Page,
+) => {
+  for (const model of modelNotExist) {
+    await page.goto(`https://www.gsmarena.com/${model.url}`, {
+      waitUntil: "domcontentloaded",
+    });
+    const shortName = model.model;
+    const fullName = await page.locator(".specs-phone-name-title").innerText();
+    const slug = transliterateToUrl(fullName);
+
+    const imgUrl = await page
+      .locator(".specs-photo-main > a >img")
+      .getAttribute("src");
+    const modelImgPath = imgUrl
+      ? await downloadImage(imgUrl, slug, "models_main")
+      : null;
+
+    const releaseDate = await page
+      .locator('span[data-spec="released-hl"]')
+      .innerText();
+    const translatedReleaseDate = await safeTranslate(releaseDate);
+
+    const weightAndThicknes = await page
+      .locator('span[data-spec="body-hl"]')
+      .innerText();
+    const splitedWeightAndThicknes = weightAndThicknes.split(",");
+    const weight = parseFloat(
+      splitedWeightAndThicknes[0].replace(/[^0-9.]/g, ""),
+    );
+    const thicknes = parseFloat(
+      splitedWeightAndThicknes[1].replace(/[^0-9.]/g, ""),
+    );
+
+    const os = await page.locator('span[data-spec="os-hl"]').innerText();
+    const storage = await page
+      .locator('span[data-spec="storage-hl"]')
+      .innerText();
+    const translatedStorage = await safeTranslate(storage);
+    const ram = await page
+      .locator('strong[class="accent accent-expansion"]')
+      .innerText();
+    const translatedRam = await safeTranslate(ram);
+    const processor = await page
+      .locator('div[data-spec="chipset-hl"]')
+      .innerText();
+    const screen_duim = await page
+      .locator('strong > span[data-spec="displaysize-hl"]')
+      .innerText();
+    const screen_px = await page
+      .locator('div[data-spec="displayres-hl"]')
+      .innerText();
+    const camera_photo = await page
+      .locator('strong[class="accent accent-camera"]')
+      .innerText();
+    const camera_video = await page
+      .locator('div[data-spec="videopixels-hl"]')
+      .innerText();
+    const batary_capasity = await page
+      .locator('strong[class="accent accent-battery"]')
+      .innerText();
+    const network = await extractTableData("Network", page);
+    const launch = await extractTableData("Launch", page);
+    const body = await extractTableData("Body", page);
+    const display = await extractTableData("Display", page);
+    const platform = await extractTableData("Platform", page);
+    const memory = await extractTableData("Memory", page);
+    const camera = await extractTableData("Main Camera", page);
+    const sounds = await extractTableData("Sound", page);
+    const comms = await extractTableData("Comms", page);
+    const features = await extractTableData("Features", page);
+    const battery = await extractTableData("Battery", page);
+    const misc = await extractTableData("Misc", page);
+    console.log({
+      shortName,
+      fullName,
+      slug,
+      brandName,
+      modelImgPath,
+      releaseDate: translatedReleaseDate,
+      weight,
+      thicknes,
+      os,
+      storage: translatedStorage.replace(/[а-я]/g, ""),
+      ram: translatedRam,
+      processor,
+      screen_duim: screen_duim.replace(/[^0-9.]/g, ""),
+      screen_px: screen_px.split(" ")[0],
+      camera_photo,
+      camera_video,
+      batary_capasity,
+      network,
+      launch,
+      body,
+      display,
+      platform,
+      memory,
+      camera,
+      sounds,
+      comms,
+      features,
+      battery,
+      misc,
+    });
+    await page.waitForTimeout(3000);
+  }
+};

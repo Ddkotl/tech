@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 
 export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
-  const allModelsUrl: string[] = [];
+  const allModelsUrl = [];
   let currentPage: string | null = `https://www.gsmarena.com/${brandUrl}`;
 
   while (currentPage) {
@@ -10,11 +10,12 @@ export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
 
     // Локатор для всех моделей на странице
     const allModelsSinglePage = await page
-      .locator(".makers .main-review a")
+      .locator(".makers > ul > li > a")
       .evaluateAll((elements) =>
-        elements
-          .map((e) => e.getAttribute("href"))
-          .filter((href) => href !== null && href !== undefined),
+        elements.map((e) => ({
+          model: e.querySelector("strong")?.textContent as string,
+          url: e.getAttribute("href") as string,
+        })),
       );
 
     // Добавляем URL моделей в общий массив
@@ -27,7 +28,7 @@ export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
     currentPage = nextPageUrl;
   }
 
-  return allModelsUrl.reverse();
+  return allModelsUrl;
 };
 
 /**

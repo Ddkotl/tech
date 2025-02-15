@@ -163,7 +163,8 @@ model Brands {
 
 model PhoneModels {
   id             String          @id @default(cuid())
-  name           String          @unique // Название модели телефона
+  short_name     String          @unique // Название модели телефона
+  full_name      String          @unique
   slug           String          @unique // URL-совместимый слаг для модели
   brandId        String          @map("brand_id") // Ссылка на бренд
   brand          Brands          @relation(fields: [brandId], references: [id]) // Связь с брендом
@@ -177,6 +178,7 @@ model PhoneModels {
 model Specification {
   id String @id @default(cuid())
 
+  main_image      String
   releaseDate     DateTime // Дата релиза
   weight          Int
   thickness       Int
@@ -189,7 +191,6 @@ model Specification {
   camera_photo    String
   camera_video    String
   batary_capasity String
-  charging        String
 
   network  String
   launch   String
