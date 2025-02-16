@@ -75,10 +75,11 @@ model Reviews {
   content      String
   previewImage String?  @map("preview_image")
   images       String[]
+  views        Int      @default(0)
 
-  views Int @default(0)
-
-  bookmarks ReviewsBookmark[]
+  phoneModelId String            @map("phone_model_id")
+  phoneModel   PhoneModels       @relation(fields: [phoneModelId], references: [id])
+  bookmarks    ReviewsBookmark[]
 
   tags Tag[] @relation("ReviewsTags")
 
@@ -170,7 +171,8 @@ model PhoneModels {
   brand          Brands          @relation(fields: [brandId], references: [id]) // Связь с брендом
   specifications Specification[] // Характеристики модели
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  Reviews   Reviews[]
 
   @@map("phone_models")
 }
@@ -179,32 +181,20 @@ model Specification {
   id String @id @default(cuid())
 
   main_image      String
-  releaseDate     DateTime // Дата релиза
-  weight          Int
-  thickness       Int
+  releaseDate     String // Дата релиза
+  weight          String
+  thickness       String
   oc              String
   storage         String
   ram             String
   processor       String
-  screen_duim     Int
+  screen_duim     String
   screen_px       String
   camera_photo    String
   camera_video    String
   batary_capasity String
 
-  network  String
-  launch   String
-  body     String
-  display  String
-  platform String
-  memory   String
-  camera   String
-  sounds   String
-  comms    String
-  features String
-  batary   String
-  misk     String
-  tests    String
+  description String
 
   phoneModels  PhoneModels @relation(fields: [phoneModelId], references: [id])
   phoneModelId String // Ссылка на модель телефона

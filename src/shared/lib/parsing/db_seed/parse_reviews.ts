@@ -15,6 +15,7 @@ export async function ParseReviews(
   previewImage: string,
   images: string[],
   tags: string[],
+  mobileModelName: string,
 ) {
   const tagPromises = tags.map(async (tag) => {
     const slug = transliterateToUrl(tag);
@@ -56,6 +57,11 @@ export async function ParseReviews(
       images: images,
       tags: {
         connect: createdTags.map((tag) => ({ id: tag.id })), // Соединяем новость с тегами
+      },
+      phoneModel: {
+        connect: {
+          short_name: mobileModelName,
+        },
       },
     },
   });

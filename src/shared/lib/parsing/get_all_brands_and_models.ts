@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 import { parseBrands } from "./db_seed/parse_brands";
 import { getModelsUrlByBrand } from "./get_models_url_by_brand";
 import { checkModelsExisting } from "./db_seed/check_models_existing";
-import { parseModelsByBrand } from "./db_seed/parse_models_by_brand";
+import { getModelsByBrand } from "./functions/get_models_by_brand";
 
 export const getAllBrandsAndModels = async (page: Page) => {
   await page.goto("https://www.gsmarena.com/makers.php3", {
@@ -33,9 +33,8 @@ export const getAllBrandsAndModels = async (page: Page) => {
       if (!article.brandListUrl) continue;
       const modelsUrl = await getModelsUrlByBrand(article.brandListUrl, page);
       const modelNotExist = await checkModelsExisting(modelsUrl);
-      console.log(modelNotExist);
-      await parseModelsByBrand(modelNotExist, article.brand, page);
-      await page.waitForTimeout(5000);
+      await getModelsByBrand(modelNotExist, article.brand, page);
+      await page.waitForTimeout(2000);
     }
   }
 };

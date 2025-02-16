@@ -1,13 +1,16 @@
 import { translate } from "@vitalets/google-translate-api";
+import { translateText } from "../openai/translate_text";
+import { cleaneText } from "./cleane_text";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const safeTranslate = async (text: string) => {
-  await sleep(1500); // 1.5 секунды паузы между запросами
+  await sleep(500);
   try {
-    return (await translate(text, { from: "en", to: "ru" })).text;
+    const translatedByAi = await translateText(text);
+    return cleaneText(translatedByAi);
   } catch (error) {
     console.error("Ошибка перевода:", error);
-    return text; // Если ошибка, вернуть оригинальный текст
+    return (await translate(text, { from: "en", to: "ru" })).text;
   }
 };

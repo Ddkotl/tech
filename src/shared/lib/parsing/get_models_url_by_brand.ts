@@ -28,7 +28,7 @@ export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
     currentPage = nextPageUrl;
   }
 
-  return allModelsUrl;
+  return allModelsUrl.reverse();
 };
 
 /**

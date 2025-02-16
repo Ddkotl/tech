@@ -1,9 +1,10 @@
 import { Page } from "@playwright/test";
 import { transliterateToUrl } from "../../transliteration";
-import { downloadImage } from "../functions/download_image";
-import { extractTableData } from "../functions/extract_model_table_data";
-import { safeTranslate } from "../functions/safe_translate";
-export const parseModelsByBrand = async (
+import { downloadImage } from "./download_image";
+import { safeTranslate } from "./safe_translate";
+import { generateModelDescription } from "../openai/generate_model_description";
+import { parseModel } from "../db_seed/parse_model";
+export const getModelsByBrand = async (
   modelNotExist: {
     model: string;
     url: string;
@@ -24,7 +25,7 @@ export const parseModelsByBrand = async (
       .getAttribute("src");
     const modelImgPath = imgUrl
       ? await downloadImage(imgUrl, slug, "models_main")
-      : null;
+      : "";
 
     const releaseDate = await page
       .locator('span[data-spec="released-hl"]')
@@ -35,13 +36,8 @@ export const parseModelsByBrand = async (
       .locator('span[data-spec="body-hl"]')
       .innerText();
     const splitedWeightAndThicknes = weightAndThicknes.split(",");
-    const weight = parseFloat(
-      splitedWeightAndThicknes[0].replace(/[^0-9.]/g, ""),
-    );
-    const thicknes = parseFloat(
-      splitedWeightAndThicknes[1].replace(/[^0-9.]/g, ""),
-    );
-
+    const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
+    const thicknes = splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "");
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
     const storage = await page
       .locator('span[data-spec="storage-hl"]')
@@ -69,24 +65,14 @@ export const parseModelsByBrand = async (
     const batary_capasity = await page
       .locator('strong[class="accent accent-battery"]')
       .innerText();
-    const network = await extractTableData("Network", page);
-    const launch = await extractTableData("Launch", page);
-    const body = await extractTableData("Body", page);
-    const display = await extractTableData("Display", page);
-    const platform = await extractTableData("Platform", page);
-    const memory = await extractTableData("Memory", page);
-    const camera = await extractTableData("Main Camera", page);
-    const sounds = await extractTableData("Sound", page);
-    const comms = await extractTableData("Comms", page);
-    const features = await extractTableData("Features", page);
-    const battery = await extractTableData("Battery", page);
-    const misc = await extractTableData("Misc", page);
-    console.log({
+    const description = await page.locator('div[id="specs-list"]').innerHTML();
+    const translatedDescription = await generateModelDescription(description);
+    await parseModel({
       shortName,
       fullName,
       slug,
       brandName,
-      modelImgPath,
+      modelImgPath: modelImgPath ? modelImgPath : "placeholder.png",
       releaseDate: translatedReleaseDate,
       weight,
       thicknes,
@@ -99,19 +85,9 @@ export const parseModelsByBrand = async (
       camera_photo,
       camera_video,
       batary_capasity,
-      network,
-      launch,
-      body,
-      display,
-      platform,
-      memory,
-      camera,
-      sounds,
-      comms,
-      features,
-      battery,
-      misc,
+      description: translatedDescription,
     });
+
     await page.waitForTimeout(3000);
   }
 };

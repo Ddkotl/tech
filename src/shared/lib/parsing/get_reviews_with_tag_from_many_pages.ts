@@ -56,19 +56,19 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
 
       const contentPages: string[] = [];
       const allImages: string[] = [];
-      let mobileModelDescriptionUrl: string = "";
+      let mobileModelName: string = "";
       let currentUrl: string | null =
         `https://www.gsmarena.com/${article.link}`;
 
       // Обработка всех страниц обзора
       while (currentUrl) {
         await page.goto(currentUrl, { waitUntil: "domcontentloaded" });
-        if (!mobileModelDescriptionUrl) {
-          const url: string | null = await page
+        if (!mobileModelName) {
+          const shortName: string | null = await page
             .locator(".article-info-meta-link .meta-link-specs > a")
-            .getAttribute("href");
-          if (url) {
-            mobileModelDescriptionUrl = url;
+            .innerText();
+          if (shortName) {
+            mobileModelName = shortName.trim();
           }
         }
         // Извлечение текста текущей страницы
@@ -178,6 +178,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags ? parsedTags : [""],
+        mobileModelName,
       );
     }
   }
