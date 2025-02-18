@@ -1,8 +1,8 @@
-import { dataBaseParse } from "./db_connect";
 import { News, Tag } from "@prisma/client";
 import { delay } from "./delay";
 import { transliterateToUrl } from "../../transliteration";
 import { isTagExist } from "./is_tag_exist";
+import { dataBase } from "../../db_conect";
 
 export async function ParseNews(
   metaTitle: string,
@@ -20,7 +20,7 @@ export async function ParseNews(
     const slug = transliterateToUrl(tag);
     const isTagE = await isTagExist(slug);
     if (!isTagE) {
-      return await dataBaseParse.tag.upsert({
+      return await dataBase.tag.upsert({
         where: { title: tag },
         update: {}, // Если тег существует, ничего не изменяем
         create: { title: tag, slug: slug }, // Если нет, создаем новый
@@ -34,7 +34,7 @@ export async function ParseNews(
   const addedTags = await Promise.all(tagPromises);
   const createdTags: Tag[] = addedTags.filter((el) => el !== undefined);
   // Добавляем новость в базу
-  await dataBaseParse.newsParsedTitles.upsert({
+  await dataBase.newsParsedTitles.upsert({
     where: { title: ingTitle },
     update: {},
     create: {
@@ -42,7 +42,7 @@ export async function ParseNews(
     },
   });
 
-  const createdNews: News = await dataBaseParse.news.upsert({
+  const createdNews: News = await dataBase.news.upsert({
     where: { title: ruTitle },
     update: {},
     create: {

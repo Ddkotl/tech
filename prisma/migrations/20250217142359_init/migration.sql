@@ -132,6 +132,7 @@ CREATE TABLE "phone_models" (
     "full_name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "brand_id" TEXT NOT NULL,
+    "main_image" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "phone_models_pkey" PRIMARY KEY ("id")
@@ -140,7 +141,6 @@ CREATE TABLE "phone_models" (
 -- CreateTable
 CREATE TABLE "specification" (
     "id" TEXT NOT NULL,
-    "main_image" TEXT NOT NULL,
     "releaseDate" TEXT NOT NULL,
     "weight" TEXT NOT NULL,
     "thickness" TEXT NOT NULL,

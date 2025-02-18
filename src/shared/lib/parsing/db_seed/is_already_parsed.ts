@@ -1,7 +1,7 @@
-import { dataBaseParse } from "./db_connect";
+import { dataBase } from "../../db_conect";
 
 export const IsNewsAlresdyParsed = async (title: string) => {
-  const isTitliExist = await dataBaseParse.newsParsedTitles.findFirst({
+  const isTitliExist = await dataBase.newsParsedTitles.findFirst({
     where: {
       title: title,
     },
@@ -16,7 +16,7 @@ export const IsNewsAlresdyParsed = async (title: string) => {
 export const IsReviewAlreadyParsed = async (
   title: string,
 ): Promise<boolean> => {
-  const isTitliExist = await dataBaseParse.reviewsParsedTitles.findFirst({
+  const isTitliExist = await dataBase.reviewsParsedTitles.findFirst({
     where: {
       title: title,
     },

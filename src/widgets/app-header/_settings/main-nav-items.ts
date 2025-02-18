@@ -16,4 +16,8 @@ export const mainNavItems: NavItems[] = [
     name: "Обзоры",
     path: "/reviews",
   },
+  {
+    name: "Брэнды",
+    path: "/brands",
+  },
 ];

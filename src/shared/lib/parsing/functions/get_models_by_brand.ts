@@ -21,7 +21,7 @@ export const getModelsByBrand = async (
     const slug = transliterateToUrl(fullName);
 
     const imgUrl = await page
-      .locator(".specs-photo-main > a >img")
+      .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
       ? await downloadImage(imgUrl, slug, "models_main")
@@ -37,7 +37,9 @@ export const getModelsByBrand = async (
       .innerText();
     const splitedWeightAndThicknes = weightAndThicknes.split(",");
     const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
-    const thicknes = splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "");
+    const thicknes = splitedWeightAndThicknes[1]
+      ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
+      : "";
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
     const storage = await page
       .locator('span[data-spec="storage-hl"]')

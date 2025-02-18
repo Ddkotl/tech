@@ -1,5 +1,5 @@
 import { PhoneModels } from "@prisma/client";
-import { dataBaseParse } from "./db_connect";
+import { dataBase } from "../../db_conect";
 
 export const parseModel = async ({
   shortName,
@@ -41,13 +41,14 @@ export const parseModel = async ({
   description: string;
 }) => {
   try {
-    const createdModel: PhoneModels = await dataBaseParse.phoneModels.upsert({
+    const createdModel: PhoneModels = await dataBase.phoneModels.upsert({
       where: { short_name: shortName },
       update: {},
       create: {
         full_name: fullName,
         short_name: shortName,
         slug: slug,
+        main_image: modelImgPath,
         brand: {
           connect: {
             name: brandName,
@@ -55,7 +56,6 @@ export const parseModel = async ({
         },
         specifications: {
           create: {
-            main_image: modelImgPath,
             releaseDate: releaseDate,
             weight: weight,
             thickness: thicknes,
