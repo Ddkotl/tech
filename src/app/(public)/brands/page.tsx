@@ -1,71 +1,74 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Container,
-} from "@/shared/components";
-import { dataBase } from "@/shared/lib/db_conect";
-import { Prisma } from "@prisma/client";
-import Link from "next/link";
+import { getBrandsListWithModelsCountAndPaginaton } from "@/entities/brands";
+import { BrandList } from "@/entities/brands/_ui/brands_list";
+import { generateSEOMetadata } from "@/features/seo/generate_metadata";
+import { Container } from "@/shared/components";
+import { PaginationControl } from "@/shared/components/custom/pagination-control";
+import { Metadata } from "next";
 
-const getBrandsList = async (): Promise<
-  | Prisma.BrandsGetPayload<{
-      include: {
-        _count: { select: { phones: true } };
-      };
-    }>[]
-  | undefined
-> => {
-  try {
-    const brands = await dataBase.brands.findMany({
-      orderBy: {
-        name: "asc",
-      },
-      include: {
-        _count: { select: { phones: true } },
-      },
-    });
-    return brands;
-  } catch (error) {
-    console.log(error);
-  }
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}): Promise<Metadata> {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const pageTitle =
+    page > 1 ? `Брэнды телефонов - Страница ${page}` : "Брэнды телефонов";
+  const pageDescription =
+    page > 1
+      ? `Страница ${page} списка всех доступных брэндов современных смартфонов`
+      : "Список всех доступных брэндов современных смартфонов";
+  const canonicalUrl =
+    page > 1
+      ? `https://tech24view.ru/brands?page=${page}`
+      : "https://tech24view.ru/brands";
 
-const getModelDeclension = (count: number) => {
-  if (count % 10 === 1 && count % 100 !== 11) return "модель";
-  if (
-    count % 10 >= 2 &&
-    count % 10 <= 4 &&
-    (count % 100 < 10 || count % 100 >= 20)
-  )
-    return "модели";
-  return "моделей";
-};
+  return generateSEOMetadata({
+    title: pageTitle,
+    description: pageDescription,
+    keywords: [
+      "брэнды",
+      "брэнды смартфонов",
+      "технологии",
+      "смартфоны",
+      "обзоры",
+      "новости",
+      "новости смартфонов",
+      "гаджеты",
+      "мобильные телефоны",
+      "инновации",
+    ],
+    ogImage: "/logo_opengraf.jpg",
+    canonical: canonicalUrl,
+  });
+}
 
-export default async function BrandsPage() {
-  const brands = await getBrandsList();
+export default async function BrandsPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const pageSize = 10;
+  const { brands, totalBrandsCount } =
+    await getBrandsListWithModelsCountAndPaginaton(page, pageSize);
+  const totalPages = Math.ceil(totalBrandsCount / pageSize);
+
   return (
-    <Container>
-      <div className=" grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 md:gap-4 auto-rows-fr">
-        {brands?.map((brand) => (
-          <Link key={brand.id} href={`brands/${brand.slug}`}>
-            <Card className="p-0 shadow-md transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10 flex flex-col items-center">
-              <CardHeader className="p-1 sm:p-2">
-                <CardTitle className="first-letter:uppercase">
-                  {brand.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-1 sm:p-2">
-                <p className="text-sm text-muted-foreground ">
-                  {brand._count.phones}{" "}
-                  {getModelDeclension(brand._count.phones)}
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>{" "}
+    <Container className="h-full flex flex-col flex-1 ">
+      <section className="flex flex-col flex-1   gap-4 md:gap-10">
+        {brands && brands.length > 0 ? (
+          <BrandList brands={brands} />
+        ) : (
+          <p className="text-center text-muted-foreground">
+            Нет доступных брендов
+          </p>
+        )}
+        <PaginationControl
+          currentPage={page}
+          totalPages={totalPages}
+          className="mt-auto "
+        />
+      </section>
     </Container>
   );
 }

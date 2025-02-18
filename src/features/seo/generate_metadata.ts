@@ -8,7 +8,7 @@ interface MetadataProps {
   canonical?: string;
 }
 
-export function generateMetadata({
+export function generateSEOMetadata({
   title,
   description,
   keywords,

@@ -168,7 +168,7 @@ model PhoneModels {
   full_name      String          @unique
   slug           String          @unique // URL-совместимый слаг для модели
   brandId        String          @map("brand_id") // Ссылка на бренд
-  brand          Brands          @relation(fields: [brandId], references: [id]) // Связь с брендом
+  brand          Brands          @relation(fields: [brandId], references: [id], onDelete: Cascade) // Связь с брендом
   specifications Specification[] // Характеристики модели
   main_image     String
   createdAt      DateTime        @default(now())
@@ -195,7 +195,7 @@ model Specification {
 
   description String
 
-  phoneModels  PhoneModels @relation(fields: [phoneModelId], references: [id])
+  phoneModels  PhoneModels @relation(fields: [phoneModelId], references: [id], onDelete: Cascade)
   phoneModelId String // Ссылка на модель телефона
 
   @@map("specification")

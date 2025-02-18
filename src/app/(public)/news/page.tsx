@@ -1,9 +1,9 @@
 import { getNews } from "@/features/news/news-list/_action/get-news-action";
 import NewsList from "@/features/news/news-list/news-list";
-import { generateMetadata } from "@/features/seo/generate_metadata";
+import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Metadata } from "next";
 
-export const metadata: Metadata = generateMetadata({
+export const metadata: Metadata = generateSEOMetadata({
   title: "Новости",
   description:
     "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",

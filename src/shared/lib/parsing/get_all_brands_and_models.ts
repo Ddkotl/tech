@@ -26,11 +26,13 @@ export const getAllBrandsAndModels = async (page: Page) => {
             e.brandListUrl !== null,
         );
     });
-
   for (const article of articles) {
     if (article.brand) {
       await parseBrands(article.brand);
-      if (!article.brandListUrl) continue;
+    }
+  }
+  for (const article of articles) {
+    if (article.brand && article.brandListUrl) {
       const modelsUrl = await getModelsUrlByBrand(article.brandListUrl, page);
       const modelNotExist = await checkModelsExisting(modelsUrl);
       await getModelsByBrand(modelNotExist, article.brand, page);

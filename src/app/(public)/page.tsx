@@ -1,12 +1,12 @@
 import { Metadata } from "next";
-import { generateMetadata } from "@/features/seo/generate_metadata";
+import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { NewsCarousel } from "@/entities/news/_ui/news-carusel";
 import { Button } from "@/shared/components";
 import Link from "next/link";
 import { getLatestNewsAction } from "@/entities/news/_actons/get_newest_news_action";
 import { NewsWithIncludes } from "@/entities/news";
 
-export const metadata: Metadata = generateMetadata({
+export const metadata: Metadata = generateSEOMetadata({
   title: "Главная",
   description:
     "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",

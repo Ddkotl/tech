@@ -278,10 +278,10 @@ ALTER TABLE "reviews_bookmarks" ADD CONSTRAINT "reviews_bookmarks_user_id_fkey" 
 ALTER TABLE "reviews_bookmarks" ADD CONSTRAINT "reviews_bookmarks_reviews_id_fkey" FOREIGN KEY ("reviews_id") REFERENCES "reviews"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "phone_models" ADD CONSTRAINT "phone_models_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "brands"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "phone_models" ADD CONSTRAINT "phone_models_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "brands"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "specification" ADD CONSTRAINT "specification_phoneModelId_fkey" FOREIGN KEY ("phoneModelId") REFERENCES "phone_models"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "specification" ADD CONSTRAINT "specification_phoneModelId_fkey" FOREIGN KEY ("phoneModelId") REFERENCES "phone_models"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_NewsTags" ADD CONSTRAINT "_NewsTags_A_fkey" FOREIGN KEY ("A") REFERENCES "news"("id") ON DELETE CASCADE ON UPDATE CASCADE;

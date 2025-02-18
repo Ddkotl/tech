@@ -1,7 +1,7 @@
-import { generateMetadata } from "@/features/seo/generate_metadata";
+import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Metadata } from "next";
 
-export const metadata: Metadata = generateMetadata({
+export const metadata: Metadata = generateSEOMetadata({
   title: "Обзоры",
   description:
     "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",

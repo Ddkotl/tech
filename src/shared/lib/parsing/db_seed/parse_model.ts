@@ -41,6 +41,14 @@ export const parseModel = async ({
   description: string;
 }) => {
   try {
+    const existingModel = await dataBase.phoneModels.findUnique({
+      where: { slug },
+    });
+
+    if (existingModel) {
+      console.log(`Модель с таким slug уже существует: ${slug}`);
+      return; // Вернуть существующую запись или обработать ошибку
+    }
     const createdModel: PhoneModels = await dataBase.phoneModels.upsert({
       where: { short_name: shortName },
       update: {},

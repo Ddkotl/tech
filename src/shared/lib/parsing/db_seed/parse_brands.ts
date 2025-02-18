@@ -12,7 +12,6 @@ export const parseBrands = async (brandName: string) => {
         slug: brandSlug,
       },
     });
-    console.log(`Brand "${brandName}" processed successfully.`);
   } catch (error) {
     console.error(`Error processing brand "${brandName}":`, error);
   }
