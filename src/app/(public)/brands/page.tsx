@@ -48,7 +48,7 @@ export default async function BrandsPage({
   searchParams: { page?: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageSize = 10;
+  const pageSize = 30;
   const { brands, totalBrandsCount } =
     await getBrandsListWithModelsCountAndPaginaton(page, pageSize);
   const totalPages = Math.ceil(totalBrandsCount / pageSize);
@@ -66,6 +66,8 @@ export default async function BrandsPage({
         <PaginationControl
           currentPage={page}
           totalPages={totalPages}
+          pageSize={pageSize}
+          totalItems={totalBrandsCount}
           className="mt-auto "
         />
       </section>
