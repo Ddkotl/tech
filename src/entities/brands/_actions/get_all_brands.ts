@@ -1,14 +1,8 @@
 "use server";
 import { dataBase } from "@/shared/lib/db_conect";
-import { Prisma } from "@prisma/client";
+import { BrandWithModelsCount } from "../_domain/types";
 
-export const getAllBrands = async (): Promise<
-  Prisma.BrandsGetPayload<{
-    include: {
-      _count: { select: { phones: true } };
-    };
-  }>[]
-> => {
+export const getAllBrands = async (): Promise<BrandWithModelsCount[]> => {
   try {
     const brands = await dataBase.brands.findMany({
       orderBy: {

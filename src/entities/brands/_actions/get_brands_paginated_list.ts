@@ -1,16 +1,12 @@
 "use server";
 import { dataBase } from "@/shared/lib/db_conect";
-import { Prisma } from "@prisma/client";
+import { BrandWithModelsCount } from "../_domain/types";
 
 export const getBrandsListWithModelsCountAndPaginaton = async (
   page: number,
   pageSize: number,
 ): Promise<{
-  brands: Prisma.BrandsGetPayload<{
-    include: {
-      _count: { select: { phones: true } };
-    };
-  }>[];
+  brands: BrandWithModelsCount[];
   totalBrandsCount: number;
 }> => {
   try {
