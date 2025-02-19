@@ -1,17 +1,9 @@
-import { Prisma } from "@prisma/client";
 import { BrandCard } from "./brand_card";
+import { BrandWithModelsCount } from "../_domain/types";
 
-export function BrandList({
-  brands,
-}: {
-  brands: Prisma.BrandsGetPayload<{
-    include: {
-      _count: { select: { phones: true } };
-    };
-  }>[];
-}) {
+export function BrandList({ brands }: { brands: BrandWithModelsCount[] }) {
   return (
-    <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 md:gap-4 auto-rows-fr">
+    <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 md:gap-3 auto-rows-fr">
       {brands?.map((brand) => (
         <BrandCard
           key={brand.id}

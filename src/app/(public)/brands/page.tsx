@@ -60,9 +60,14 @@ export default async function BrandsPage({
 
   return (
     <Container className="h-full flex flex-col flex-1 ">
-      <section className="flex flex-col flex-1   gap-4 md:gap-8">
-        <div>
-          <BrandSearch brands={allBrands} />
+      <section className="flex flex-col flex-1   gap-2 md:gap-4">
+        <div className="flex gap-2 flex-col">
+          <div className="flex flex-col md:flex-row justify-between items-center w-full">
+            <h1 className="text-lg lg:text-2xl w-full gap-4 text-center md:text-start">
+              Брэнды мобильных телефонов
+            </h1>
+            <BrandSearch brands={allBrands} />
+          </div>
           {brands && brands.length > 0 ? (
             <BrandList brands={brands} />
           ) : (

@@ -62,14 +62,17 @@ export function BrandSearch({
   }, [isOpen]);
 
   return (
-    <div className={cn(`relative w-full `, className)}>
+    <div className="relative w-full  ">
       {/* Поле ввода */}
       <Input
         type="text"
         placeholder="🔍 Поиск бренда по названию..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full max-w-md mx-auto mb-4 "
+        className={cn(
+          "w-full max-w-lg text-center mx-auto md:ml-auto md:mr-0 ",
+          className,
+        )}
       />
 
       {/* Модальное окно с результатами */}
@@ -80,9 +83,7 @@ export function BrandSearch({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.9 }}
           transition={{ duration: 0.4 }}
-          className={cn(
-            "absolute   w-full max-w-xs -translate-x-1/2 rounded-lg border  p-4 shadow-lg bg-background border-foreground/60",
-          )}
+          className="absolute w-full max-w-xs -translate-x-1/2 rounded-lg border  p-4 shadow-lg bg-background border-foreground/20"
         >
           {filteredBrands.length > 0 ? (
             <BrandList brands={filteredBrands} />
