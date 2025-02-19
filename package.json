@@ -45,6 +45,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "embla-carousel-react": "^8.5.2",
+    "framer-motion": "^12.4.4",
     "husky": "^9.1.7",
     "lint-staged": "^15.3.0",
     "lodash-es": "^4.17.21",

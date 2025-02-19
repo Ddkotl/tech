@@ -13,7 +13,7 @@ export function BrandCard({
 }) {
   return (
     <Link href={`brands/${brandSlug}`}>
-      <Card className="p-0 h-full flex flex-col justify-evenly shadow-md transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10  items-center">
+      <Card className="p-0 h-24  flex flex-col justify-evenly shadow-md transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10  items-center">
         <CardHeader className="p-1 sm:p-2 flex items-center justify-center text-center">
           <CardTitle className=" uppercase text-sm sm:text-base ">
             {brandName}

@@ -1,4 +1,8 @@
-import { getBrandsListWithModelsCountAndPaginaton } from "@/entities/brands";
+import {
+  getAllBrands,
+  getBrandsListWithModelsCountAndPaginaton,
+} from "@/entities/brands";
+import { BrandSearch } from "@/entities/brands/_ui/brand_search";
 import { BrandList } from "@/entities/brands/_ui/brands_list";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Container } from "@/shared/components";
@@ -48,21 +52,25 @@ export default async function BrandsPage({
   searchParams: { page?: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageSize = 30;
+  const pageSize = 36;
+  const allBrands = await getAllBrands();
   const { brands, totalBrandsCount } =
     await getBrandsListWithModelsCountAndPaginaton(page, pageSize);
   const totalPages = Math.ceil(totalBrandsCount / pageSize);
 
   return (
     <Container className="h-full flex flex-col flex-1 ">
-      <section className="flex flex-col flex-1   gap-4 md:gap-10">
-        {brands && brands.length > 0 ? (
-          <BrandList brands={brands} />
-        ) : (
-          <p className="text-center text-muted-foreground">
-            Нет доступных брендов
-          </p>
-        )}
+      <section className="flex flex-col flex-1   gap-4 md:gap-8">
+        <div>
+          <BrandSearch brands={allBrands} />
+          {brands && brands.length > 0 ? (
+            <BrandList brands={brands} />
+          ) : (
+            <p className="text-center text-muted-foreground">
+              Нет доступных брендов
+            </p>
+          )}
+        </div>
         <PaginationControl
           currentPage={page}
           totalPages={totalPages}
