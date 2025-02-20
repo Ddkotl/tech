@@ -1,6 +1,9 @@
 import cuid from "cuid";
 
-export const getImageName = (text?: string | undefined): string => {
+export const getImageName = (
+  convert_to_png: boolean,
+  text?: string | undefined,
+): string => {
   const sanitizedTitle = text
     ?.toLowerCase()
     .replace(/[^a-z0-9]+/g, "_") // Заменяем любые не буквы/цифры на "_"
@@ -9,5 +12,5 @@ export const getImageName = (text?: string | undefined): string => {
 
   const uniqueId = cuid();
 
-  return `${sanitizedTitle}_${uniqueId}.jpg`;
+  return `${sanitizedTitle}_${uniqueId}.${convert_to_png ? "png" : "jpg"}`;
 };

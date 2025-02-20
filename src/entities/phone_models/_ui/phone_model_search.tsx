@@ -5,7 +5,7 @@ import { Input } from "@/shared/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { PartialPhoneModel } from "../_domain/types";
 import { searchPhoneModel } from "../_actions/search_phone_model";
-import { PhoneModelsList } from "./phome_model_list";
+import { PhoneModelsList } from "./phone_model_list";
 
 export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
   const [searchTerm, setSearchTerm] = useState("");

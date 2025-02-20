@@ -11,7 +11,9 @@ export const translateText = async (text: string): Promise<string> => {
       {
         role: "user",
         content: `Переведи данный текст на руский язык:
-        text: ${text}`,
+        text: ${text}
+        
+        Не добавляй свои комментарии,вопросы, пояснения, символы(\`'"/|\<>*)`,
       },
     ],
     temperature: 0,

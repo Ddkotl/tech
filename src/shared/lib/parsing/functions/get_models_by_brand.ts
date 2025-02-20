@@ -24,13 +24,14 @@ export const getModelsByBrand = async (
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImage(imgUrl, slug, "models_main")
+      ? await downloadImage(imgUrl, slug, "models_main", false)
       : "";
-
     const releaseDate = await page
       .locator('span[data-spec="released-hl"]')
       .innerText();
-    const translatedReleaseDate = await safeTranslate(releaseDate);
+    const translatedReleaseDate = await safeTranslate(
+      releaseDate.replace(/Released/g, ""),
+    );
 
     const weightAndThicknes = await page
       .locator('span[data-spec="body-hl"]')
@@ -40,6 +41,7 @@ export const getModelsByBrand = async (
     const thicknes = splitedWeightAndThicknes[1]
       ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
       : "";
+
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
     const storage = await page
       .locator('span[data-spec="storage-hl"]')
@@ -48,6 +50,7 @@ export const getModelsByBrand = async (
     const ram = await page
       .locator('strong[class="accent accent-expansion"]')
       .innerText();
+
     const translatedRam = await safeTranslate(ram);
     const processor = await page
       .locator('div[data-spec="chipset-hl"]')
@@ -58,6 +61,7 @@ export const getModelsByBrand = async (
     const screen_px = await page
       .locator('div[data-spec="displayres-hl"]')
       .innerText();
+
     const camera_photo = await page
       .locator('strong[class="accent accent-camera"]')
       .innerText();
@@ -75,18 +79,18 @@ export const getModelsByBrand = async (
       slug,
       brandName,
       modelImgPath: modelImgPath ? modelImgPath : "placeholder.png",
-      releaseDate: translatedReleaseDate,
+      releaseDate: translatedReleaseDate.replace(/[:'";]/g, ""),
       weight,
       thicknes,
       os,
-      storage: translatedStorage.replace(/[а-я]/g, ""),
-      ram: translatedRam,
+      storage: translatedStorage.replace(/[а-я:'";ОЗУП]/g, ""),
+      ram: translatedRam.replace(/[а-яОЗУРАМ:'";]/g, ""),
       processor,
       screen_duim: screen_duim.replace(/[^0-9.]/g, ""),
       screen_px: screen_px.split(" ")[0],
-      camera_photo,
+      camera_photo: camera_photo.replace(/MP/gi, "МП"),
       camera_video,
-      batary_capasity,
+      batary_capasity: batary_capasity.replace(/mAh/gi, "мАч"),
       description: translatedDescription,
     });
 
