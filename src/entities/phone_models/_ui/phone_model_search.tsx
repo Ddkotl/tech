@@ -2,22 +2,22 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { Input } from "@/shared/components/ui/input";
-import { BrandList } from "@/entities/brands/_ui/brands_list";
 import { motion, AnimatePresence } from "framer-motion";
-import { searchBrands } from "../_actions/search_brand";
-import { BrandWithModelsCount } from "../_domain/types";
+import { PartialPhoneModel } from "../_domain/types";
+import { searchPhoneModel } from "../_actions/search_phone_model";
+import { PhoneModelsList } from "./phome_model_list";
 
-export function BrandSearch() {
+export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredBrands, setFilteredBrands] = useState<
-    BrandWithModelsCount[] | []
+  const [filteredPhoneModels, setFilteredPhoneModels] = useState<
+    PartialPhoneModel[] | []
   >([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, startTransition] = useTransition();
 
   useEffect(() => {
     if (!searchTerm.trim()) {
-      setFilteredBrands([]);
+      setFilteredPhoneModels([]);
       setIsOpen(false);
       return;
     }
@@ -26,20 +26,20 @@ export function BrandSearch() {
     const timeout = setTimeout(() => {
       startTransition(async () => {
         setIsOpen(true); // Открываем модалку сразу, чтобы показать "Загрузка..."
-        const results = await searchBrands(searchTerm);
-        setFilteredBrands(results);
+        const results = await searchPhoneModel(brandSlug, searchTerm);
+        setFilteredPhoneModels(results);
       });
     }, 700);
 
     return () => clearTimeout(timeout);
-  }, [searchTerm]);
+  }, [searchTerm, brandSlug]);
 
   return (
     <div className="relative w-full">
       {/* Поле ввода */}
       <Input
         type="text"
-        placeholder="🔍 Поиск бренда по названию..."
+        placeholder="🔍 Поиск модели текущего брэнда..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full max-w-lg text-center mx-auto md:ml-auto md:mr-0"
@@ -73,8 +73,8 @@ export function BrandSearch() {
 
               {loading ? (
                 <p className="text-center text-muted-foreground">Загрузка...</p>
-              ) : filteredBrands.length > 0 ? (
-                <BrandList brands={filteredBrands} />
+              ) : filteredPhoneModels.length > 0 ? (
+                <PhoneModelsList models={filteredPhoneModels} />
               ) : (
                 <p className="text-center text-muted-foreground">
                   Бренды не найдены
