@@ -1,7 +1,4 @@
-import {
-  getAllBrands,
-  getBrandsListWithModelsCountAndPaginaton,
-} from "@/entities/brands";
+import { getBrandsListWithModelsCountAndPaginaton } from "@/entities/brands";
 import { BrandSearch } from "@/entities/brands/_ui/brand_search";
 import { BrandList } from "@/entities/brands/_ui/brands_list";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
@@ -53,7 +50,6 @@ export default async function BrandsPage({
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = 36;
-  const allBrands = await getAllBrands();
   const { brands, totalBrandsCount } =
     await getBrandsListWithModelsCountAndPaginaton(page, pageSize);
   const totalPages = Math.ceil(totalBrandsCount / pageSize);
@@ -66,7 +62,7 @@ export default async function BrandsPage({
             <h1 className="text-lg lg:text-2xl w-full gap-4 text-center md:text-start">
               Брэнды мобильных телефонов
             </h1>
-            <BrandSearch brands={allBrands} />
+            <BrandSearch />
           </div>
           {brands && brands.length > 0 ? (
             <BrandList brands={brands} />
@@ -77,6 +73,7 @@ export default async function BrandsPage({
           )}
         </div>
         <PaginationControl
+          basePath="/brands"
           currentPage={page}
           totalPages={totalPages}
           pageSize={pageSize}

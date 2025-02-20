@@ -11,12 +11,14 @@ import {
 } from "../ui/pagination";
 
 export function PaginationControl({
+  basePath,
   currentPage,
   totalPages,
   pageSize,
   totalItems,
   className,
 }: {
+  basePath: string;
   currentPage: number;
   totalPages: number;
   pageSize: number;
@@ -27,7 +29,7 @@ export function PaginationControl({
 
   // Функция для перехода на другую страницу
   const handlePageChange = (page: number) => {
-    router.push(`/brands?page=${page}`);
+    router.push(`${basePath}?page=${page}`);
   };
 
   // Функция для генерации диапазона страниц
