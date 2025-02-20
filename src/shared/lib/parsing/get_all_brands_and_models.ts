@@ -31,6 +31,7 @@ export const getAllBrandsAndModels = async (page: Page) => {
       await parseBrands(article.brand);
     }
   }
+  console.log("brands parsed");
   for (const article of articles) {
     if (article.brand && article.brandListUrl) {
       const modelsUrl = await getModelsUrlByBrand(article.brandListUrl, page);

@@ -3,14 +3,16 @@ import { getImageName } from "./get_image_name";
 import { replaceWatermarkWithSharp } from "./add_watermarck";
 
 import { fileStorage } from "../../file-storage";
+import { convertToPNG } from "./convert_to_png";
 
 export const downloadImage = async (
   url: string,
   textForFilename: string | undefined,
   imgDir: string,
+  convert_to_png: boolean = false,
 ) => {
   try {
-    const imgName = getImageName(textForFilename);
+    const imgName = getImageName(convert_to_png, textForFilename);
     const response = await axios.get(url, {
       responseType: "arraybuffer",
       headers: {
@@ -25,7 +27,12 @@ export const downloadImage = async (
     const blob = new Blob([response.data], { type: contentType });
 
     // Создаем File из Blob (если имя файла известно)
-    const file = new File([blob], imgName, { type: contentType });
+    let file = new File([blob], imgName, { type: contentType });
+
+    if (convert_to_png) {
+      file = await convertToPNG(file);
+    }
+
     const storedFile = await fileStorage.uploadImage(file, imgDir, imgName);
 
     await replaceWatermarkWithSharp(storedFile.path, "tech24view.ru");

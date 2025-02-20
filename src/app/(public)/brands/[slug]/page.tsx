@@ -2,12 +2,14 @@ import { Container } from "@/shared/components";
 import { getBrandBySlug } from "@/entities/brands/_actions/get_brand_by_slug";
 import {
   getPhoneModelsListWithPaginaton,
+  PartialPhoneModel,
   PhoneModelSearch,
   PhoneModelsList,
 } from "@/entities/phone_models";
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
+import { BrandWithModelsCount } from "@/entities/brands";
 
 export async function generateMetadata({
   params,
@@ -16,16 +18,15 @@ export async function generateMetadata({
   params: { slug: string };
   searchParams: { page?: string };
 }): Promise<Metadata> {
-  const brand = await getBrandBySlug(params.slug);
+  const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
+  const brandName = brand?.name.toUpperCase();
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageTitle =
-    page > 1
-      ? `Модели ${brand?.name} - Страница ${page}`
-      : "Модели ${brand?.name}";
+    page > 1 ? `Модели ${brandName} - Страница ${page}` : `Модели ${brandName}`;
   const pageDescription =
     page > 1
-      ? `Страница ${page} списка всех доступных моделей ${brand?.name}`
-      : `Список всех доступных моделей ${brand?.name}`;
+      ? `Страница ${page} списка всех доступных моделей ${brandName}`
+      : `Список всех доступных моделей ${brandName}`;
   const canonicalUrl =
     page > 1
       ? `https://tech24view.ru/brands/${params.slug}?page=${page}`
@@ -35,10 +36,10 @@ export async function generateMetadata({
     title: pageTitle,
     description: pageDescription,
     keywords: [
-      `новинки ${brand?.name}`,
-      `смартфоны ${brand?.name}`,
-      `${brand?.name}`,
-      `Модели ${brand?.name}`,
+      `новинки ${brandName}`,
+      `смартфоны ${brandName}`,
+      `${brandName}`,
+      `Модели ${brandName}`,
       "брэнды смартфонов",
       "технологии",
       "смартфоны",
@@ -63,10 +64,9 @@ export default async function ModelsByBrandPage({
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = 30;
-  const [brand, models] = await Promise.all([
-    getBrandBySlug(params.slug),
-    getPhoneModelsListWithPaginaton(params.slug, page, pageSize),
-  ]);
+  const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
+  const models: PartialPhoneModel[] | [] =
+    await getPhoneModelsListWithPaginaton(params.slug, page, pageSize);
 
   if (!brand) {
     return (

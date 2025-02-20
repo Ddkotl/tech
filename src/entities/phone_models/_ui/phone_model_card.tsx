@@ -5,8 +5,8 @@ import Image from "next/image";
 
 export function PhoneModelCard({ model }: { model: PartialPhoneModel }) {
   return (
-    <Link href={`/phone_model/${model.id}`}>
-      <Card className="shadow-md transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10  p-0 h-full flex flex-col ">
+    <Link href={`/phone_model/${model.slug}`}>
+      <Card className=" shadow-md transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10  p-0 h-full flex flex-col ">
         <CardContent className="p-1">
           <Image
             src={model.main_image}

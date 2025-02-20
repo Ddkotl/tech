@@ -13,7 +13,7 @@ export const getPhoneModelsListWithPaginaton = async (
       orderBy: {
         createdAt: "desc",
       },
-      select: { id: true, short_name: true, main_image: true },
+      select: { id: true, short_name: true, main_image: true, slug: true },
 
       skip: (page - 1) * pageSize,
       take: pageSize,

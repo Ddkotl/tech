@@ -8,7 +8,7 @@ export const getPhoneModelsByBrandSlug = async (
     return await dataBase.phoneModels.findMany({
       where: { brand: { slug: brandSlug } },
       orderBy: { createdAt: "desc" },
-      select: { id: true, short_name: true, main_image: true },
+      select: { id: true, short_name: true, main_image: true, slug: true },
     });
   } catch (error) {
     console.error("Error fetching phone models:", error);
