@@ -1,26 +1,21 @@
 "use server";
 
 import { dataBase } from "@/shared/lib/db_conect";
-import { PhoneModeLFullInfo } from "../_domain/types";
+import { PartialPhoneModel } from "../_domain/types";
 
-export async function getPhoneModelInfo(
+export async function getPhoneModeBySlug(
   slug: string,
-): Promise<PhoneModeLFullInfo | null> {
+): Promise<PartialPhoneModel | null> {
   try {
     return await dataBase.phoneModels.findUnique({
       where: { slug },
-      include: {
-        specifications: true,
-        Reviews: {
-          select: {
-            id: true,
-            createdAt: true,
-            previewImage: true,
-            slug: true,
-            views: true,
-            title: true,
-          },
-        },
+      select: {
+        short_name: true,
+        full_name: true,
+
+        id: true,
+        slug: true,
+        main_image: true,
       },
     });
   } catch (error) {

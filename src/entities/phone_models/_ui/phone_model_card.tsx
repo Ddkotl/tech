@@ -15,8 +15,6 @@ export function PhoneModelCard({ model }: { model: PartialPhoneModel }) {
             height={146.5}
             className="w-14 h-20 object-fill mx-auto rounded-md" // Задаем фиксированные размеры
             priority
-            placeholder="blur"
-            blurDataURL="/placeholder.png"
           />
         </CardContent>
         <CardFooter className="flex justify-center p-1">
