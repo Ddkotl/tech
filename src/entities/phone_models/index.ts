@@ -3,3 +3,6 @@ export type { PartialPhoneModel, PhoneModeLFullInfo } from "./_domain/types";
 export { getPhoneModelsListWithPaginaton } from "./_actions/get_models_paginated_list";
 export { PhoneModelsList } from "./_ui/phone_model_list";
 export { PhoneModelSearch } from "./_ui/phone_model_search";
+export { getPhoneModeBySlug } from "./_actions/get_model_by_slug";
+export { LastModels } from "./_ui/last_models";
+export { SimilarModels } from "./_ui/similar_models";

@@ -1,10 +1,50 @@
 import parse from "html-react-parser";
 
 import styles from "./content.module.css";
-import { getPhoneModelInfo } from "@/entities/phone_models/_actions/get_model_by_slug";
-import { PhoneModeLFullInfo } from "@/entities/phone_models";
+import { getPhoneModelInfo } from "@/entities/phone_models/_actions/get_model_info_by_slug";
+import {
+  getPhoneModeBySlug,
+  LastModels,
+  PartialPhoneModel,
+  PhoneModeLFullInfo,
+  SimilarModels,
+} from "@/entities/phone_models";
 import { PhoneModelLargeCard } from "@/entities/phone_models/_ui/phone_model_large_card";
-import { Container } from "@/shared/components";
+import { Container, ContentContainer } from "@/shared/components";
+import { Metadata } from "next";
+import { generateSEOMetadata } from "@/features/seo/generate_metadata";
+import { Sidebar } from "@/widgets/sidebar/app-sidebar";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const phone: PartialPhoneModel | null = await getPhoneModeBySlug(params.slug);
+
+  return generateSEOMetadata({
+    title: phone?.full_name ? phone?.full_name : "",
+    description: `Характеристики и описание модели: ${phone?.full_name}`,
+    keywords: [
+      `${phone?.full_name}`,
+      `${phone?.short_name}`,
+      `Характеристики ${phone?.full_name}`,
+      `Описание ${phone?.full_name}`,
+      "брэнды",
+      "брэнды смартфонов",
+      "технологии",
+      "смартфоны",
+      "обзоры",
+      "новости",
+      "новости смартфонов",
+      "гаджеты",
+      "мобильные телефоны",
+      "инновации",
+    ],
+    ogImage: `${phone?.main_image}`,
+    canonical: `https://tech24view.ru/phone_model/${phone?.slug}`,
+  });
+}
 
 export default async function PhoneModelPage({
   params,
@@ -21,19 +61,25 @@ export default async function PhoneModelPage({
   }
 
   return (
-    <Container>
-      {/* Карточка телефона */}
-      <PhoneModelLargeCard phone={phone} />
+    <Container className="flex gap-2 lg:gap-6 ">
+      <ContentContainer className="flex flex-col gap-2 lg:gap-6 ">
+        {/* Карточка телефона */}
+        <PhoneModelLargeCard phone={phone} />
 
-      {/* Раздел "Описание" */}
-      <div className="mt-6 p-4 rounded-xl border bg-card text-card-foreground shadow">
-        <h2 className="text-xl font-semibold mb-3">Описание</h2>
-        <div className={styles.prose}>
-          {phone.specifications[0].description
-            ? parse(String(phone.specifications[0].description))
-            : "Описание отсутствует"}
+        {/* Раздел "Описание" */}
+        <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg">
+          <h2 className="text-xl font-semibold mb-3">Описание</h2>
+          <div className={styles.prose}>
+            {phone.specifications[0].description
+              ? parse(String(phone.specifications[0].description))
+              : "Описание отсутствует"}
+          </div>
         </div>
-      </div>
+      </ContentContainer>
+      <Sidebar
+        children1={<SimilarModels brandId={phone.brandId} />}
+        children2={<LastModels />}
+      />
     </Container>
   );
 }

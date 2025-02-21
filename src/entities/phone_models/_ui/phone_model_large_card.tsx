@@ -20,7 +20,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
     <Card className="p-2 bg-card shadow-lg rounded-2xl">
       <CardHeader className="flex flex-col items-start text-center p-1">
         <CardTitle className="text-2xl font-bold text-foreground/80">
-          {phone.full_name}
+          {phone.full_name.toUpperCase()}
         </CardTitle>
       </CardHeader>
 
@@ -34,7 +34,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             className="rounded-lg object-cover shadow-md"
           />
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 md:gap-4 w-full">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 md:gap-4 w-full">
             <ModelSpecItem
               icon={<CalendarCheck2 size={20} />}
               title="Дата релиза"
@@ -43,7 +43,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             <ModelSpecItem
               icon={<Smartphone size={20} />}
               title="Экран(дюймы)"
-              value={`${phone.specifications[0].screen_duim}"`}
+              value={`${phone.specifications[0].screen_duim ? phone.specifications[0].screen_duim + '"' : ""}`}
             />
             <ModelSpecItem
               icon={<Smartphone size={20} />}
@@ -63,7 +63,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             <ModelSpecItem
               icon={<MemoryStick size={20} />}
               title="Память(ПЗУ)"
-              value={`${phone.specifications[0].storage}`}
+              value={`${phone.specifications[0].storage ? phone.specifications[0].storage : "-"}`}
             />
             <ModelSpecItem
               icon={<Microchip size={20} />}
@@ -73,7 +73,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             <ModelSpecItem
               icon={<MemoryStick size={20} />}
               title="Память(ОЗУ)"
-              value={`${phone.specifications[0].ram}`}
+              value={`${phone.specifications[0].ram ? phone.specifications[0].ram : "-"}`}
             />
             <ModelSpecItem
               icon={<Cpu size={20} />}
