@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components";
+import { Card, CardContent, CardHeader } from "@/shared/components";
 import { PhoneModeLFullInfo } from "../_domain/types";
 import {
   CalendarCheck2,
@@ -19,9 +19,9 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
   return (
     <Card className="p-2 bg-card shadow-lg rounded-2xl">
       <CardHeader className="flex flex-col items-start text-center p-1">
-        <CardTitle className="text-2xl font-bold text-foreground/80">
+        <h1 className="text-2xl font-bold text-foreground/80">
           {phone.full_name.toUpperCase()}
-        </CardTitle>
+        </h1>
       </CardHeader>
 
       <CardContent className="p-1">
@@ -63,7 +63,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             <ModelSpecItem
               icon={<MemoryStick size={20} />}
               title="Память(ПЗУ)"
-              value={`${phone.specifications[0].storage ? phone.specifications[0].storage : "-"}`}
+              value={`${phone.specifications[0].storage || phone.specifications[0].storage === " " ? phone.specifications[0].storage : "-"}`}
             />
             <ModelSpecItem
               icon={<Microchip size={20} />}
