@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import { transliterateToUrl } from "../../transliteration";
-import { downloadImage } from "./download_image";
-import { safeTranslate } from "./safe_translate";
+import { downloadImage } from "../functions/download_image";
+import { safeTranslate } from "../functions/safe_translate";
 import { generateModelDescription } from "../openai/generate_model_description";
 import { parseModel } from "../db_seed/parse_model";
 export const getModelsByBrand = async (
@@ -83,8 +83,8 @@ export const getModelsByBrand = async (
       weight,
       thicknes,
       os,
-      storage: translatedStorage.replace(/[а-я:'";ОЗУП]/g, ""),
-      ram: translatedRam.replace(/[а-яОЗУРАМ:'";]/g, ""),
+      storage: translatedStorage.replace(/[а-я:'".,;ОЗУПН]/g, ""),
+      ram: translatedRam.replace(/[а-яОЗУРАМН:'".,;]/g, ""),
       processor,
       screen_duim: screen_duim.replace(/[^0-9.]/g, ""),
       screen_px: screen_px.split(" ")[0],

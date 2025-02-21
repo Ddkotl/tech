@@ -1,32 +1,27 @@
 // Sidebar.tsx
-import React from "react";
-import Link from "next/link";
+import React, { ReactNode } from "react";
 
-export const Sidebar = () => {
+export const Sidebar = ({
+  children1,
+  children2,
+  children3,
+  children4,
+  children5,
+}: {
+  children1?: ReactNode;
+  children2?: ReactNode;
+  children3?: ReactNode;
+  children4?: ReactNode;
+  children5?: ReactNode;
+}) => {
   return (
     <aside className="hidden  md:block   p-4 w-full bg-card border border-foreground/10 shadow-lg rounded-xl md:w-56 lg:w-80">
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Навигация</h3>
-        <ul className="space-y-2">
-          <li>
-            <Link href="#overview" className="text-blue-600 hover:underline">
-              Обзор
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#specifications"
-              className="text-blue-600 hover:underline"
-            >
-              Характеристики
-            </Link>
-          </li>
-          <li>
-            <Link href="#gallery" className="text-blue-600 hover:underline">
-              Галерея
-            </Link>
-          </li>
-        </ul>
+      <div className="flex flex-col gap-2 lg:gap-4">
+        {children1}
+        {children2}
+        {children3}
+        {children4}
+        {children5}
       </div>
     </aside>
   );

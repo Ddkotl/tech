@@ -1,19 +1,19 @@
 import { Page } from "playwright";
-import { IsReviewAlreadyParsed } from "./db_seed/is_already_parsed";
-import { generateDataForPost } from "./functions/generate_data_for_post";
-import { downloadImage } from "./functions/download_image";
-import { translateAndUnicTitle } from "./openai/translate_and_untc_title";
-import { translateAndUnicText } from "./openai/translate_and_untc_content";
+import { IsReviewAlreadyParsed } from "../db_seed/is_already_parsed";
+import { generateDataForPost } from "../functions/generate_data_for_post";
+import { downloadImage } from "../functions/download_image";
+import { translateAndUnicTitle } from "../openai/translate_and_untc_title";
+import { translateAndUnicText } from "../openai/translate_and_untc_content";
 import {
   GenerateMetaDescription,
   GenerateMetaTitle,
-} from "./openai/generate_meta";
-import { translateTags } from "./openai/translate_tags";
-import { ParseReviews } from "./db_seed/parse_reviews";
-import { transliterateToUrl } from "../transliteration";
-import { cleanAndParseArray } from "./functions/clean_and_parse_tags";
-import { generateTags } from "./openai/generate_tags";
-import { cleaneText } from "./functions/cleane_text";
+} from "../openai/generate_meta";
+import { translateTags } from "../openai/translate_tags";
+import { ParseReviews } from "../db_seed/parse_reviews";
+import { transliterateToUrl } from "../../transliteration";
+import { cleanAndParseArray } from "../functions/clean_and_parse_tags";
+import { generateTags } from "../openai/generate_tags";
+import { cleaneText } from "../functions/cleane_text";
 
 export const parseReviewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {

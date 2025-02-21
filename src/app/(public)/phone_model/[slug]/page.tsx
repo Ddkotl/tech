@@ -4,8 +4,10 @@ import styles from "./content.module.css";
 import { getPhoneModelInfo } from "@/entities/phone_models/_actions/get_model_info_by_slug";
 import {
   getPhoneModeBySlug,
+  LastModels,
   PartialPhoneModel,
   PhoneModeLFullInfo,
+  SimilarModels,
 } from "@/entities/phone_models";
 import { PhoneModelLargeCard } from "@/entities/phone_models/_ui/phone_model_large_card";
 import { Container, ContentContainer } from "@/shared/components";
@@ -74,7 +76,10 @@ export default async function PhoneModelPage({
           </div>
         </div>
       </ContentContainer>
-      <Sidebar />
+      <Sidebar
+        children1={<SimilarModels brandId={phone.brandId} />}
+        children2={<LastModels />}
+      />
     </Container>
   );
 }
