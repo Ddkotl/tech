@@ -8,6 +8,7 @@ const config: Config = {
       screens: {
         xs: "400px",
         xs1: "500px",
+        md1: "825px",
       },
       colors: {
         background: "hsl(var(--background))",

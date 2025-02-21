@@ -34,7 +34,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             className="rounded-lg object-cover shadow-md"
           />
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 md:gap-4 w-full">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 md:gap-4 w-full">
             <ModelSpecItem
               icon={<CalendarCheck2 size={20} />}
               title="Дата релиза"
