@@ -15,7 +15,7 @@ export const Sidebar = ({
   children5?: ReactNode;
 }) => {
   return (
-    <aside className="hidden  md:block   p-4 w-full bg-card border border-foreground/10 shadow-lg rounded-xl md:w-56 lg:w-80">
+    <aside className="hidden  md:block   p-4  bg-card border border-foreground/10 shadow-lg rounded-xl md:w-56 lg:w-80">
       <div className="flex flex-col gap-2 lg:gap-4">
         {children1}
         {children2}

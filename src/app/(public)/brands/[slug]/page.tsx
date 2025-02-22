@@ -2,14 +2,17 @@ import { Container } from "@/shared/components";
 import { getBrandBySlug } from "@/entities/brands/_actions/get_brand_by_slug";
 import {
   getPhoneModelsListWithPaginaton,
+  LastModels,
   PartialPhoneModel,
   PhoneModelSearch,
   PhoneModelsList,
+  SimilarModels,
 } from "@/entities/phone_models";
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
 import { BrandWithModelsCount } from "@/entities/brands";
+import { Sidebar } from "@/widgets/sidebar/app-sidebar";
 
 export async function generateMetadata({
   params,
@@ -63,7 +66,7 @@ export default async function ModelsByBrandPage({
   searchParams: { page?: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageSize = 30;
+  const pageSize = 35;
   const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
   const models: PartialPhoneModel[] | [] =
     await getPhoneModelsListWithPaginaton(params.slug, page, pageSize);
@@ -77,7 +80,7 @@ export default async function ModelsByBrandPage({
   }
   const totalPages = Math.ceil(brand._count.phones / pageSize);
   return (
-    <Container className="h-full flex flex-col flex-1 ">
+    <Container className="h-full flex  flex-1  gap-2 lg:gap-6">
       <section className="flex flex-col flex-1   gap-2 md:gap-4">
         <div className="flex gap-2 flex-col">
           <div className="flex flex-col md:flex-row justify-between items-center w-full">
@@ -98,6 +101,10 @@ export default async function ModelsByBrandPage({
           className="mt-auto "
         />
       </section>
+      <Sidebar
+        children1={<SimilarModels brandId={brand.id} />}
+        children2={<LastModels />}
+      />
     </Container>
   );
 }

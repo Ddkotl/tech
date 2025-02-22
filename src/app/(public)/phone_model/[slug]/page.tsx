@@ -61,8 +61,8 @@ export default async function PhoneModelPage({
   }
 
   return (
-    <Container className="flex gap-2 lg:gap-6 ">
-      <ContentContainer className="flex flex-col gap-2 lg:gap-6 ">
+    <Container className="flex gap-2  flex-1 lg:gap-6 ">
+      <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
         {/* Карточка телефона */}
         <PhoneModelLargeCard phone={phone} />
 
