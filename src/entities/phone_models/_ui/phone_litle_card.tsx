@@ -18,7 +18,7 @@ export function PhoneModelLitleCard({ model }: { model: PartialPhoneModel }) {
           />
         </CardContent>
         <CardFooter className="flex justify-center p-1">
-          <CardTitle className="text-xs font-thin flex text-start items-center justify-center">
+          <CardTitle className="text-xs lg:text-sm font-thin flex text-start items-center justify-center">
             {model.full_name}
           </CardTitle>
         </CardFooter>

@@ -1,9 +1,8 @@
 import axios from "axios";
 import { getImageName } from "./get_image_name";
 import { replaceWatermarkWithSharp } from "./add_watermarck";
-
 import { fileStorage } from "../../file-storage";
-import { convertToPNG } from "./convert_to_png";
+import { removeBackgroundWithCarve } from "./remove_bg_sait_cave";
 
 export const downloadImage = async (
   url: string,
@@ -22,16 +21,26 @@ export const downloadImage = async (
     });
     const contentType =
       response.headers["content-type"] || "application/octet-stream";
-
+    let processedImageBuffer = response.data;
+    try {
+      if (convert_to_png) {
+        // Пытаемся удалить фон
+        processedImageBuffer = await removeBackgroundWithCarve(response.data);
+      }
+    } catch (error) {
+      // Логируем ошибку, но не перезаписываем processedImageBuffer
+      console.error("Ошибка при удалении фона:", error);
+      // processedImageBuffer остается неизменным, код продолжает выполнение
+    }
     // Создаем Blob из массива байтов
-    const blob = new Blob([response.data], { type: contentType });
+    const blob = new Blob([processedImageBuffer], { type: contentType });
 
     // Создаем File из Blob (если имя файла известно)
-    let file = new File([blob], imgName, { type: contentType });
+    const file = new File([blob], imgName, { type: contentType });
 
-    if (convert_to_png) {
-      file = await convertToPNG(file);
-    }
+    // if (convert_to_png) {
+    //   file = await convertToPNG(file);
+    // }
 
     const storedFile = await fileStorage.uploadImage(file, imgDir, imgName);
 

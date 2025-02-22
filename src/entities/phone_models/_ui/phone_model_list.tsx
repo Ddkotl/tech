@@ -7,7 +7,7 @@ export function PhoneModelsList({
   models: PartialPhoneModel[] | [];
 }) {
   return (
-    <div className=" grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 md:gap-4 auto-rows-fr">
+    <div className=" grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
       {models && models.length > 0 ? (
         models?.map((model) => <PhoneModelCard key={model.id} model={model} />)
       ) : (

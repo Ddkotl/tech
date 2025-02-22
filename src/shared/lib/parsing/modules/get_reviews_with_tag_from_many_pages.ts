@@ -1,7 +1,7 @@
 import { Page } from "playwright";
 import { IsReviewAlreadyParsed } from "../db_seed/is_already_parsed";
 import { generateDataForPost } from "../functions/generate_data_for_post";
-import { downloadImage } from "../functions/download_image";
+import { downloadImage } from "../functions/download_image_for_S3";
 import { translateAndUnicTitle } from "../openai/translate_and_untc_title";
 import { translateAndUnicText } from "../openai/translate_and_untc_content";
 import {

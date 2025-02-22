@@ -1,9 +1,15 @@
 import { Page } from "@playwright/test";
 import { transliterateToUrl } from "../../transliteration";
-import { downloadImage } from "../functions/download_image";
+import { downloadImage } from "../functions/download_image_for_S3";
 import { safeTranslate } from "../functions/safe_translate";
 import { generateModelDescription } from "../openai/generate_model_description";
 import { parseModel } from "../db_seed/parse_model";
+import { translateReleaseDateAI } from "../openai/generate_model_spec/translate_release_date";
+import { translateWeightAI } from "../openai/generate_model_spec/translate_weight";
+import { translateThicknesAI } from "../openai/generate_model_spec/translate_thicknes";
+import { translateStorageAI } from "../openai/generate_model_spec/translate_storage";
+import { translateRamAI } from "../openai/generate_model_spec/translate_ram";
+import { dataBase } from "../../db_conect";
 export const getModelsByBrand = async (
   modelNotExist: {
     model: string;
@@ -18,40 +24,68 @@ export const getModelsByBrand = async (
     });
     const shortName = model.model;
     const fullName = await page.locator(".specs-phone-name-title").innerText();
+
     const slug = transliterateToUrl(fullName);
+
+    const existingModel = await dataBase.phoneModels.findUnique({
+      where: { slug: slug },
+    });
+
+    if (existingModel) {
+      console.log(`Модель с таким slug уже существует: ${slug}`);
+      continue;
+    }
 
     const imgUrl = await page
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImage(imgUrl, slug, "models_main", false)
+      ? await downloadImage(imgUrl, slug, "models_main", true)
       : "";
     const releaseDate = await page
       .locator('span[data-spec="released-hl"]')
       .innerText();
     const translatedReleaseDate = await safeTranslate(
-      releaseDate.replace(/Released/g, ""),
+      releaseDate,
+      fullName,
+      translateReleaseDateAI,
     );
 
     const weightAndThicknes = await page
       .locator('span[data-spec="body-hl"]')
       .innerText();
-    const splitedWeightAndThicknes = weightAndThicknes.split(",");
-    const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
-    const thicknes = splitedWeightAndThicknes[1]
-      ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
-      : "";
+    // const splitedWeightAndThicknes = weightAndThicknes.split(",");
+    // const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
+    // const thicknes = splitedWeightAndThicknes[1]
+    //   ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
+    //   : "";
+    const translatedWeight = await safeTranslate(
+      weightAndThicknes,
+      fullName,
+      translateWeightAI,
+    );
+    const translatedThicknes = await safeTranslate(
+      weightAndThicknes,
+      fullName,
+      translateThicknesAI,
+    );
 
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
+
     const storage = await page
       .locator('span[data-spec="storage-hl"]')
       .innerText();
-    const translatedStorage = await safeTranslate(storage);
+    const translatedStorage = await safeTranslate(
+      storage,
+      fullName,
+      translateStorageAI,
+    );
     const ram = await page
       .locator('strong[class="accent accent-expansion"]')
       .innerText();
 
-    const translatedRam = await safeTranslate(ram);
+    const translatedRam = await safeTranslate(ram, fullName, translateRamAI);
+
     const processor = await page
       .locator('div[data-spec="chipset-hl"]')
       .innerText();
@@ -79,18 +113,18 @@ export const getModelsByBrand = async (
       slug,
       brandName,
       modelImgPath: modelImgPath ? modelImgPath : "placeholder.png",
-      releaseDate: translatedReleaseDate.replace(/[:'";]/g, ""),
-      weight,
-      thicknes,
+      releaseDate: translatedReleaseDate,
+      weight: translatedWeight,
+      thicknes: translatedThicknes,
       os,
-      storage: translatedStorage.replace(/[а-я:'".,;ОЗУПН]/g, ""),
-      ram: translatedRam.replace(/[а-яОЗУРАМН:'".,;]/g, ""),
+      storage: translatedStorage.replace(/[а-я:'";ОЗУПН]/g, ""),
+      ram: translatedRam.replace(/[а-яОЗУРАМН:'";]/g, ""),
       processor,
       screen_duim: screen_duim.replace(/[^0-9.]/g, ""),
       screen_px: screen_px.split(" ")[0],
-      camera_photo: camera_photo.replace(/MP/gi, "МП"),
-      camera_video,
-      batary_capasity: batary_capasity.replace(/mAh/gi, "мАч"),
+      camera_photo: camera_photo.replace(/MP/gi, " МП"),
+      camera_video: camera_video.replace(/NO/gi, "-"),
+      batary_capasity: batary_capasity.replace(/mAh/gi, " мАч"),
       description: translatedDescription,
     });
 

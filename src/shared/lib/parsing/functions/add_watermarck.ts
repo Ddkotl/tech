@@ -42,11 +42,13 @@ export const replaceWatermarkWithSharp = async (
     let yRatio = 0.88;
     let widthRatio = 0.39;
     let heightRatio = 0.11;
+    let fontSizeKoef = 0.07;
     if (width > height) {
       xRatio = 0.69;
       yRatio = 0.83;
-      widthRatio = 0.3;
+      widthRatio = 0.29;
       heightRatio = 0.15;
+      fontSizeKoef = 0.065;
     }
 
     // Вычисляем абсолютные координаты и размеры области
@@ -54,7 +56,7 @@ export const replaceWatermarkWithSharp = async (
     const y = Math.round(height * yRatio);
     const regionWidth = Math.round(width * widthRatio);
     const regionHeight = Math.round(height * heightRatio);
-    const fontSize = Math.round((regionWidth + regionHeight) * 0.07);
+    const fontSize = Math.round((regionWidth + regionHeight) * fontSizeKoef);
 
     // Извлекаем, размываем и вставляем область обратно
     const blurredRegion = await sharp(imageBuffer)
@@ -98,11 +100,11 @@ export const replaceWatermarkWithSharp = async (
                 font-style="italic" 
                 text-anchor="middle" 
                 dominant-baseline="middle" 
-                letter-spacing="1px" 
+                letter-spacing="0.8px" 
                 font-family="Arial"
                 filter="url(#textShadow)"
               >
-                ${replacementText.toLocaleUpperCase()}
+                ${replacementText.toUpperCase()}
               </text>
             </svg>
           `),
@@ -112,8 +114,8 @@ export const replaceWatermarkWithSharp = async (
       ])
       .sharpen()
       .modulate({
-        brightness: 1.05, // Увеличение яркости
-        saturation: 1.05, // Увеличение насыщенности
+        brightness: 1.02, // Увеличение яркости
+        saturation: 1.02, // Увеличение насыщенности
       })
       .normalize()
       .toBuffer();
