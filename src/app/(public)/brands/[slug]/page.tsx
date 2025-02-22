@@ -82,7 +82,7 @@ export default async function ModelsByBrandPage({
   return (
     <Container className="h-full flex  flex-1  gap-2 lg:gap-6">
       <section className="flex flex-col flex-1   gap-2 md:gap-4">
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-2 lg:gap-4 flex-col">
           <div className="flex flex-col md:flex-row justify-between items-center w-full">
             <h1 className="text-lg lg:text-2xl w-full gap-4 text-center md:text-start">
               {`Все модели ${brand.name.toUpperCase()}`}
