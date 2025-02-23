@@ -14,6 +14,7 @@ import { Container, ContentContainer } from "@/shared/components";
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Sidebar } from "@/widgets/sidebar/app-sidebar";
+import { NextAndPrevButtons } from "@/entities/phone_models/_ui/prev_next_buttons";
 
 export async function generateMetadata({
   params,
@@ -75,6 +76,10 @@ export default async function PhoneModelPage({
               : "Описание отсутствует"}
           </div>
         </div>
+        <NextAndPrevButtons
+          currentModelSlug={params.slug}
+          brandId={phone.brandId}
+        />
       </ContentContainer>
       <Sidebar
         children1={<SimilarModels brandId={phone.brandId} />}

@@ -1,5 +1,7 @@
 import { z } from "zod";
+import { config } from "dotenv";
 
+config();
 const privateConfigSchema = z.object({
   S3_ACCESS_KEY_ID: z.string(),
   S3_SECRET_ACCESS_KEY: z.string(),
@@ -20,6 +22,8 @@ const privateConfigSchema = z.object({
   MAILRU_CLIENT_SECRET: z.string().optional(),
 
   ADMIN_EMAILS: z.string().optional(),
+
+  GOOGLE_ANALITICS_4_ID: z.string().optional(),
 });
 
 export const privateConfig = privateConfigSchema.parse(process.env);
