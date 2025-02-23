@@ -1,5 +1,7 @@
 import { z } from "zod";
+import { config } from "dotenv";
 
+config();
 const privateConfigSchema = z.object({
   S3_ACCESS_KEY_ID: z.string(),
   S3_SECRET_ACCESS_KEY: z.string(),

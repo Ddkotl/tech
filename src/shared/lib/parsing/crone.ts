@@ -4,7 +4,7 @@ import { StartParse } from ".";
 
 export const setupCron = () => {
   // Запуск задачи каждый час
-  cron.schedule("0 * * * *", async () => {
+  cron.schedule("0 */6 * * *", async () => {
     console.log(" Запуск парсинга...");
     try {
       await StartParse();
