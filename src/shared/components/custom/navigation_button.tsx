@@ -18,7 +18,7 @@ export function NavigationButton({
   text: string;
   direction: "prev" | "next";
   className?: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }) {
   return (
     <Link
