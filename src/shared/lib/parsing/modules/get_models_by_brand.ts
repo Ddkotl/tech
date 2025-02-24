@@ -42,6 +42,7 @@ export const getModelsByBrand = async (
     const modelImgPath = imgUrl
       ? await downloadImage(imgUrl, slug, "models_main", true)
       : "";
+
     const releaseDate = await page
       .locator('span[data-spec="released-hl"]')
       .innerText();
@@ -107,6 +108,30 @@ export const getModelsByBrand = async (
       .innerText();
     const description = await page.locator('div[id="specs-list"]').innerHTML();
     const translatedDescription = await generateModelDescription(description);
+
+    const imagesPageUrl = await page
+      .locator(".article-info-meta > .article-info-meta-link > a")
+      .getByText("Pictures")
+      .first()
+      .getAttribute("href");
+
+    const contentImagesPaths = [];
+    if (imagesPageUrl) {
+      await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`);
+      const imagesSrc = await page
+        .locator("#pictures-list > img")
+        .evaluateAll((imgs) =>
+          imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null),
+        );
+      for (const imgSrc of imagesSrc) {
+        if (imgSrc) {
+          const savedPath = await downloadImage(imgSrc, slug, "news", true);
+          if (savedPath) {
+            contentImagesPaths.push(savedPath);
+          }
+        }
+      }
+    }
     await parseModel({
       shortName,
       fullName,
@@ -126,6 +151,7 @@ export const getModelsByBrand = async (
       camera_video: camera_video.replace(/NO/gi, "-"),
       batary_capasity: batary_capasity.replace(/mAh/gi, " мАч"),
       description: translatedDescription,
+      contentImagesPaths: contentImagesPaths,
     });
 
     await page.waitForTimeout(3000);

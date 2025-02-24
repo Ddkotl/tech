@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import { fileStorage } from "../../file-storage";
+import { fileStorage } from "../../../file-storage";
 import { Readable } from "stream";
 
 export const replaceWatermarkWithSharp = async (
@@ -38,9 +38,9 @@ export const replaceWatermarkWithSharp = async (
     }
 
     // Задаем относительные пропорции для области водяного знака
-    let xRatio = 0.6;
+    let xRatio = 0.55;
     let yRatio = 0.88;
-    let widthRatio = 0.39;
+    let widthRatio = 0.44;
     let heightRatio = 0.11;
     let fontSizeKoef = 0.07;
     if (width > height) {

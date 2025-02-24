@@ -1,5 +1,8 @@
 // Sidebar.tsx
+import { REVALIDATE_TIME } from "@/shared/lib/config/public";
 import React, { ReactNode } from "react";
+
+export const revalidate = REVALIDATE_TIME;
 
 export const Sidebar = ({
   children1,

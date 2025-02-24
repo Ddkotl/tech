@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import axios from "axios"; // или используйте node-fetch
-import { convertToPNG } from "./convert_to_png";
+import { convertToPNG } from "./image/convert_to_png";
 
 /**
  * Сохраняет изображение по URL в указанную папку.

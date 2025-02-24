@@ -1,15 +1,16 @@
 import axios from "axios";
-import { getImageName } from "./get_image_name";
-import { replaceWatermarkWithSharp } from "./add_watermarck";
+import { getImageName } from "./image/get_image_name";
+import { replaceWatermarkWithSharp } from "./image/add_watermarck";
 import { fileStorage } from "../../file-storage";
-import { removeBackgroundWithphotiu } from "./remove_bg_sait_photiu";
-import { removeBackgroundWithCarve } from "./remove_bg_sait_cave";
+import { removeImageBackground } from "./image/remove_image_bg";
+import { removeWattermark } from "./image/remove_watter_mark";
 
 export const downloadImage = async (
   url: string,
   textForFilename: string | undefined,
   imgDir: string,
   convert_to_png: boolean = false,
+  remove_wattermark: boolean = false,
 ) => {
   try {
     const imgName = getImageName(convert_to_png, textForFilename);
@@ -23,46 +24,17 @@ export const downloadImage = async (
     const contentType =
       response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
-    try {
-      if (convert_to_png) {
-        try {
-          // Первая попытка удалить фон с помощью removeBackgroundWithphotiu
-          processedImageBuffer = await removeBackgroundWithphotiu(
-            response.data,
-          );
-        } catch (firstError) {
-          console.error(
-            "Ошибка при удалении фона с помощью removeBackgroundWithphotiu:",
-            firstError,
-          );
-
-          // Вторая попытка удалить фон с помощью removeBackgroundWithCarve
-          try {
-            processedImageBuffer = await removeBackgroundWithCarve(
-              response.data,
-            );
-          } catch (secondError) {
-            console.error(
-              "Ошибка при удалении фона с помощью removeBackgroundWithCarve:",
-              secondError,
-            );
-            // Если вторая попытка тоже неудачна, оставляем processedImageBuffer неизменным
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Общая ошибка при обработке изображения:", error);
-      // В случае общей ошибки processedImageBuffer остается неизменным
+    if (remove_wattermark) {
+      processedImageBuffer = await removeWattermark(response.data);
+    }
+    if (convert_to_png) {
+      processedImageBuffer = await removeImageBackground(response.data);
     }
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
 
     // Создаем File из Blob (если имя файла известно)
     const file = new File([blob], imgName, { type: contentType });
-
-    // if (convert_to_png) {
-    //   file = await convertToPNG(file);
-    // }
 
     const storedFile = await fileStorage.uploadImage(file, imgDir, imgName);
 

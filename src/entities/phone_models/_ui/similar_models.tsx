@@ -1,6 +1,9 @@
 import React from "react";
 import { getSimilarModels } from "../_actions/get_similar_models";
 import { PhoneModelLitleCard } from "./phone_litle_card";
+import { REVALIDATE_TIME } from "@/shared/lib/config/public";
+
+export const revalidate = REVALIDATE_TIME;
 
 export const SimilarModels = async ({ brandId }: { brandId: string }) => {
   const similarModels = await getSimilarModels(brandId);

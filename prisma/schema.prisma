@@ -180,6 +180,7 @@ model PhoneModels {
 model Specification {
   id String @id @default(cuid())
 
+  images          String[]
   releaseDate     String // Дата релиза
   weight          String
   thickness       String
