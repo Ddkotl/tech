@@ -14,33 +14,33 @@ export const removeWattermark = async (
     fs.writeFileSync(tempFilePath, imageBuffer);
 
     // Открываем сайт
-    // console.log("Открываем сайт...");
-    await page.goto("https://carve.photos/");
-    // console.log("Сайт открыт");
+    console.log("Открываем сайт...");
+    await page.goto("https://dewatermark.ai/upload");
+    console.log("Сайт открыт");
     await page.waitForTimeout(1000);
-
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: "./img_for_test/1.png", fullPage: true });
     // Загружаем изображение на сайт
     const inputFileSelector = 'input[type="file"]';
+    await page.waitForSelector(inputFileSelector, {
+      timeout: 60000,
+      state: "attached",
+    });
     await page.setInputFiles(inputFileSelector, tempFilePath);
-    // console.log("Изображение загружено");
+    console.log("Изображение загружено");
 
     // Ждем, пока изображение обработается
-    await page.waitForSelector("img[alt='изображение без фона']", {
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: "./img_for_test/2.png", fullPage: true });
+    await page.waitForSelector("img[alt='enhanced-image']", {
       timeout: 60000,
     });
-    await page.waitForFunction(
-      () => {
-        const imgElement = document.querySelector(
-          "img[alt='изображение без фона']",
-        ) as HTMLImageElement;
-        return imgElement?.src.startsWith("blob:");
-      },
-      { timeout: 60000 },
-    );
-    // console.log("Изображение обработано");
 
+    console.log("Изображение обработано");
+    await page.waitForTimeout(5000);
+    await page.screenshot({ path: "./img_for_test/3.png", fullPage: true });
     // Ждем, пока появится кнопка для скачивания
-    const downloadButtonSelector = "button.download-button.secondary";
+    const downloadButtonSelector = "button:has-text('Download')";
     await page.waitForSelector(downloadButtonSelector, { timeout: 60000 });
 
     // Перехватываем событие скачивания
@@ -55,12 +55,12 @@ export const removeWattermark = async (
     // Сохраняем файл на диск
     await download.saveAs(tempDownloadPath);
 
-    // console.log("Изображение без фона сохранено");
+    console.log("Изображение без вотермарки сохранено");
 
     // Читаем файл как Buffer
     const processedImageBuffer = fs.readFileSync(tempDownloadPath);
 
-    // console.log("Изображение без фона получено как Buffer");
+    console.log("Изображение без вотермарки получено как Buffer");
     fs.unlinkSync(tempFilePath); // Удаляем временный файл с исходным изображением
     fs.unlinkSync(tempDownloadPath); // Удаляем временный файл с обработанным изображением
     // Возвращаем Buffer

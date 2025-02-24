@@ -17,7 +17,7 @@ import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-r
 
 export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
   const images = phone.specifications[0].images;
-  // images.unshift(phone.main_image);
+  images.unshift(phone.main_image);
   return (
     <Card className="p-2 bg-card shadow-lg rounded-2xl">
       <CardHeader className="flex flex-col items-start text-center p-1">

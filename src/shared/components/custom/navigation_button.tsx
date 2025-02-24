@@ -24,7 +24,7 @@ export function NavigationButton({
     <Link
       href={isLoading ? "#" : `/phone_model/${slug}`}
       className={cn(
-        "flex items-center gap-2 transition-transform duration-200 hover:scale-105 border  p-2 rounded-2xl shadow-lg",
+        "flex items-center gap-2 transition-transform duration-200 hover:scale-105 border  p-2 rounded-2xl shadow-lg max-w-44",
         className,
         isLoading && "pointer-events-none opacity-50",
       )}
@@ -47,7 +47,7 @@ export function NavigationButton({
         {isLoading ? (
           <Skeleton className="w-16 h-4 rounded-md" />
         ) : (
-          <span className="text-xs lg:text-sm font-thin text-center">
+          <span className="text-xs lg:text-sm font-extralight text-center">
             {text}
           </span>
         )}

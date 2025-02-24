@@ -36,10 +36,6 @@ export const downloadImage = async (
     // Создаем File из Blob (если имя файла известно)
     const file = new File([blob], imgName, { type: contentType });
 
-    // if (convert_to_png) {
-    //   file = await convertToPNG(file);
-    // }
-
     const storedFile = await fileStorage.uploadImage(file, imgDir, imgName);
 
     await replaceWatermarkWithSharp(storedFile.path, "tech24view.ru");
