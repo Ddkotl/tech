@@ -20,6 +20,7 @@ export const parseModel = async ({
   camera_video,
   batary_capasity,
   description,
+  contentImagesPaths,
 }: {
   shortName: string;
   fullName: string;
@@ -39,6 +40,7 @@ export const parseModel = async ({
   camera_video: string;
   batary_capasity: string;
   description: string;
+  contentImagesPaths: string[];
 }) => {
   try {
     const createdModel: PhoneModels = await dataBase.phoneModels.upsert({
@@ -56,6 +58,7 @@ export const parseModel = async ({
         },
         specifications: {
           create: {
+            images: contentImagesPaths,
             releaseDate: releaseDate,
             weight: weight,
             thickness: thicknes,

@@ -12,10 +12,12 @@ import {
   Weight,
   Ruler,
 } from "lucide-react";
-import Image from "next/image";
 import { ModelSpecItem } from "./model_spec_item";
+import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-react";
 
 export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
+  const images = phone.specifications[0].images;
+  // images.unshift(phone.main_image);
   return (
     <Card className="p-2 bg-card shadow-lg rounded-2xl">
       <CardHeader className="flex flex-col items-start text-center p-1">
@@ -25,15 +27,15 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
       </CardHeader>
 
       <CardContent className="p-1">
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          <Image
-            src={phone.main_image}
-            width={180}
-            height={250}
-            alt={phone.short_name}
-            className="rounded-lg object-cover shadow-md"
-          />
-
+        <div className="flex flex-col md:flex-row items-center justify-center gap-2 w-full lg:gap-4">
+          {/* <Image
+              src={phone.main_image}
+              width={180}
+              height={250}
+              alt={phone.short_name}
+              className="rounded-lg object-cover shadow-md"
+            /> */}
+          <ImageGalleryComponent imagePaths={images} />
           <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 md:gap-4 w-full">
             <ModelSpecItem
               icon={<CalendarCheck2 size={20} />}
