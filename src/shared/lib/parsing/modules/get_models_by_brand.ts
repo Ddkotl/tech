@@ -40,7 +40,7 @@ export const getModelsByBrand = async (
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImage(imgUrl, slug, "models_main", true)
+      ? await downloadImage(imgUrl, slug, "models_main", true, true)
       : "";
 
     const releaseDate = await page
@@ -125,7 +125,13 @@ export const getModelsByBrand = async (
         );
       for (const imgSrc of imagesSrc) {
         if (imgSrc) {
-          const savedPath = await downloadImage(imgSrc, slug, "news", true);
+          const savedPath = await downloadImage(
+            imgSrc,
+            slug,
+            "news",
+            true,
+            true,
+          );
           if (savedPath) {
             contentImagesPaths.push(savedPath);
           }
@@ -137,7 +143,7 @@ export const getModelsByBrand = async (
       fullName,
       slug,
       brandName,
-      modelImgPath: modelImgPath ? modelImgPath : "placeholder.png",
+      modelImgPath: modelImgPath ? modelImgPath : "/placeholder.png",
       releaseDate: translatedReleaseDate,
       weight: translatedWeight,
       thicknes: translatedThicknes,
