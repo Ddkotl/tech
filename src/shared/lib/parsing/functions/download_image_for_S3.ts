@@ -2,17 +2,22 @@ import axios from "axios";
 import { getImageName } from "./image/get_image_name";
 import { replaceWatermarkWithSharp } from "./image/add_watermarck";
 import { fileStorage } from "../../file-storage";
-import { removeImageBackground } from "./image/remove_image_bg";
-import { removeWattermark } from "./image/remove_watter_mark";
+import { removeImageBackgroundWithRetry } from "./image/remove_bg/rm_image_bg";
+import { restartTor } from "../../tor";
+import { removeWattermarkWithRetry } from "./image/remove_watermarc/rm_image_watermarc";
 
-export const downloadImage = async (
+export const downloadImageForS3 = async (
   url: string,
   textForFilename: string | undefined,
-  imgDir: string,
+  imgDirNameInStorage: string,
   convert_to_png: boolean = false,
   remove_wattermark: boolean = false,
+  proxy_tor: boolean = false,
 ) => {
   try {
+    if (proxy_tor) {
+      await restartTor();
+    }
     const imgName = getImageName(convert_to_png, textForFilename);
     const response = await axios.get(url, {
       responseType: "arraybuffer",
@@ -25,10 +30,12 @@ export const downloadImage = async (
       response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
     if (remove_wattermark) {
-      processedImageBuffer = await removeWattermark(response.data);
+      processedImageBuffer = await removeWattermarkWithRetry(response.data);
     }
     if (convert_to_png) {
-      processedImageBuffer = await removeImageBackground(response.data);
+      processedImageBuffer = await removeImageBackgroundWithRetry(
+        response.data,
+      );
     }
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
@@ -36,7 +43,11 @@ export const downloadImage = async (
     // Создаем File из Blob (если имя файла известно)
     const file = new File([blob], imgName, { type: contentType });
 
-    const storedFile = await fileStorage.uploadImage(file, imgDir, imgName);
+    const storedFile = await fileStorage.uploadImage(
+      file,
+      imgDirNameInStorage,
+      imgName,
+    );
 
     await replaceWatermarkWithSharp(storedFile.path, "tech24view.ru");
     return storedFile.path;

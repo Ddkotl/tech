@@ -38,17 +38,19 @@ export const replaceWatermarkWithSharp = async (
     }
 
     // Задаем относительные пропорции для области водяного знака
-    let xRatio = 0.55;
+    let xRatio = 0.59;
     let yRatio = 0.88;
-    let widthRatio = 0.44;
+    let widthRatio = 0.4;
     let heightRatio = 0.11;
-    let fontSizeKoef = 0.07;
+    let fontSizeKoef = 0.05;
+    let letterSpasing = 0.6;
     if (width > height) {
       xRatio = 0.69;
       yRatio = 0.83;
       widthRatio = 0.29;
       heightRatio = 0.15;
-      fontSizeKoef = 0.065;
+      fontSizeKoef = 0.06;
+      letterSpasing = 0.7;
     }
 
     // Вычисляем абсолютные координаты и размеры области
@@ -100,7 +102,7 @@ export const replaceWatermarkWithSharp = async (
                 font-style="italic" 
                 text-anchor="middle" 
                 dominant-baseline="middle" 
-                letter-spacing="0.8px" 
+                letter-spacing="${letterSpasing}px" 
                 font-family="Arial"
                 filter="url(#textShadow)"
               >

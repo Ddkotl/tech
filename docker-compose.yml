@@ -70,10 +70,18 @@ services:
       /usr/bin/mc anonymous set public myminio/${S3_IMAGES_BUCKET};
       exit 0;
       "
-
     networks:
       # Настройка сетей
       - backend # Подключение к сети backend
+
+  tor:
+    image: dperson/torproxy
+    container_name: tor_proxy
+    restart: unless-stopped
+    ports:
+      - "9050:9050" # SOCKS5 Proxy
+    environment:
+      - TZ=UTC
 
 volumes:
   # Определение томов
