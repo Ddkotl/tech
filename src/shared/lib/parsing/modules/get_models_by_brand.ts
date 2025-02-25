@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { transliterateToUrl } from "../../transliteration";
-import { downloadImage } from "../functions/download_image_for_S3";
+import { downloadImageForS3 } from "../functions/download_image_for_S3";
 import { safeTranslate } from "../functions/safe_translate";
 import { generateModelDescription } from "../openai/generate_model_description";
 import { parseModel } from "../db_seed/parse_model";
@@ -40,7 +40,7 @@ export const getModelsByBrand = async (
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImage(imgUrl, slug, "models_main", true, true)
+      ? await downloadImageForS3(imgUrl, slug, "models_main", true, true, true)
       : "";
 
     const releaseDate = await page
@@ -125,10 +125,11 @@ export const getModelsByBrand = async (
         );
       for (const imgSrc of imagesSrc) {
         if (imgSrc) {
-          const savedPath = await downloadImage(
+          const savedPath = await downloadImageForS3(
             imgSrc,
             slug,
             "news",
+            true,
             true,
             true,
           );

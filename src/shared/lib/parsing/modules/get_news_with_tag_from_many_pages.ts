@@ -1,7 +1,7 @@
 import { Page } from "playwright";
 import { IsNewsAlresdyParsed } from "../db_seed/is_already_parsed";
 import { generateDataForPost } from "../functions/generate_data_for_post";
-import { downloadImage } from "../functions/download_image_for_S3";
+import { downloadImageForS3 } from "../functions/download_image_for_S3";
 import { translateAndUnicTitle } from "../openai/translate_and_untc_title";
 import { translateAndUnicText } from "../openai/translate_and_untc_content";
 import {
@@ -62,7 +62,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         );
       // Сохранение превью и всех картинок
       const previewPath = article.previewImageUrl
-        ? await downloadImage(
+        ? await downloadImageForS3(
             article.previewImageUrl,
             article.titleForImg,
             "news_preview",
@@ -72,7 +72,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       const contentImagesPaths = [];
       for (const imgSrc of imagesSrc) {
         if (imgSrc) {
-          const savedPath = await downloadImage(
+          const savedPath = await downloadImageForS3(
             imgSrc,
             article.titleForImg,
             "news",

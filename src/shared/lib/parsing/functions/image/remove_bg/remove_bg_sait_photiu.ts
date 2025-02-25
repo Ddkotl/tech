@@ -13,7 +13,17 @@ export const removeBackgroundWithphotiu = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const context = await browser.newContext({
+    // recordVideo: {
+    //   dir: `./img_for_test/v1-${new Date().toISOString()}`,
+    //   size: { width: 1280, height: 720 },
+    // },
+    storageState: undefined,
+    proxy: {
+      server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
+    },
+  });
+  const page = await context.newPage();
   try {
     // Создаем временный файл из Buffer
     const tempFilePath = path.join(os.tmpdir(), "input_image.png");

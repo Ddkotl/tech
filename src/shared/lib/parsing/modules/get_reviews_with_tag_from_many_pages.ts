@@ -1,7 +1,7 @@
 import { Page } from "playwright";
 import { IsReviewAlreadyParsed } from "../db_seed/is_already_parsed";
 import { generateDataForPost } from "../functions/generate_data_for_post";
-import { downloadImage } from "../functions/download_image_for_S3";
+import { downloadImageForS3 } from "../functions/download_image_for_S3";
 import { translateAndUnicTitle } from "../openai/translate_and_untc_title";
 import { translateAndUnicText } from "../openai/translate_and_untc_content";
 import {
@@ -116,7 +116,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
 
       // Сохранение превью изображения
       const previewPath = article.previewImageUrl
-        ? await downloadImage(
+        ? await downloadImageForS3(
             article.previewImageUrl,
             article.titleForImg,
             "reviews_preview",
@@ -127,7 +127,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       const contentImagesPaths = [];
       for (const imgSrc of allImages) {
         if (imgSrc) {
-          const savedPath = await downloadImage(
+          const savedPath = await downloadImageForS3(
             imgSrc,
             article.titleForImg,
             "reviews",

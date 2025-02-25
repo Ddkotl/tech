@@ -25,7 +25,7 @@ const waitForContainerToBeHealthy = (
           } else if (Date.now() - startTime > timeout) {
             reject(
               new Error(
-                `Контейнер не стал здоровым в течение ${timeout / 1000} секунд`,
+                `Tor не стал здоровым в течение ${timeout / 1000} секунд`,
               ),
             );
           } else {
@@ -49,16 +49,15 @@ export const restartTor = async (): Promise<void> => {
           console.error(`Ошибка при перезапуске Tor: ${stderr}`);
           return reject(error);
         }
-
-        console.log(`Tor перезапущен: ${stdout}`);
-
         // Ждем, пока контейнер станет "healthy"
         try {
           await waitForContainerToBeHealthy(TOR_CONTAINER_NAME);
-          console.log("Контейнер Tor стал здоровым и готов к использованию.");
+          console.log(
+            `Контейнер ${stdout} перезапущен и готов к использованию.`,
+          );
           resolve();
         } catch (err) {
-          console.error("Ошибка при ожидании состояния контейнера:", err);
+          console.error("Ошибка при ожидании состояния Tor контейнера:", err);
           reject(err);
         }
       },
