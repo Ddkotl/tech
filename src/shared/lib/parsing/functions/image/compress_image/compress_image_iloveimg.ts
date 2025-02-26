@@ -78,6 +78,7 @@ export const compressImageILoveImage = async (
 
     // Сохраняем файл на диск
     await download.saveAs(tempDownloadPath);
+    // await download.saveAs(`./img_for_test/test-${new Date()}.png`);
     // console.log("сжатое изображение сохранено");
 
     // Читаем файл как Buffer

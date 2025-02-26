@@ -33,26 +33,27 @@ export const downloadImageForS3 = async (
       response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
     if (incriase) {
-      processedImageBuffer = await incriaseImageWithRetry(response.data);
-      console.log("изображение увеличено");
+      processedImageBuffer = await incriaseImageWithRetry(processedImageBuffer);
+      // console.log("изображение увеличено");
     }
     if (remove_wattermark) {
-      processedImageBuffer = await removeWattermarkWithRetry(response.data);
-      console.log("удалена вотермарка");
+      processedImageBuffer =
+        await removeWattermarkWithRetry(processedImageBuffer);
+      // console.log("удалена вотермарка");
     }
     if (convert_to_png) {
-      processedImageBuffer = await removeImageBackgroundWithRetry(
-        response.data,
-      );
-      console.log("удален фон");
+      processedImageBuffer =
+        await removeImageBackgroundWithRetry(processedImageBuffer);
+      // console.log("удален фон");
     }
+
     processedImageBuffer = await replaceWatermarkWithSharp(
       processedImageBuffer,
       "tech24view.ru",
     );
-    console.log("вотермарка добавлена");
+    // console.log("вотермарка добавлена");
     processedImageBuffer = await сompressImageWithRetry(processedImageBuffer);
-    console.log("изображение сжато");
+    // console.log("изображение сжато");
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
 

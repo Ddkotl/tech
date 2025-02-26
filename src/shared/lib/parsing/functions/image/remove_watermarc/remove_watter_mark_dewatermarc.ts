@@ -75,6 +75,7 @@ export const removeWattermarkDewatermarck = async (
 
     // Сохраняем файл на диск
     await download.saveAs(tempDownloadPath);
+    // await download.saveAs(`./img_for_test/test-${new Date()}.png`);
     // console.log("Изображение без вотермарки сохранено");
 
     // Читаем файл как Buffer

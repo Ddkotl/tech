@@ -68,7 +68,7 @@ export default async function PhoneModelPage({
 
         {/* Раздел "Описание" */}
         <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg">
-          <h2 className="text-3xl font-semibold ">
+          <h2 className="text-2xl lg:text-3xl font-semibold ">
             Подробные характеристики модели
           </h2>
           <div className="prose">
