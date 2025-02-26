@@ -1,6 +1,5 @@
 import parse from "html-react-parser";
 
-import styles from "./content.module.css";
 import { getPhoneModelInfo } from "@/entities/phone_models/_actions/get_model_info_by_slug";
 import {
   getPhoneModeBySlug,
@@ -69,8 +68,10 @@ export default async function PhoneModelPage({
 
         {/* Раздел "Описание" */}
         <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg">
-          <h2 className="text-xl font-semibold mb-3">Описание</h2>
-          <div className={styles.prose}>
+          <h2 className="text-3xl font-semibold ">
+            Подробные характеристики модели
+          </h2>
+          <div className="prose">
             {phone.specifications[0].description
               ? parse(String(phone.specifications[0].description))
               : "Описание отсутствует"}

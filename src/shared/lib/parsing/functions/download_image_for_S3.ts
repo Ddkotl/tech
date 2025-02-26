@@ -34,16 +34,25 @@ export const downloadImageForS3 = async (
     let processedImageBuffer = response.data;
     if (incriase) {
       processedImageBuffer = await incriaseImageWithRetry(response.data);
+      console.log("изображение увеличено");
     }
     if (remove_wattermark) {
       processedImageBuffer = await removeWattermarkWithRetry(response.data);
+      console.log("удалена вотермарка");
     }
     if (convert_to_png) {
       processedImageBuffer = await removeImageBackgroundWithRetry(
         response.data,
       );
+      console.log("удален фон");
     }
-    processedImageBuffer = await сompressImageWithRetry(response.data);
+    processedImageBuffer = await replaceWatermarkWithSharp(
+      processedImageBuffer,
+      "tech24view.ru",
+    );
+    console.log("вотермарка добавлена");
+    processedImageBuffer = await сompressImageWithRetry(processedImageBuffer);
+    console.log("изображение сжато");
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
 
@@ -56,7 +65,6 @@ export const downloadImageForS3 = async (
       imgName,
     );
 
-    await replaceWatermarkWithSharp(storedFile.path, "tech24view.ru");
     return storedFile.path;
   } catch (error) {
     console.warn("Failed to download image:", url, error);

@@ -52,9 +52,9 @@ export const restartTor = async (): Promise<void> => {
         // Ждем, пока контейнер станет "healthy"
         try {
           await waitForContainerToBeHealthy(TOR_CONTAINER_NAME);
-          console.log(
-            `Контейнер ${stdout} перезапущен и готов к использованию.`,
-          );
+          // console.log(
+          //   `Контейнер ${stdout} перезапущен и готов к использованию.`,
+          // );
           resolve();
         } catch (err) {
           console.error("Ошибка при ожидании состояния Tor контейнера:", err);

@@ -50,7 +50,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
             <ModelSpecItem
               icon={<Smartphone size={20} />}
               title="Экран(пиксели)"
-              value={`${phone.specifications[0].screen_px}px`}
+              value={`${phone.specifications[0].screen_px}`}
             />
             <ModelSpecItem
               icon={<Camera size={20} />}

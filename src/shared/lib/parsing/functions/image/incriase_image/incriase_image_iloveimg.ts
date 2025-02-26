@@ -73,10 +73,17 @@ export const incriaseImageILoveImage = async (
     await x4Button.waitForElementState("enabled", { timeout: 60000 });
     await x4Button.click();
     // console.log("x4Button доступна");
-
+    await page.waitForTimeout(10000);
+    await page.waitForSelector("div[class='img-comparison-slider__second']", {
+      timeout: 60000,
+    });
+    await simulateMouseMovement(page);
     // Ожидаем появления кнопки для скачивания
     const downloadButtonSelector = "button[id='processTask']";
-    await page.waitForSelector(downloadButtonSelector, { timeout: 60000 });
+    const downloadButton = await page.waitForSelector(downloadButtonSelector, {
+      timeout: 60000,
+    });
+    await downloadButton.waitForElementState("enabled", { timeout: 60000 });
     // console.log("processTask доступна");
     // Перехватываем событие скачивания
     const [download] = await Promise.all([
@@ -96,7 +103,7 @@ export const incriaseImageILoveImage = async (
     // Возвращаем Buffer
     return processedImageBuffer;
   } catch (error) {
-    console.error("Ошибка при удалении вотермарки:", error);
+    console.error("Ошибка при увеличении изображения:", error);
     throw error;
   } finally {
     await browser.close();

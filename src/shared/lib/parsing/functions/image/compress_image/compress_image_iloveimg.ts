@@ -88,7 +88,7 @@ export const compressImageILoveImage = async (
     // Возвращаем Buffer
     return processedImageBuffer;
   } catch (error) {
-    console.error("Ошибка при удалении вотермарки:", error);
+    console.error("Ошибка при сжатии изображения:", error);
     throw error;
   } finally {
     await browser.close();

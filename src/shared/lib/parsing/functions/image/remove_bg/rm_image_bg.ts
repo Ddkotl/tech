@@ -11,18 +11,18 @@ export const removeImageBackgroundWithRetry = async (
 
   while (attempts < maxRetries) {
     try {
-      return await removeBgImageILoveImage(imageBuffer);
+      // Попытка удалить фон через Photiu
+      return await removeBackgroundWithphotiu(imageBuffer);
     } catch (errorILoveImage) {
       console.error(
-        `Ошибка при удалении фона с помощью removeBgImageILoveImage (попытка ${attempts + 1}):`,
+        `Ошибка при удалении фона с помощью removeBackgroundWithphotiu (попытка ${attempts + 1}):`,
         errorILoveImage,
       );
       try {
-        // Попытка удалить фон через Photiu
-        return await removeBackgroundWithphotiu(imageBuffer);
+        return await removeBgImageILoveImage(imageBuffer);
       } catch (errorPhotiu) {
         console.error(
-          `Ошибка при удалении фона с помощью removeBackgroundWithphotiu (попытка ${attempts + 1}):`,
+          `Ошибка при удалении фона с помощью removeBgImageILoveImage (попытка ${attempts + 1}):`,
           errorPhotiu,
         );
 

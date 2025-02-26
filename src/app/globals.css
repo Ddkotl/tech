@@ -152,3 +152,31 @@ body {
     }
   }
 }
+
+/* стилизация секций с контентом, хранится html в базе */
+
+@layer components {
+  .prose {
+    @apply max-w-none  leading-relaxed text-foreground;
+
+    h2 {
+      @apply text-xl lg:text-2xl font-bold mt-2 lg:mt-4 border-b-2 border-foreground/40;
+    }
+
+    p {
+      @apply text-sm lg:text-base text-foreground/80;
+
+      b {
+        @apply text-base lg:text-lg text-foreground;
+      }
+    }
+
+    a {
+      @apply text-foreground/80 no-underline;
+
+      &:hover {
+        @apply underline;
+      }
+    }
+  }
+}
