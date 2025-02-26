@@ -5,6 +5,8 @@ import { fileStorage } from "../../file-storage";
 import { removeImageBackgroundWithRetry } from "./image/remove_bg/rm_image_bg";
 import { restartTor } from "../../tor";
 import { removeWattermarkWithRetry } from "./image/remove_watermarc/rm_image_watermarc";
+import { incriaseImageWithRetry } from "./image/incriase_image/incriase_image";
+import { сompressImageWithRetry } from "./image/compress_image/compress_image";
 
 export const downloadImageForS3 = async (
   url: string,
@@ -13,6 +15,7 @@ export const downloadImageForS3 = async (
   convert_to_png: boolean = false,
   remove_wattermark: boolean = false,
   proxy_tor: boolean = false,
+  incriase: boolean = false,
 ) => {
   try {
     if (proxy_tor) {
@@ -29,6 +32,9 @@ export const downloadImageForS3 = async (
     const contentType =
       response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
+    if (incriase) {
+      processedImageBuffer = await incriaseImageWithRetry(response.data);
+    }
     if (remove_wattermark) {
       processedImageBuffer = await removeWattermarkWithRetry(response.data);
     }
@@ -37,6 +43,7 @@ export const downloadImageForS3 = async (
         response.data,
       );
     }
+    processedImageBuffer = await сompressImageWithRetry(response.data);
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
 

@@ -40,7 +40,15 @@ export const getModelsByBrand = async (
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImageForS3(imgUrl, slug, "models_main", true, true, true)
+      ? await downloadImageForS3(
+          imgUrl,
+          slug,
+          "models_main",
+          true,
+          true,
+          true,
+          true,
+        )
       : "";
 
     const releaseDate = await page
@@ -132,6 +140,7 @@ export const getModelsByBrand = async (
             true,
             true,
             true,
+            false,
           );
           if (savedPath) {
             contentImagesPaths.push(savedPath);
