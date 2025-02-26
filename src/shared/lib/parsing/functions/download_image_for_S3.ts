@@ -5,6 +5,8 @@ import { fileStorage } from "../../file-storage";
 import { removeImageBackgroundWithRetry } from "./image/remove_bg/rm_image_bg";
 import { restartTor } from "../../tor";
 import { removeWattermarkWithRetry } from "./image/remove_watermarc/rm_image_watermarc";
+import { incriaseImageWithRetry } from "./image/incriase_image/incriase_image";
+import { сompressImageWithRetry } from "./image/compress_image/compress_image";
 
 export const downloadImageForS3 = async (
   url: string,
@@ -13,6 +15,7 @@ export const downloadImageForS3 = async (
   convert_to_png: boolean = false,
   remove_wattermark: boolean = false,
   proxy_tor: boolean = false,
+  incriase: boolean = false,
 ) => {
   try {
     if (proxy_tor) {
@@ -29,14 +32,28 @@ export const downloadImageForS3 = async (
     const contentType =
       response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
+    if (incriase) {
+      processedImageBuffer = await incriaseImageWithRetry(processedImageBuffer);
+      // console.log("изображение увеличено");
+    }
     if (remove_wattermark) {
-      processedImageBuffer = await removeWattermarkWithRetry(response.data);
+      processedImageBuffer =
+        await removeWattermarkWithRetry(processedImageBuffer);
+      // console.log("удалена вотермарка");
     }
     if (convert_to_png) {
-      processedImageBuffer = await removeImageBackgroundWithRetry(
-        response.data,
-      );
+      processedImageBuffer =
+        await removeImageBackgroundWithRetry(processedImageBuffer);
+      // console.log("удален фон");
     }
+
+    processedImageBuffer = await replaceWatermarkWithSharp(
+      processedImageBuffer,
+      "tech24view.ru",
+    );
+    // console.log("вотермарка добавлена");
+    processedImageBuffer = await сompressImageWithRetry(processedImageBuffer);
+    // console.log("изображение сжато");
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
 
@@ -49,7 +66,6 @@ export const downloadImageForS3 = async (
       imgName,
     );
 
-    await replaceWatermarkWithSharp(storedFile.path, "tech24view.ru");
     return storedFile.path;
   } catch (error) {
     console.warn("Failed to download image:", url, error);

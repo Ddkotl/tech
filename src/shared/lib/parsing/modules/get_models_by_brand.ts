@@ -40,7 +40,15 @@ export const getModelsByBrand = async (
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImageForS3(imgUrl, slug, "models_main", true, true, true)
+      ? await downloadImageForS3(
+          imgUrl,
+          slug,
+          "models_main",
+          true,
+          true,
+          true,
+          true,
+        )
       : "";
 
     const releaseDate = await page
@@ -108,36 +116,42 @@ export const getModelsByBrand = async (
       .innerText();
     const description = await page.locator('div[id="specs-list"]').innerHTML();
     const translatedDescription = await generateModelDescription(description);
-
-    const imagesPageUrl = await page
-      .locator(".article-info-meta > .article-info-meta-link > a")
-      .getByText("Pictures")
-      .first()
-      .getAttribute("href");
-
     const contentImagesPaths = [];
-    if (imagesPageUrl) {
-      await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`);
-      const imagesSrc = await page
-        .locator("#pictures-list > img")
-        .evaluateAll((imgs) =>
-          imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null),
-        );
-      for (const imgSrc of imagesSrc) {
-        if (imgSrc) {
-          const savedPath = await downloadImageForS3(
-            imgSrc,
-            slug,
-            "news",
-            true,
-            true,
-            true,
+    try {
+      const imagesPageUrl = await page
+        .locator(".article-info-meta > .article-info-meta-link > a")
+        .getByText("Pictures")
+        .first()
+        .getAttribute("href");
+
+      if (imagesPageUrl) {
+        await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`);
+        const imagesSrc = await page
+          .locator("#pictures-list > img")
+          .evaluateAll((imgs) =>
+            imgs
+              .map((img) => img.getAttribute("src"))
+              .filter((e) => e !== null),
           );
-          if (savedPath) {
-            contentImagesPaths.push(savedPath);
+        for (const imgSrc of imagesSrc) {
+          if (imgSrc) {
+            const savedPath = await downloadImageForS3(
+              imgSrc,
+              slug,
+              "news",
+              true,
+              true,
+              true,
+              false,
+            );
+            if (savedPath) {
+              contentImagesPaths.push(savedPath);
+            }
           }
         }
       }
+    } catch (error) {
+      console.error(`Ошибка при получении картинок для ${model.model}:`, error);
     }
     await parseModel({
       shortName,
@@ -155,7 +169,7 @@ export const getModelsByBrand = async (
       screen_duim: screen_duim.replace(/[^0-9.]/g, ""),
       screen_px: screen_px.split(" ")[0],
       camera_photo: camera_photo.replace(/MP/gi, " МП"),
-      camera_video: camera_video.replace(/NO/gi, "-"),
+      camera_video: camera_video.replace(/p/g, " p"),
       batary_capasity: batary_capasity.replace(/mAh/gi, " мАч"),
       description: translatedDescription,
       contentImagesPaths: contentImagesPaths,

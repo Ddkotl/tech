@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppProvider } from "./_providers/app-provider";
 import { GoogleAnalytics } from "@/features/seo/google-analitic";
 import { privateConfig } from "@/shared/lib/config/private";
+import { ScrollToTopButton } from "@/shared/components/custom/scroll_button";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -60,9 +61,10 @@ export default function RootLayout({
       </head>
       <GoogleAnalytics gaId={privateConfig.GOOGLE_ANALITICS_4_ID || ""} />
       <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased h-full`}
+        className={`${geistSans.variable} ${geistMono.variable}  antialiased h-full relative`}
       >
         <AppProvider>{children}</AppProvider>
+        <ScrollToTopButton />
       </body>
     </html>
   );

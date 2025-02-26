@@ -1,4 +1,4 @@
-import { setupCron } from "@/shared/lib/parsing/crone";
+import { setupCron } from "@/shared/lib/crone";
 import { NextResponse } from "next/server";
 
 let cronInitialized = false;

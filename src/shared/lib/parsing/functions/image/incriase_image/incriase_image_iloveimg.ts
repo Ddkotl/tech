@@ -4,7 +4,7 @@ import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
 
-export const removeWattermarkDewatermarck = async (
+export const incriaseImageILoveImage = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
   const browser = await chromium.launch({ headless: true });
@@ -36,7 +36,7 @@ export const removeWattermarkDewatermarck = async (
 
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://dewatermark.ai/");
+    await page.goto("https://www.iloveimg.com/upscale-image");
     // console.log("Сайт открыт");
 
     // Нажимаем на кнопку согласия (если она есть)
@@ -60,13 +60,31 @@ export const removeWattermarkDewatermarck = async (
 
     // Ждем, пока изображение обработается
     await page.waitForTimeout(5000); // Ожидание 5 секунд для обработки
-    await page.waitForSelector("img[alt='enhanced-image']", { timeout: 60000 });
+    await page.waitForSelector("div[class='img-comparison-slider__second']", {
+      timeout: 60000,
+    });
     // console.log("Изображение обработано");
-
+    await simulateMouseMovement(page);
+    //ожидаем кнопки х4
+    const x4ButtonSelector = "li[data-name='multiplier'][data-value='4']";
+    const x4Button = await page.waitForSelector(x4ButtonSelector, {
+      timeout: 60000,
+    });
+    await x4Button.waitForElementState("enabled", { timeout: 60000 });
+    await x4Button.click();
+    // console.log("x4Button доступна");
+    await page.waitForTimeout(10000);
+    await page.waitForSelector("div[class='img-comparison-slider__second']", {
+      timeout: 60000,
+    });
+    await simulateMouseMovement(page);
     // Ожидаем появления кнопки для скачивания
-    const downloadButtonSelector = "button:has-text('Download')";
-    await page.waitForSelector(downloadButtonSelector, { timeout: 60000 });
-
+    const downloadButtonSelector = "button[id='processTask']";
+    const downloadButton = await page.waitForSelector(downloadButtonSelector, {
+      timeout: 60000,
+    });
+    await downloadButton.waitForElementState("enabled", { timeout: 60000 });
+    // console.log("processTask доступна");
     // Перехватываем событие скачивания
     const [download] = await Promise.all([
       page.waitForEvent("download"),
@@ -76,7 +94,7 @@ export const removeWattermarkDewatermarck = async (
     // Сохраняем файл на диск
     await download.saveAs(tempDownloadPath);
     // await download.saveAs(`./img_for_test/test-${new Date()}.png`);
-    // console.log("Изображение без вотермарки сохранено");
+    // console.log("увеличенное изображение сохранено");
 
     // Читаем файл как Buffer
     const processedImageBuffer = fs.readFileSync(tempDownloadPath);
@@ -86,7 +104,7 @@ export const removeWattermarkDewatermarck = async (
     // Возвращаем Buffer
     return processedImageBuffer;
   } catch (error) {
-    console.error("Ошибка при удалении вотермарки:", error);
+    console.error("Ошибка при увеличении изображения:", error);
     throw error;
   } finally {
     await browser.close();

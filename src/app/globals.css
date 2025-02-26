@@ -86,7 +86,7 @@ body {
   }
 }
 
-/* image galery component image-galery-react */
+/* image galery component image-galery-react лучше не трогать */
 
 .responsive-gallery {
   .image-gallery {
@@ -107,15 +107,14 @@ body {
   .image-gallery-thumbnails {
     @apply !w-10 !relative;
   }
+
   .image-gallery-thumbnail {
     @apply rounded-lg overflow-hidden  border border-primary/50 !w-10;
-
-    &.active {
-      @apply border-primary/50 border-2 bg-foreground/10;
-    }
-    &:not(.active):hover {
-      @apply border border-primary/50 scale-95 bg-foreground/10;
-    }
+  }
+  .image-gallery-thumbnail.active,
+  .image-gallery-thumbnail:focus,
+  .image-gallery-thumbnail:hover {
+    @apply border-purple-500 border-2 bg-foreground/10;
   }
 
   .image-gallery-fullscreen-button,
@@ -126,9 +125,11 @@ body {
       @apply drop-shadow-md;
     }
   }
-
+  .image-gallery-icon {
+    @apply text-foreground;
+  }
   .image-gallery-icon:hover {
-    @apply text-primary;
+    @apply text-foreground/50;
   }
   .image-gallery-image {
     @apply h-56 md:h-80  object-contain p-1;
@@ -149,6 +150,45 @@ body {
     }
     .image-gallery-thumbnail {
       @apply rounded-lg overflow-hidden  border border-primary/50 !w-16;
+    }
+    .image-gallery-thumbnail.active,
+    .image-gallery-thumbnail:focus,
+    .image-gallery-thumbnail:hover {
+      @apply border-purple-500 border-2 bg-foreground/10;
+    }
+    .image-gallery-icon {
+      @apply text-slate-200;
+    }
+    .image-gallery-icon:hover {
+      @apply text-slate-500;
+    }
+  }
+}
+
+/* стилизация секций с контентом, хранится html в базе */
+
+@layer components {
+  .prose {
+    @apply max-w-none  leading-relaxed text-foreground;
+
+    h2 {
+      @apply text-xl lg:text-2xl font-bold mt-2 lg:mt-4 border-b-2 border-foreground/40;
+    }
+
+    p {
+      @apply text-sm lg:text-base text-foreground/80;
+
+      b {
+        @apply text-base lg:text-lg text-foreground;
+      }
+    }
+
+    a {
+      @apply text-foreground/80 no-underline;
+
+      &:hover {
+        @apply underline;
+      }
     }
   }
 }
