@@ -24,7 +24,7 @@ export function NavigationButton({
     <Link
       href={isLoading ? "#" : `/phone_model/${slug}`}
       className={cn(
-        "flex items-center gap-2 transition-transform duration-200 hover:scale-105 border  p-2 rounded-2xl shadow-lg max-w-44",
+        "flex items-center gap-2 transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10 border  p-2 rounded-2xl shadow-lg max-w-44",
         className,
         isLoading && "pointer-events-none opacity-50",
       )}
