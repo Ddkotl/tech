@@ -41,7 +41,7 @@ export function NavigationButton({
             alt={text}
             width={50}
             height={75}
-            className="w-7 h-10 object-cover rounded-md"
+            className="w-7 h-10 object-cover rounded-md image-safe"
           />
         )}
         {isLoading ? (

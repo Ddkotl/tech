@@ -106,7 +106,7 @@ export default async function NewsPage({
               width={400}
               height={200}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="rounded-lg object-contain"
+              className="rounded-lg object-contain "
             />
             <div className="mt-2 md:mt-0">
               <div className="flex flex-wrap items-center justify-start gap-1 overflow-hidden">

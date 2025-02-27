@@ -67,11 +67,11 @@ export default async function PhoneModelPage({
         <PhoneModelLargeCard phone={phone} />
 
         {/* Раздел "Описание" */}
-        <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg">
+        <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg text-safe">
           <h2 className="text-2xl lg:text-3xl font-semibold ">
             Подробные характеристики
           </h2>
-          <div className="prose">
+          <div className="prose ">
             {phone.specifications[0].description
               ? parse(String(phone.specifications[0].description))
               : "Описание отсутствует"}
