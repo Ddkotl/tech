@@ -36,13 +36,15 @@ export function NavigationButton({
         {isLoading ? (
           <Skeleton className="w-7 h-10 rounded-md" />
         ) : (
-          <Image
-            src={image}
-            alt={text}
-            width={50}
-            height={75}
-            className="w-7 h-10 object-cover rounded-md image-safe"
-          />
+          <div className=" image-safe">
+            <Image
+              src={image}
+              alt={text}
+              width={50}
+              height={75}
+              className="w-7 h-10 object-cover rounded-md "
+            />
+          </div>
         )}
         {isLoading ? (
           <Skeleton className="w-16 h-4 rounded-md" />
