@@ -12,6 +12,27 @@ body {
   }
 }
 
+/* safe content */
+
+@layer components {
+  .image-safe {
+    @apply relative inline-block;
+  }
+
+  .image-safe::after {
+    content: "";
+    @apply bg-transparent absolute top-0 left-0 w-full h-full pointer-events-auto z-10;
+  }
+  .text-safe {
+    @apply relative select-none; /* Отключает выделение текста */
+  }
+
+  .text-safe::after {
+    content: "";
+    @apply absolute top-0 left-0 w-full h-full bg-transparent pointer-events-auto z-10;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -96,7 +117,7 @@ body {
     @apply object-contain rounded-lg;
   }
   .image-gallery-content {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center image-safe;
   }
   .image-gallery-thumbnails-wrapper {
     @apply !w-10;
@@ -105,11 +126,11 @@ body {
     @apply !w-10;
   }
   .image-gallery-thumbnails {
-    @apply !w-10 !relative;
+    @apply !w-10 !relative z-20;
   }
 
   .image-gallery-thumbnail {
-    @apply rounded-lg overflow-hidden  border border-primary/50 !w-10;
+    @apply rounded-lg overflow-hidden  border border-primary/50 !w-10 image-safe;
   }
   .image-gallery-thumbnail.active,
   .image-gallery-thumbnail:focus,
@@ -119,7 +140,7 @@ body {
 
   .image-gallery-fullscreen-button,
   .image-gallery-play-button {
-    @apply bottom-0 top-auto transform-none;
+    @apply bottom-0 top-auto transform-none z-20;
 
     &::before {
       @apply drop-shadow-md;

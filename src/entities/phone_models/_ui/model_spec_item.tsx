@@ -9,7 +9,7 @@ export const ModelSpecItem = ({
   title: string;
   value: string | null | undefined;
 }) => (
-  <div className="flex items-center gap-2 border-b border-foreground/30 ">
+  <div className="flex items-center gap-2 border-b border-foreground/30 text-safe">
     <span>{icon}</span>
 
     <span className="font-medium text-sm foreground/70">{title}:</span>

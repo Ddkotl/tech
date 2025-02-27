@@ -1,4 +1,4 @@
-import cuid from "cuid";
+import { createId } from "@/shared/lib/id";
 
 export const getImageName = (
   convert_to_png: boolean,
@@ -8,9 +8,7 @@ export const getImageName = (
     ?.toLowerCase()
     .replace(/[^a-z0-9]+/g, "_") // Заменяем любые не буквы/цифры на "_"
     .replace(/^_+|_+$/g, "") // Убираем лишние "_" в начале и конце
-    .slice(0, text.length < 20 ? text.length - 2 : 20);
+    .slice(0, text.length < 20 ? text.length : 20);
 
-  const uniqueId = cuid();
-
-  return `${sanitizedTitle}_${uniqueId}.${convert_to_png ? "png" : "jpg"}`;
+  return `${sanitizedTitle}_${createId()}.${convert_to_png ? "png" : "jpg"}`;
 };

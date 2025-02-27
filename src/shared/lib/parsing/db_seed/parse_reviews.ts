@@ -32,15 +32,11 @@ export async function ParseReviews(
   });
 
   // Ждем завершения добавления всех тегов
-  const addedTags = await Promise.all(tagPromises);
-  const createdTags: Tag[] = addedTags.filter((el) => el !== undefined);
+  const parsedTags: Tag[] = await Promise.all(tagPromises);
+  const tagsForAdd: Tag[] = parsedTags.filter((el) => el !== undefined);
   // Добавляем новость в базу
-  await dataBase.reviewsParsedTitles.upsert({
-    where: { title: ingTitle },
-    update: {},
-    create: {
-      title: ingTitle,
-    },
+  await dataBase.reviewsParsedTitles.create({
+    data: { title: ingTitle },
   });
 
   const createdReview: Reviews = await dataBase.reviews.upsert({
@@ -56,15 +52,48 @@ export async function ParseReviews(
       previewImage: previewImage,
       images: images,
       tags: {
-        connect: createdTags.map((tag) => ({ id: tag.id })), // Соединяем новость с тегами
+        connect: tagsForAdd.map((tag) => ({ id: tag.id })), // Соединяем новость с тегами
       },
-      phoneModel: {
-        connect: {
-          short_name: mobileModelName,
-        },
-      },
+      // phoneModel: {
+      //   connect: {
+      //     short_name: mobileModelName,
+      //   },
+      // },
     },
   });
+
+  try {
+    await dataBase.reviews.upsert({
+      where: { title: ruTitle },
+      update: {
+        phoneModel: {
+          connect: {
+            short_name: mobileModelName,
+          },
+        },
+      },
+      create: {
+        meta_title: metaTitle,
+        meta_description: metaDescription,
+        slug: slug,
+        createdAt: date,
+        title: ruTitle,
+        content: content,
+        previewImage: previewImage,
+        images: images,
+        tags: {
+          connect: tagsForAdd.map((tag) => ({ id: tag.id })), // Соединяем новость с тегами
+        },
+        // phoneModel: {
+        //   connect: {
+        //     short_name: mobileModelName,
+        //   },
+        // },
+      },
+    });
+  } catch (error) {
+    console.log(`Не удалось привязать обзор к модели телефона`, error);
+  }
 
   console.log(`Created review with title: ${createdReview.title}`);
   await delay(1000);

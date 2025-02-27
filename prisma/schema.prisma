@@ -77,8 +77,8 @@ model Reviews {
   images       String[]
   views        Int      @default(0)
 
-  phoneModelId String            @map("phone_model_id")
-  phoneModel   PhoneModels       @relation(fields: [phoneModelId], references: [id])
+  phoneModelId String?           @map("phone_model_id")
+  phoneModel   PhoneModels?      @relation(fields: [phoneModelId], references: [id], onDelete: SetNull)
   bookmarks    ReviewsBookmark[]
 
   tags Tag[] @relation("ReviewsTags")

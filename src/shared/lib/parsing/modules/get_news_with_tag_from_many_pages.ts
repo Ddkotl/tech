@@ -11,7 +11,7 @@ import {
 import { translateTags } from "../openai/translate_tags";
 import { ParseNews } from "../db_seed/parse_news";
 import { transliterateToUrl } from "../../transliteration";
-import { cleanAndParseArray } from "../functions/clean_and_parse_tags";
+import { cleanAndParseTags } from "../functions/clean_and_parse_tags";
 import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 
@@ -97,9 +97,9 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       const parsedTags = (() => {
         try {
           return translatedTags
-            ? cleanAndParseArray(translatedTags)
+            ? cleanAndParseTags(translatedTags)
             : generatedTags
-              ? cleanAndParseArray(generatedTags)
+              ? cleanAndParseTags(generatedTags)
               : [""];
         } catch (e) {
           console.log("Ошибка при парсинге tags", e);

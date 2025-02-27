@@ -11,12 +11,12 @@ import {
 import { translateTags } from "../openai/translate_tags";
 import { ParseReviews } from "../db_seed/parse_reviews";
 import { transliterateToUrl } from "../../transliteration";
-import { cleanAndParseArray } from "../functions/clean_and_parse_tags";
+import { cleanAndParseTags } from "../functions/clean_and_parse_tags";
 import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 
 export const parseReviewsFromManyPages = async (page: Page, n: number) => {
-  for (let i = 1; i <= n; i++) {
+  for (let i = n; 0 < i; i--) {
     console.log(`Parsing reviews from page ${i}`);
     await page.goto(`https://www.gsmarena.com/reviews.php3?iPage=${i}`, {
       waitUntil: "domcontentloaded",
@@ -44,7 +44,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         })),
       );
 
-    for (const article of articles) {
+    for (const article of articles.reverse()) {
       if (!article.link) {
         continue;
       }
@@ -52,20 +52,20 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         continue;
       }
 
-      const generatedDate = generateDataForPost(article.data);
+      const generatedDate: Date = generateDataForPost(article.data);
 
       const contentPages: string[] = [];
       const allImages: string[] = [];
       let mobileModelName: string = "";
       let currentUrl: string | null =
         `https://www.gsmarena.com/${article.link}`;
-
       // Обработка всех страниц обзора
       while (currentUrl) {
         await page.goto(currentUrl, { waitUntil: "domcontentloaded" });
         if (!mobileModelName) {
           const shortName: string | null = await page
-            .locator(".article-info-meta-link .meta-link-specs > a")
+            .locator('li[class="article-info-meta-link meta-link-specs"]')
+            .nth(0)
             .innerText();
           if (shortName) {
             mobileModelName = shortName.trim();
@@ -106,7 +106,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       }
 
       // Извлечение тегов
-      const tags = await page
+      const tags: string[] = await page
         .locator(".article-tags > .float-right >  a")
         .evaluateAll((tags) =>
           tags
@@ -114,70 +114,72 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
             .filter((el) => el !== undefined),
         );
 
+      const translatedTitle: string = article.title
+        ? await translateAndUnicTitle(article.title)
+        : "";
+      const slug: string = transliterateToUrl(translatedTitle);
       // Сохранение превью изображения
-      const previewPath = article.previewImageUrl
+      const previewPath: string | null = article.previewImageUrl
         ? await downloadImageForS3(
             article.previewImageUrl,
-            article.titleForImg,
+            slug,
             "reviews_preview",
+            false,
+            true,
+            true,
+            false,
           )
-        : null;
+        : "";
 
       // Сохранение всех изображений из обзора
-      const contentImagesPaths = [];
+      const contentImagesPaths: string[] = [];
       for (const imgSrc of allImages) {
         if (imgSrc) {
           const savedPath = await downloadImageForS3(
             imgSrc,
-            article.titleForImg,
+            slug,
             "reviews",
+            false,
+            true,
+            true,
+            false,
           );
           if (savedPath) contentImagesPaths.push(savedPath);
         }
       }
-      const translatedTitle = article.title
-        ? await translateAndUnicTitle(article.title)
-        : "";
-      const translatedContent = await translateAndUnicText(
+
+      const translatedContent: string = await translateAndUnicText(
         contentPages.join(" "),
       );
-      const metaTitle = await GenerateMetaTitle(
-        translatedTitle ? translatedTitle : "",
-      );
-      const metaDescription = await GenerateMetaDescription(
-        translatedContent ? translatedContent : "",
-      );
+      const metaTitle: string = await GenerateMetaTitle(translatedTitle);
+      const metaDescription: string =
+        await GenerateMetaDescription(translatedContent);
 
       const translatedTags = await translateTags(tags);
-      const generatedTags = await generateTags(
-        translatedContent ? translatedContent : "",
-      );
+      const generatedTags = await generateTags(translatedContent);
       const parsedTags = (() => {
         try {
           return translatedTags
-            ? cleanAndParseArray(translatedTags)
+            ? cleanAndParseTags(translatedTags)
             : generatedTags
-              ? cleanAndParseArray(generatedTags)
-              : [""];
+              ? cleanAndParseTags(generatedTags)
+              : [];
         } catch (e) {
           console.log("Ошибка при парсинге tags", e);
         }
       })();
 
-      const slug: string = transliterateToUrl(
-        article.title ? article.title : "",
-      );
       await ParseReviews(
         cleaneText(metaTitle),
         cleaneText(metaDescription),
         slug,
         generatedDate,
         article.title ? article.title : "",
-        translatedTitle ? cleaneText(translatedTitle) : "",
-        translatedContent ? cleaneText(translatedContent) : "",
+        cleaneText(translatedTitle),
+        cleaneText(translatedContent),
         previewPath ? previewPath : "",
         contentImagesPaths,
-        parsedTags ? parsedTags : [""],
+        parsedTags ? parsedTags : [],
         mobileModelName,
       );
     }
