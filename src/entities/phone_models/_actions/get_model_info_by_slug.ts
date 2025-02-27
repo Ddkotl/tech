@@ -19,6 +19,7 @@ export async function getPhoneModelInfo(
             slug: true,
             views: true,
             title: true,
+            meta_description: true,
           },
         },
       },
