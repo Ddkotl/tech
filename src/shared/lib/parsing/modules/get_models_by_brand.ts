@@ -171,7 +171,7 @@ export const getModelsByBrand = async (
       camera_photo: camera_photo.replace(/MP/gi, " МП"),
       camera_video: camera_video.replace(/p/g, " p"),
       batary_capasity: batary_capasity.replace(/mAh/gi, " мАч"),
-      description: translatedDescription,
+      description: translatedDescription.replace(/html/gi, ""),
       contentImagesPaths: contentImagesPaths,
     });
 

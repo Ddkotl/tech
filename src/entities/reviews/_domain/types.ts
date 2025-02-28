@@ -1,3 +1,4 @@
+import { PartialPhoneModel } from "@/entities/phone_models";
 import { Reviews, Tag } from "@prisma/client";
 
 export type PartialReviews = Pick<
@@ -14,3 +15,5 @@ export type PartialReviews = Pick<
 export type PartialReviewsWithTags = PartialReviews & {
   tags: Pick<Tag, "slug" | "title">[];
 };
+
+export type ReviewFullInfo = Reviews & { phoneModel: PartialPhoneModel | null };

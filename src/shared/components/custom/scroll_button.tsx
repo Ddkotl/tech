@@ -23,11 +23,11 @@ export function ScrollToTopButton() {
     <button
       onClick={scrollToTop}
       className={cn(
-        "fixed bottom-5 right-5   text-purple-500 transition-all  duration-300  rounded-full shadow-lg  hover:scale-110",
+        "fixed bottom-5 right-5   text-fio transition-all  duration-300  rounded-full shadow-lg  hover:scale-110",
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none",
       )}
     >
-      <ArrowUp size={30} />
+      <ArrowUp size={40} />
     </button>
   );
 }
