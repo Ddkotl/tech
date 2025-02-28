@@ -1,19 +1,14 @@
-"use client";
-
 import Image from "next/image";
-import { PartialReviewsWithTags } from "../_domain/types";
+import Link from "next/link";
+import type { PartialReviewsWithTags } from "../_domain/types";
 import {
-  Badge,
   Button,
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
   TimeAgo,
 } from "@/shared/components";
-import Link from "next/link";
+import { TagBage } from "@/entities/tag";
 
 export default function ReviewCard({
   review,
@@ -21,54 +16,53 @@ export default function ReviewCard({
   review: PartialReviewsWithTags;
 }) {
   return (
-    <Card className="overflow-hidden transition-all   w-full max-w-4xl mx-auto">
-      <div className="flex flex-col sm:flex-row">
-        <div className="relative ">
+    <Card className="max-w-[350px]   transition-all hover:bg-background/80">
+      <div className="flex flex-col  gap-1 sm:gap-2  justify-center items-center">
+        {/* Image container with fixed aspect ratio */}
+        <div className="relative max-w-[350px]  h-full flex-grow flex-shrink-0 image-safe">
           <Image
             src={review.previewImage || "/placeholder.png"}
             alt={review.title}
-            fill
-            className="  object-contain"
+            width={350}
+            height={150}
+            className=" object-contain xs1:object-cover rounded-md"
             priority
           />
-          {review?.tags.map((tag) => {
-            return (
-              <Badge
-                key={tag.slug}
-                className="absolute top-3 left-3 bg-primary/80 hover:bg-primary"
-              >
-                {tag.title}
-              </Badge>
-            );
-          })}
+          <div className="absolute top-2 left-2 flex flex-wrap gap-1">
+            {review?.tags.map((tag) => (
+              <TagBage key={tag.slug} slug={tag.slug} title={tag.title} />
+            ))}
+          </div>
         </div>
 
-        {/* Content on the right (or bottom on mobile) */}
-        <div className="flex flex-col flex-grow sm:w-2/3">
-          <CardHeader>
-            <div className="flex justify-between items-start">
-              <Link href={`/reviews/${review.slug}`}>
-                <CardTitle className="text-xl line-clamp-2 hover:text-foreground/60">
-                  {review.title}
-                </CardTitle>
-              </Link>
-            </div>
-            <CardDescription className="text-sm text-muted-foreground">
+        {/* Content section */}
+        <div className="flex flex-col justify-between p-2 sm:pt-1 sm:p-4 ">
+          <div>
+            <Link href={`/reviews/${review.slug}`} className="group">
+              <CardTitle className="text-base font-semibold line-clamp-2 group-hover:text-foreground/60 duration-300 transition-colors">
+                {review.title}
+              </CardTitle>
+            </Link>
+
+            <CardDescription className="text-xs mt-1.5">
               <TimeAgo date={review.createdAt} />
             </CardDescription>
-          </CardHeader>
 
-          <CardContent className="flex-grow">
-            <p className="text-sm sm:line-clamp-3">{review.meta_description}</p>
-          </CardContent>
+            <p className="text-sm line-clamp-3 mt-2 text-muted-foreground">
+              {review.meta_description}
+            </p>
+          </div>
 
-          <CardFooter className="flex justify-between mt-auto">
+          <div className=" pt-2">
             <Link href={`/reviews/${review.slug}`}>
-              <Button variant="outline" size="sm">
+              <Button
+                size="sm"
+                className="text-xs bg-foreground text-background hover:bg-foreground/60  transition-colors duration-300 "
+              >
                 Читать дальше
               </Button>
             </Link>
-          </CardFooter>
+          </div>
         </div>
       </div>
     </Card>

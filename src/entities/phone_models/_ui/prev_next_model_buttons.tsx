@@ -4,7 +4,7 @@ import { REVALIDATE_TIME } from "@/shared/lib/config/public";
 
 export const revalidate = REVALIDATE_TIME;
 
-export async function NextAndPrevButtons({
+export async function NextAndPrevModelButtons({
   currentModelSlug,
   brandId,
 }: {

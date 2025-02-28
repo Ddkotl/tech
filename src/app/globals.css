@@ -21,7 +21,7 @@ body {
 
   .image-safe::after {
     content: "";
-    @apply bg-transparent absolute top-0 left-0 w-full h-full pointer-events-auto z-10;
+    @apply bg-transparent absolute top-0 left-0 w-full h-full pointer-events-auto z-30;
   }
   .text-safe {
     @apply relative select-none; /* Отключает выделение текста */
@@ -29,12 +29,13 @@ body {
 
   .text-safe::after {
     content: "";
-    @apply absolute top-0 left-0 w-full h-full bg-transparent pointer-events-auto z-10;
+    @apply absolute top-0 left-0 w-full h-full bg-transparent pointer-events-auto z-30;
   }
 }
 
 @layer base {
   :root {
+    --fio-color: 308 80% 50%;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -126,7 +127,7 @@ body {
     @apply !w-10;
   }
   .image-gallery-thumbnails {
-    @apply !w-10 !relative z-20;
+    @apply !w-10 !relative z-40;
   }
 
   .image-gallery-thumbnail {
@@ -135,22 +136,22 @@ body {
   .image-gallery-thumbnail.active,
   .image-gallery-thumbnail:focus,
   .image-gallery-thumbnail:hover {
-    @apply border-purple-500 border-2 bg-foreground/10;
+    @apply border-fio border-2 bg-foreground/10;
   }
 
   .image-gallery-fullscreen-button,
   .image-gallery-play-button {
-    @apply bottom-0 top-auto transform-none z-20;
+    @apply bottom-0 top-auto transform-none z-40;
 
     &::before {
       @apply drop-shadow-md;
     }
   }
   .image-gallery-icon {
-    @apply text-foreground;
+    @apply text-fio;
   }
   .image-gallery-icon:hover {
-    @apply text-foreground/50;
+    @apply text-fio/50;
   }
   .image-gallery-image {
     @apply h-56 md:h-80  object-contain p-1;
@@ -175,13 +176,13 @@ body {
     .image-gallery-thumbnail.active,
     .image-gallery-thumbnail:focus,
     .image-gallery-thumbnail:hover {
-      @apply border-purple-500 border-2 bg-foreground/10;
+      @apply border-fio border-2 bg-foreground/10;
     }
     .image-gallery-icon {
-      @apply text-slate-200;
+      @apply text-fio;
     }
     .image-gallery-icon:hover {
-      @apply text-slate-500;
+      @apply text-fio/50;
     }
   }
 }
@@ -193,7 +194,7 @@ body {
     @apply max-w-none  leading-relaxed text-foreground;
 
     h2 {
-      @apply text-xl lg:text-2xl font-bold mt-2 lg:mt-4 border-b-2 border-foreground/40;
+      @apply text-lg lg:text-xl font-semibold mt-2 lg:mt-4 border-b-2 border-foreground/40;
     }
 
     p {

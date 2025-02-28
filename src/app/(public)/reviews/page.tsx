@@ -38,7 +38,7 @@ export default async function ReviewsPage({
   searchParams: { page?: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageSize = 2;
+  const pageSize = 6;
   const { reviews, totalReviewsCount } = await getReviewsWithPaginaton(
     page,
     pageSize,
@@ -50,7 +50,7 @@ export default async function ReviewsPage({
       <section className="flex flex-col flex-1    gap-2 md:gap-4">
         <div className="flex gap-2 lg:gap-4 flex-col">
           <div className="flex flex-col md:flex-row justify-between items-center w-full">
-            <h1 className="text-base lg:text-xl w-full gap-4 text-center md:text-start">
+            <h1 className="text-base font-bold lg:text-xl w-full gap-4 text-center md:text-start">
               Обзоры мобильных телефонов
             </h1>
             <ReviewsSearch />
