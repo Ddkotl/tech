@@ -2,7 +2,7 @@ import { client, TEXT_AI_MODEL } from "../ai_client";
 
 export const translateStorageAI = async (
   text: string,
-  fullName: string,
+  fullName: string | undefined,
 ): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({

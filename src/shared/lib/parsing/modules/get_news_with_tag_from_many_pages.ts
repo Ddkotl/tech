@@ -14,6 +14,7 @@ import { transliterateToUrl } from "../../transliteration";
 import { cleanAndParseTags } from "../functions/clean_and_parse_tags";
 import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
+import { safeTranslate } from "../functions/safe_translate";
 
 export const parseNewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -55,6 +56,10 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             .map((tag) => tag.textContent?.trim().toLowerCase())
             .filter((tag) => tag !== undefined),
         );
+      const translatedTitle = article.title
+        ? await safeTranslate(article.title, translateAndUnicTitle)
+        : "";
+      const slug: string = transliterateToUrl(translatedTitle);
       const imagesSrc = await page
         .locator(".review-body > img")
         .evaluateAll((imgs) =>
@@ -64,8 +69,12 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       const previewPath = article.previewImageUrl
         ? await downloadImageForS3(
             article.previewImageUrl,
-            article.titleForImg,
+            slug,
             "news_preview",
+            false,
+            true,
+            true,
+            false,
           )
         : null;
 
@@ -74,25 +83,30 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         if (imgSrc) {
           const savedPath = await downloadImageForS3(
             imgSrc,
-            article.titleForImg,
+            slug,
             "news",
+            false,
+            true,
+            true,
+            false,
           );
           if (savedPath) contentImagesPaths.push(savedPath);
         }
       }
-      const translatedTitle = article.title
-        ? await translateAndUnicTitle(article.title)
-        : "";
-      const translatedContent = await translateAndUnicText(contentResponse);
-      const metaTitle = await GenerateMetaTitle(
-        translatedTitle ? translatedTitle : "",
+
+      const translatedContent = await safeTranslate(
+        contentResponse,
+        translateAndUnicText,
       );
-      const metaDescription = await GenerateMetaDescription(
-        translatedContent ? translatedContent : "",
+      const metaTitle = await safeTranslate(translatedTitle, GenerateMetaTitle);
+      const metaDescription = await safeTranslate(
+        translatedContent,
+        GenerateMetaDescription,
       );
-      const translatedTags = await translateTags(tags);
-      const generatedTags = await generateTags(
-        translatedContent ? translatedContent : "",
+      const translatedTags = await safeTranslate(tags.join(","), translateTags);
+      const generatedTags = await safeTranslate(
+        translatedContent,
+        generateTags,
       );
       const parsedTags = (() => {
         try {
@@ -100,14 +114,12 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             ? cleanAndParseTags(translatedTags)
             : generatedTags
               ? cleanAndParseTags(generatedTags)
-              : [""];
+              : [];
         } catch (e) {
           console.log("Ошибка при парсинге tags", e);
         }
       })();
-      const slug: string = transliterateToUrl(
-        article.title ? article.title : "",
-      );
+
       await ParseNews(
         cleaneText(metaTitle),
         cleaneText(metaDescription),

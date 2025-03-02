@@ -14,6 +14,7 @@ import { transliterateToUrl } from "../../transliteration";
 import { cleanAndParseTags } from "../functions/clean_and_parse_tags";
 import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
+import { safeTranslate } from "../functions/safe_translate";
 
 export const parseReviewsFromManyPages = async (page: Page, n: number) => {
   for (let i = n; 0 < i; i--) {
@@ -115,7 +116,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         );
 
       const translatedTitle: string = article.title
-        ? await translateAndUnicTitle(article.title)
+        ? await safeTranslate(article.title, translateAndUnicTitle)
         : "";
       const slug: string = transliterateToUrl(translatedTitle);
       // Сохранение превью изображения
@@ -148,15 +149,24 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         }
       }
 
-      const translatedContent: string = await translateAndUnicText(
+      const translatedContent: string = await safeTranslate(
         contentPages.join(" "),
+        translateAndUnicText,
       );
-      const metaTitle: string = await GenerateMetaTitle(translatedTitle);
-      const metaDescription: string =
-        await GenerateMetaDescription(translatedContent);
+      const metaTitle: string = await safeTranslate(
+        translatedTitle,
+        GenerateMetaTitle,
+      );
+      const metaDescription: string = await safeTranslate(
+        translatedContent,
+        GenerateMetaDescription,
+      );
 
-      const translatedTags = await translateTags(tags);
-      const generatedTags = await generateTags(translatedContent);
+      const translatedTags = await safeTranslate(tags.join(","), translateTags);
+      const generatedTags = await safeTranslate(
+        translatedContent,
+        generateTags,
+      );
       const parsedTags = (() => {
         try {
           return translatedTags

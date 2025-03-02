@@ -56,8 +56,8 @@ export const getModelsByBrand = async (
       .innerText();
     const translatedReleaseDate = await safeTranslate(
       releaseDate,
-      fullName,
       translateReleaseDateAI,
+      fullName,
     );
 
     const weightAndThicknes = await page
@@ -70,13 +70,13 @@ export const getModelsByBrand = async (
     //   : "";
     const translatedWeight = await safeTranslate(
       weightAndThicknes,
-      fullName,
       translateWeightAI,
+      fullName,
     );
     const translatedThicknes = await safeTranslate(
       weightAndThicknes,
-      fullName,
       translateThicknesAI,
+      fullName,
     );
 
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
@@ -86,14 +86,14 @@ export const getModelsByBrand = async (
       .innerText();
     const translatedStorage = await safeTranslate(
       storage,
-      fullName,
       translateStorageAI,
+      fullName,
     );
     const ram = await page
       .locator('strong[class="accent accent-expansion"]')
       .innerText();
 
-    const translatedRam = await safeTranslate(ram, fullName, translateRamAI);
+    const translatedRam = await safeTranslate(ram, translateRamAI, fullName);
 
     const processor = await page
       .locator('div[data-spec="chipset-hl"]')
@@ -115,7 +115,10 @@ export const getModelsByBrand = async (
       .locator('strong[class="accent accent-battery"]')
       .innerText();
     const description = await page.locator('div[id="specs-list"]').innerHTML();
-    const translatedDescription = await generateModelDescription(description);
+    const translatedDescription = await safeTranslate(
+      description,
+      generateModelDescription,
+    );
     const contentImagesPaths = [];
     try {
       const imagesPageUrl = await page
