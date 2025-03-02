@@ -43,7 +43,7 @@ export const getModelsByBrand = async (
       ? await downloadImageForS3(
           imgUrl,
           slug,
-          "models_main",
+          "models_preview",
           true,
           true,
           true,
@@ -141,7 +141,7 @@ export const getModelsByBrand = async (
             const savedPath = await downloadImageForS3(
               imgSrc,
               slug,
-              "news",
+              "models_all",
               true,
               true,
               true,

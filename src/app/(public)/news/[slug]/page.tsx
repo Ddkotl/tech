@@ -16,7 +16,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FaBookmark, FaEye } from "react-icons/fa";
-import styles from "./content.module.css";
+
 export async function generateMetadata({
   params,
 }: {
@@ -125,7 +125,7 @@ export default async function NewsPage({
         )}
 
         <div
-          className={styles.prose}
+          className="prose"
           dangerouslySetInnerHTML={{ __html: news.content }}
         />
         <ImageGallery images={news.images} />
