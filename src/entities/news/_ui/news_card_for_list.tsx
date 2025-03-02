@@ -8,12 +8,12 @@ import {
   TimeAgo,
 } from "@/shared/components";
 import { TagBage } from "@/entities/tag";
-import { PartialNewsWithTags } from "@/entities/news/_domain/types";
+import { PartialNewsWithTags } from "../_domain/types";
 
-export default function ReviewCard({
-  review,
+export default function NewsCardForList({
+  SingleNew,
 }: {
-  review: PartialNewsWithTags;
+  SingleNew: PartialNewsWithTags;
 }) {
   return (
     <Card className="max-w-[350px]   transition-all hover:bg-background/80">
@@ -21,15 +21,15 @@ export default function ReviewCard({
         {/* Image container with fixed aspect ratio */}
         <div className="relative max-w-[350px]  h-full flex-grow flex-shrink-0 image-safe">
           <Image
-            src={review.previewImage || "/placeholder.png"}
-            alt={review.title}
+            src={SingleNew.previewImage || "/placeholder.png"}
+            alt={SingleNew.title}
             width={350}
             height={150}
             className=" object-contain xs1:object-cover rounded-md"
             priority
           />
           <div className="absolute top-2 left-2 flex flex-wrap gap-1">
-            {review?.tags.map((tag) => (
+            {SingleNew?.tags.map((tag) => (
               <TagBage key={tag.slug} slug={tag.slug} title={tag.title} />
             ))}
           </div>
@@ -38,23 +38,23 @@ export default function ReviewCard({
         {/* Content section */}
         <div className="flex flex-col justify-between p-2 sm:pt-1 sm:p-4 ">
           <div>
-            <Link href={`/reviews/${review.slug}`} className="group">
+            <Link href={`/reviews/${SingleNew.slug}`} className="group">
               <CardTitle className="text-base font-semibold line-clamp-2 group-hover:text-foreground/60 duration-300 transition-colors">
-                {review.title}
+                {SingleNew.title}
               </CardTitle>
             </Link>
 
             <CardDescription className="text-xs mt-1.5">
-              <TimeAgo date={review.createdAt} />
+              <TimeAgo date={SingleNew.createdAt} />
             </CardDescription>
 
             <p className="text-sm line-clamp-3 mt-2 text-muted-foreground">
-              {review.meta_description}
+              {SingleNew.meta_description}
             </p>
           </div>
 
           <div className=" pt-2">
-            <Link href={`/reviews/${review.slug}`}>
+            <Link href={`/reviews/${SingleNew.slug}`}>
               <Button
                 size="sm"
                 className="text-xs bg-foreground text-background hover:bg-foreground/60  transition-colors duration-300 "

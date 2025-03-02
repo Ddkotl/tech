@@ -36,6 +36,9 @@ const ERROR_PATTERNS = [
   "i cannot help with this request",
   "this content violates our guidelines",
   "this request is not allowed",
+  "data",
+  "content",
+  "role",
 ];
 
 const containsError = (response: string): boolean => {

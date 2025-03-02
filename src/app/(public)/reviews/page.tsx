@@ -29,7 +29,7 @@ export const metadata: Metadata = generateSEOMetadata({
     "инновации",
   ],
   ogImage: "/logo_opengraf.jpg",
-  canonical: "https://tech24view.ru",
+  canonical: "https://tech24view.ru/reviews",
 });
 
 export default async function ReviewsPage({

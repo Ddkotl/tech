@@ -37,7 +37,7 @@ export const replaceWatermarkWithSharp = async (
     // Извлекаем, размываем и вставляем область обратно
     const blurredRegion = await sharp(imageBuffer)
       .extract({ left: x, top: y, width: regionWidth, height: regionHeight })
-      .blur(1)
+      .blur(5)
       .toBuffer();
 
     const blurredImage = await sharp(imageBuffer)
