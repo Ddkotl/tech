@@ -2,7 +2,7 @@ services:
   # Начало секции с сервисами
   db:
     # Определение сервиса базы данных
-    container_name: postgres # Имя контейнера для базы данных
+    container_name: ${POSTGRES_CONTAINER} # Имя контейнера для базы данных
     image: postgres:15.2 # Используемый образ PostgreSQL
     restart: always # Перезапускать контейнер всегда в случае сбоя
     environment:
