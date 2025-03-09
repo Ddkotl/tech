@@ -4,7 +4,7 @@ const TOR_CONTAINER_NAME = "tor_proxy"; // Замените на имя ваше
 
 const waitForContainerToBeHealthy = (
   containerName: string,
-  timeout: number = 30000,
+  timeout: number = 300000,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();

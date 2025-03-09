@@ -15,7 +15,7 @@ export function cleanAndParseTags(inputString: string): string[] {
 
     // Разделяем строку по запятым или пробелам и убираем лишние пробелы
     const tagArray = cleanedString
-      .split(/[\s,]+/) // Разделяем по пробелам или запятым
+      .split(/[,]+/) // Разделяем по  запятым
       .map((tag) => tag.trim()) // Убираем лишние пробелы с каждого тега
       .filter((tag) => tag.length > 0); // Убираем пустые строки
 

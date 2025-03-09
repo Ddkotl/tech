@@ -52,7 +52,17 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       if (article.title ? await IsReviewAlreadyParsed(article.title) : true) {
         continue;
       }
-
+      // Извлечение тегов
+      const tags: string[] = await page
+        .locator(".article-tags > .float-right >  a")
+        .evaluateAll((tags) =>
+          tags
+            .map((tag) => tag.textContent?.trim().toLowerCase())
+            .filter((el) => el !== undefined),
+        );
+      if (tags.includes("gsmarena")) {
+        continue;
+      }
       const generatedDate: Date = generateDataForPost(article.data);
 
       const contentPages: string[] = [];
@@ -105,15 +115,6 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
           }
         }
       }
-
-      // Извлечение тегов
-      const tags: string[] = await page
-        .locator(".article-tags > .float-right >  a")
-        .evaluateAll((tags) =>
-          tags
-            .map((tag) => tag.textContent?.trim().toLowerCase())
-            .filter((el) => el !== undefined),
-        );
 
       const translatedTitle: string = article.title
         ? await safeTranslate(article.title, translateAndUnicTitle)

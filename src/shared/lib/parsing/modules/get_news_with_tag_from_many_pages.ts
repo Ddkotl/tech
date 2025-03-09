@@ -56,6 +56,9 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             .map((tag) => tag.textContent?.trim().toLowerCase())
             .filter((tag) => tag !== undefined),
         );
+      if (tags.includes("gsmarena")) {
+        continue;
+      }
       const translatedTitle = article.title
         ? await safeTranslate(article.title, translateAndUnicTitle)
         : "";

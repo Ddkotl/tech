@@ -7,9 +7,9 @@ import { getAllBrandsAndModels } from "./modules/get_all_brands_and_models";
 export const StartParse = async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
+  await parseNewsFromManyPages(page, 2);
   await getAllBrandsAndModels(page);
-  await parseNewsFromManyPages(page, 1);
-  await parseReviewsFromManyPages(page, 1);
+  await parseReviewsFromManyPages(page, 2);
 
   await browser.close();
 };

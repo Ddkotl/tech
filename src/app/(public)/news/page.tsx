@@ -61,7 +61,7 @@ export default async function NewsPage({
           )}
         </div>
         <PaginationControl
-          basePath="/reviews"
+          basePath="/news"
           currentPage={page}
           totalPages={totalPages}
           pageSize={pageSize}
