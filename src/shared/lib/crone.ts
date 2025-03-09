@@ -1,6 +1,10 @@
 // src/lib/setupCron.ts
 import cron from "node-cron";
 import { StartParse } from "./parsing";
+import { createBackup } from "./backups/db/db_backup";
+import { cleanupOldDBBackups } from "./backups/db/db_cleen";
+import { createMinioBackup } from "./backups/s3/s3_backup";
+import { cleanupOldMinioBackups } from "./backups/s3/s3_cleen";
 
 // * * * * *
 // - - - - -
@@ -23,6 +27,19 @@ export const setupCron = () => {
       console.log("Парсинг успешно завершён.");
     } catch (error) {
       console.error("Ошибка при выполнении парсинга:", error);
+    }
+  });
+
+  cron.schedule("0 3 * * *", async () => {
+    console.log("📀 Запуск создания бэкапа...");
+    try {
+      createBackup();
+      createMinioBackup();
+      cleanupOldDBBackups();
+      cleanupOldMinioBackups();
+      console.log("✅ Бэкап успешно завершён.");
+    } catch (error) {
+      console.error("❌ Ошибка при создании бэкапа:", error);
     }
   });
 

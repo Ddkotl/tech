@@ -15,7 +15,8 @@ if (!POSTGRES_USER || !POSTGRES_DB || !POSTGRES_CONTAINER || !BACKUP_DIR) {
 
 // Убедимся, что директория бэкапов существует
 fs.mkdirSync(BACKUP_DIR, { recursive: true });
-fs.mkdirSync(`${BACKUP_DIR}/old`, { recursive: true });
+fs.mkdirSync(`${BACKUP_DIR}/db_old`, { recursive: true });
+fs.mkdirSync(`${BACKUP_DIR}/minio_old`, { recursive: true });
 
 export const createBackup = () => {
   const date = new Date().toISOString();

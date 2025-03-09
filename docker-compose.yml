@@ -38,7 +38,7 @@ services:
       # Настройка сетей
       - backend # Подключение к сети backend  "
   minio:
-    container_name: minio
+    container_name: ${MINIO_CONTAINER}
     image: minio/minio
     restart: always
     ports:
@@ -62,10 +62,12 @@ services:
     container_name: minio-bucket
     image: minio/mc
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_USER};
+      sleep 5;
+      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
       /usr/bin/mc mb myminio/${S3_IMAGES_BUCKET};
       /usr/bin/mc anonymous set public myminio/${S3_IMAGES_BUCKET};
       exit 0;

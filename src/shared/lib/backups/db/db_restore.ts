@@ -19,7 +19,6 @@ export const restoreLatestBackup = (backupPath?: string) => {
     .filter((file) => file.startsWith("backup_") && file.endsWith(".dump.bz2"))
     .sort()
     .reverse();
-
   if (files.length === 0) {
     console.error("❌ Нет доступных бэкапов!");
     process.exit(1);
