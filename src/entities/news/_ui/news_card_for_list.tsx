@@ -38,7 +38,7 @@ export default function NewsCardForList({
         {/* Content section */}
         <div className="flex flex-col justify-between p-2 sm:pt-1 sm:p-4 ">
           <div>
-            <Link href={`/reviews/${SingleNew.slug}`} className="group">
+            <Link href={`/news/${SingleNew.slug}`} className="group">
               <CardTitle className="text-base font-semibold line-clamp-2 group-hover:text-foreground/60 duration-300 transition-colors">
                 {SingleNew.title}
               </CardTitle>
@@ -54,7 +54,7 @@ export default function NewsCardForList({
           </div>
 
           <div className=" pt-2">
-            <Link href={`/reviews/${SingleNew.slug}`}>
+            <Link href={`/news/${SingleNew.slug}`}>
               <Button
                 size="sm"
                 className="text-xs bg-foreground text-background hover:bg-foreground/60  transition-colors duration-300 "

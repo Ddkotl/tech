@@ -60,7 +60,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
             .map((tag) => tag.textContent?.trim().toLowerCase())
             .filter((el) => el !== undefined),
         );
-      if (tags.includes("gsmarena")) {
+      if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
         continue;
       }
       const generatedDate: Date = generateDataForPost(article.data);

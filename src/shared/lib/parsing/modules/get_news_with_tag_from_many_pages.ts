@@ -56,14 +56,14 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             .map((tag) => tag.textContent?.trim().toLowerCase())
             .filter((tag) => tag !== undefined),
         );
-      if (tags.includes("gsmarena")) {
+      if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
         continue;
       }
       const translatedTitle = article.title
         ? await safeTranslate(article.title, translateAndUnicTitle)
         : "";
       const slug: string = transliterateToUrl(translatedTitle);
-      const imagesSrc = await page
+      const imagesSrc: string[] = await page
         .locator(".review-body > img")
         .evaluateAll((imgs) =>
           imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null),
