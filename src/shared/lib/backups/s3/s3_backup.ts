@@ -43,7 +43,7 @@ export const createMinioBackup = () => {
     // Копируем файлы из MinIO на хост
     execSync(
       `docker exec ${MINIO_CONTAINER} mc alias set myminio http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
-       docker exec ${MINIO_CONTAINER} mc cp --recursive myminio/${S3_IMAGES_BUCKET} /tmp/minio_backup &&
+       docker exec ${MINIO_CONTAINER} mc cp --recursive myminio/${S3_IMAGES_BUCKET} /tmp/minio_backup > /dev/null &&
        docker cp ${MINIO_CONTAINER}:/tmp/minio_backup ${backupFolder} > /dev/null`,
       { stdio: "inherit" },
     );
