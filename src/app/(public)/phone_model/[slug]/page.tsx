@@ -20,7 +20,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const phone: PartialPhoneModel | null = await getPhoneModeBySlug(params.slug);
+const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(params.slug);
 
   return generateSEOMetadata({
     title: phone?.full_name ? phone?.full_name : "",
