@@ -187,7 +187,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
         generatedDate,
         article.title ? article.title : "",
         cleaneText(translatedTitle),
-        cleaneText(translatedContent),
+        cleaneText(translatedContent).replace(/html/gi, ""),
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags ? parsedTags : [],

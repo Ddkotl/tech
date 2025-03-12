@@ -15,6 +15,7 @@ import { cleanAndParseTags } from "../functions/clean_and_parse_tags";
 import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
+import { getImagesFromPageGallery } from "./get_images_from_page_galery";
 
 export const parseNewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -63,11 +64,15 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         ? await safeTranslate(article.title, translateAndUnicTitle)
         : "";
       const slug: string = transliterateToUrl(translatedTitle);
-      const imagesSrc: string[] = await page
+      let imagesSrc: string[] = await page
         .locator(".review-body > img")
         .evaluateAll((imgs) =>
           imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null),
         );
+
+      const imgGalery = await getImagesFromPageGallery(page);
+      imagesSrc = imagesSrc.concat(imgGalery);
+
       // Сохранение превью и всех картинок
       const previewPath = article.previewImageUrl
         ? await downloadImageForS3(
@@ -130,7 +135,9 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         generatedDate,
         article.title ? article.title : "",
         translatedTitle ? cleaneText(translatedTitle) : "",
-        translatedContent ? cleaneText(translatedContent) : "",
+        translatedContent
+          ? cleaneText(translatedContent).replace(/html/gi, "")
+          : "",
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags ? parsedTags : [""],
