@@ -2,9 +2,7 @@ import parse from "html-react-parser";
 
 import { getPhoneModelInfo } from "@/entities/phone_models/_actions/get_model_info_by_slug";
 import {
-  getPhoneModeBySlug,
   LastModels,
-  PartialPhoneModel,
   PhoneModeLFullInfo,
   SimilarModels,
 } from "@/entities/phone_models";
