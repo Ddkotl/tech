@@ -1,18 +1,19 @@
 import { MetadataRoute } from "next";
-import {unstable_cache} from"next/cache"
+import { revalidateTag } from "next/cache";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  return await unstable_cache(
-  const baseUrl = process.env.NEXTAUTH_URL
+export async function getSitemapData(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXTAUTH_URL;
 
-  // Получаем из БД
   const news = await getAllNewsSlugAndDate();
   const reviews = await getAllReviewsSlugAndDate();
   const brands = await getAllBrandsSlugAndDate();
   const models = await getAllModelsSlugAndDate();
 
-  // Формируем массив URL
-  const urls: MetadataRoute.Sitemap = [
+  return [
+    { url: `${baseUrl}/`, lastModified: new Date().toISOString() },
+    { url: `${baseUrl}/news`, lastModified: new Date().toISOString() },
+    { url: `${baseUrl}/reviews`, lastModified: new Date().toISOString() },
+    { url: `${baseUrl}/brands`, lastModified: new Date().toISOString() },
     ...news.map((newsItem) => ({
       url: `${baseUrl}/news/${newsItem.slug}`,
       lastModified: newsItem.updatedAt || newsItem.createdAt || new Date().toISOString(),
@@ -30,13 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: model.updatedAt || model.createdAt || new Date().toISOString(),
     })),
   ];
+}
 
-  // Добавляем основные страницы
-  return [
-    { url: `${baseUrl}/`, lastModified: new Date().toISOString() },
-    { url: `${baseUrl}/news`, lastModified: new Date().toISOString() },
-    { url: `${baseUrl}/reviews`, lastModified: new Date().toISOString() },
-    { url: `${baseUrl}/brands`, lastModified: new Date().toISOString() },
-    ...urls,
-  ];,[sitemap])()
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  return await getSitemapData();
 }
