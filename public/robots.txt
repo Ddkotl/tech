@@ -1,2 +1,8 @@
 User-agent: *
-Disallow: /
+Allow: /
+Dissallow: /bookmarks
+Dissallow: /profile
+Dissallow: /admin
+Dissallow: /sign-in
+
+Sitemap: https:/tech24view.ru/sitemap.xml
