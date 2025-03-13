@@ -1,6 +1,8 @@
 import { MetadataRoute } from "next";
+import {unstable_cache} from"next/cache"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  return await unstable_cache(
   const baseUrl = process.env.NEXTAUTH_URL
 
   // Получаем из БД
@@ -36,5 +38,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/reviews`, lastModified: new Date().toISOString() },
     { url: `${baseUrl}/brands`, lastModified: new Date().toISOString() },
     ...urls,
-  ];
+  ];,[sitemap])()
 }
