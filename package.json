@@ -14,7 +14,7 @@
     "seed": "tsx prisma/seed.ts",
     "parse": "tsx src/shared/lib/parsing/index.ts",
     "start_crone_parse": "wait-on http://localhost:3000/auth/sign-in && curl -X GET http://localhost:3000/api/crone/parse",
-    "prepare": "husky install & playwright install",
+    "prepare": "husky install && playwright install",
     "restore:minio": "tsx src/shared/lib/backups/s3/s3_restore.ts",
     "restore:db": "tsx src/shared/lib/backups/db/db_restore.ts",
     "restore": "bun run restore:minio && npm run restore:db",
