@@ -1,5 +1,4 @@
 import { MetadataRoute } from "next";
-import { revalidateTag } from "next/cache";
 
 export async function getSitemapData(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXTAUTH_URL;
