@@ -1,7 +1,7 @@
 import fetch from "node-fetch"; // Для Node.js (или используй axios)
-import dotenv from 'dotenv'
-dotenv.config()
-async function revalidateByTag(tag:string) {
+import dotenv from "dotenv";
+dotenv.config();
+export async function revalidateByTag(tag: string) {
   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/revalidate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -14,5 +14,3 @@ async function revalidateByTag(tag:string) {
   const data = await response.json();
   console.log("Revalidate response:", data);
 }
-
-

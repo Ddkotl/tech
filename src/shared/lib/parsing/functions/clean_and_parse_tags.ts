@@ -1,25 +1,28 @@
 export function cleanAndParseTags(inputString: string): string[] {
   try {
-    // Убираем лишние символы (например, скобки, кавычки и спецсимволы)
+    // Убираем лишние символы
     let cleanedString = inputString
       .replace(/[^a-zA-Zа-яА-Я0-9,\s'\[\]]/g, "") // Убираем лишние символы
-      .trim(); // Убираем пробелы в начале и в конце строки
+      .trim() // Убираем пробелы в начале и в конце строки
+      .toLowerCase(); // Преобразуем в нижний регистр
 
-    // Преобразуем все тэги в нижний регистр для унификации
-    cleanedString = cleanedString.toLowerCase();
+    // Заменяем одинарные кавычки на двойные и убираем лишние пробелы
+    cleanedString = cleanedString.replace(/,\s*/g, ",").replace(/'/g, '"');
 
-    // Заменяем одинарные кавычки на двойные и добавляем кавычки для строковых элементов, если их нет
-    cleanedString = cleanedString
-      .replace(/,\s*/g, ",") // Убираем лишние пробелы после запятой
-      .replace(/'/g, '"'); // Заменяем одинарные кавычки на двойные
-
-    // Разделяем строку по запятым или пробелам и убираем лишние пробелы
-    const tagArray = cleanedString
-      .split(/[,]+/) // Разделяем по  запятым
-      .map((tag) => tag.trim()) // Убираем лишние пробелы с каждого тега
+    // Разделяем строку по запятым и пробелам, очищаем теги
+    let tagArray = cleanedString
+      .split(/[,]+/) // Разделяем по запятым
+      .map((tag) => tag.trim()) // Убираем пробелы
       .filter((tag) => tag.length > 0); // Убираем пустые строки
 
-    return tagArray; // Возвращаем массив тэгов
+    // Если больше 3-х тегов, удаляем самые длинные
+    if (tagArray.length > 3) {
+      tagArray = tagArray
+        .sort((a, b) => a.length - b.length) // Сортируем от короткого к длинному
+        .slice(0, 3); // Берем первые 3 элемента
+    }
+
+    return tagArray;
   } catch (error) {
     console.error("Ошибка обработки строки:", error);
     return [];

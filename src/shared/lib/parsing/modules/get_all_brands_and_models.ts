@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page } from "playwright";
 import { parseBrands } from "../db_seed/parse_brands";
 import { getModelsUrlByBrand } from "./get_models_url_by_brand";
 import { checkModelsExisting } from "../db_seed/check_models_existing";

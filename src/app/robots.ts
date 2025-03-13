@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/auth","/api", "/bookmarks" , "/profile"], 
+      disallow: ["/admin", "/auth", "/api", "/bookmarks", "/profile"],
     },
-    sitemap: `${process.env.NEXTAUTH_URL}/sitemap.xml`,
+    sitemap: `${process.env.BASE_URL}/sitemap.xml`,
   };
 }

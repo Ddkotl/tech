@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page } from "playwright";
 
 // Функция для извлечения URL из стиля
 export const extractBackgroundImage = async (

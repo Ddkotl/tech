@@ -20,3 +20,7 @@ export type NewsWithIncludes = News & {
 export type PartialNewsWithTags = PartialNews & {
   tags: Pick<Tag, "slug" | "title">[];
 };
+export type PartialNewsBySitemap = Pick<
+  News,
+  "createdAt" | "slug" | "updatedAt"
+>;

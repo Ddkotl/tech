@@ -17,3 +17,7 @@ export type PartialReviewsWithTags = PartialReviews & {
 };
 
 export type ReviewFullInfo = Reviews & { phoneModel: PartialPhoneModel | null };
+export type PartialReviewsBySitemap = Pick<
+  Reviews,
+  "createdAt" | "slug" | "updatedAt"
+>;

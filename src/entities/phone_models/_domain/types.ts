@@ -10,3 +10,7 @@ export type PhoneModeLFullInfo = PhoneModels & {
   specifications: Specification[];
   Reviews: PartialReviews[];
 };
+export type PartialPhoneModeLsBySitemap = Pick<
+  PhoneModels,
+  "createdAt" | "slug"
+>;

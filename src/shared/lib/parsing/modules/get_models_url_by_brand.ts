@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page } from "playwright";
 
 export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
   const allModelsUrl = [];

@@ -5,3 +5,4 @@ export type BrandWithModelsCount = Brands & {
     phones: number;
   };
 };
+export type PartialBrandsBySitemap = Pick<Brands, "createdAt" | "slug">;

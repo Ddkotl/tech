@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page } from "playwright";
 import { transliterateToUrl } from "../../transliteration";
 import { downloadImageForS3 } from "../functions/download_image_for_S3";
 import { safeTranslate } from "../functions/safe_translate";
