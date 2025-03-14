@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
-import { NewsCarousel } from "@/entities/news/_ui/news-carusel";
 import { Button } from "@/shared/components";
 import Link from "next/link";
 import { getLatestNewsAction } from "@/entities/news/_actons/get_newest_news_action";
@@ -39,7 +38,6 @@ export default async function Home() {
           <Link href={"/news"}>Все новости</Link>
         </Button>
       </div>
-      <NewsCarousel news={latestNews} />
       {/* <div className="flex items-center justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 w-full">
           {latestNews.map((newsItem) => (
