@@ -129,7 +129,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
             false,
             false,
             true,
-            false,
+            true,
           )
         : "";
 
