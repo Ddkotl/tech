@@ -59,12 +59,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <GoogleAnalytics gaId={privateConfig.GOOGLE_ANALITICS_4_ID || ""} />
       <body
         className={`${geistSans.variable} ${geistMono.variable}  antialiased h-full relative`}
       >
         <AppProvider>{children}</AppProvider>
         <ScrollToTopButton />
+        <GoogleAnalytics gaId={privateConfig.GOOGLE_ANALITICS_4_ID || ""} />
       </body>
     </html>
   );
