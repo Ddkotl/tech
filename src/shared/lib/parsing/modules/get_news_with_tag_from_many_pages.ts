@@ -82,7 +82,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             false,
             false,
             true,
-            false,
+            true,
           )
         : null;
 
