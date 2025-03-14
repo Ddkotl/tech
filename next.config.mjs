@@ -1,6 +1,17 @@
 /** @type {import('next').NextConfig} */
 const isDev = process.env.NODE_ENV !== "production";
 
+// Проверка и значение по умолчанию для S3_ENDPOINT
+const s3Endpoint = process.env.S3_ENDPOINT || 'http://localhost:9000';
+let s3Hostname = 'localhost'; // Значение по умолчанию
+
+try {
+  s3Hostname = new URL(s3Endpoint).hostname;
+} catch (error) {
+  console.error('Invalid S3_ENDPOINT:', s3Endpoint);
+  console.error('Falling back to default hostname:', s3Hostname);
+}
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -13,7 +24,7 @@ const nextConfig = {
   images: {
     domains: [
       process.env.S3_IMAGES_BUCKET,
-      new URL(process.env.S3_ENDPOINT).hostname,
+      s3Hostname, // Используем обработанное значение
     ],
     formats: ["image/webp", "image/avif"], // Добавлен AVIF для лучшего сжатия
     minimumCacheTTL: 86400,
@@ -31,7 +42,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/storage/:path*",
-      destination: `${process.env.S3_ENDPOINT}/:path*`,
+      destination: `${s3Endpoint}/:path*`,
     },
   ],
 
