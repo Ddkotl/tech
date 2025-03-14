@@ -22,11 +22,6 @@ const nextConfig = {
 
   // Оптимизация изображений
   images: {
-    domains: [
-  ...(process.env.S3_IMAGES_BUCKET ? [process.env.S3_IMAGES_BUCKET] : []),
-  s3Hostname,
-],
-
     formats: ["image/webp", "image/avif"], // Добавлен AVIF для лучшего сжатия
     minimumCacheTTL: 86400,
     deviceSizes: [320, 420, 768, 1024, 1200], // Поддержка адаптивных размеров
@@ -34,7 +29,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: s3Hostname, // Используем обработанное значение
+      },
+      {
+        protocol: "https",
+        hostname: "**", // Разрешить все домены (если нужно)
       },
     ],
   },
