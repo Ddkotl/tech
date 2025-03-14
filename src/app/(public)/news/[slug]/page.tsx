@@ -4,7 +4,6 @@ import { LastModels } from "@/entities/phone_models";
 import { getSimilarNews } from "@/features/news/similar-news/_actions/get-similar-news";
 import { SimilarNews } from "@/features/news/similar-news/similar-news";
 import {
-  Badge,
   Card,
   CardContent,
   CardFooter,
