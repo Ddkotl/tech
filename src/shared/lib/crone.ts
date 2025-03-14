@@ -20,7 +20,7 @@ import { cleanupOldMinioBackups } from "./backups/s3/s3_cleen";
 // * * 1 * * — выполнение задачи каждый день 1-го числа месяца
 export const setupCron = () => {
   // Запуск задачи каждые 6 часов
-  cron.schedule("0 */6 * * *", async () => {
+  cron.schedule("0 0 1 1 *", async () => {
     console.log(" Запуск парсинга...");
     try {
       await StartParse();
