@@ -40,7 +40,7 @@ export async function generateMetadata({
     title: news.meta_title,
     description,
     keywords: [
-      ...(news.tags ? news.tags.map((tag) => tag.title) : []),
+      //...(news.tags ? news.tags.map((tag) => tag.title) : []),
       "технологии",
       "смартфоны",
       "обзоры",
