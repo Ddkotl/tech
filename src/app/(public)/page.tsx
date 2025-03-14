@@ -2,8 +2,6 @@ import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Button } from "@/shared/components";
 import Link from "next/link";
-import { getLatestNewsAction } from "@/entities/news/_actons/get_newest_news_action";
-import { NewsWithIncludes } from "@/entities/news";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Главная",
@@ -23,7 +21,6 @@ export const metadata: Metadata = generateSEOMetadata({
 });
 
 export default async function Home() {
-  const latestNews: NewsWithIncludes[] = await getLatestNewsAction(20);
 
   return (
     <div className="container mx-auto px-4 py-8">
