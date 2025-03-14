@@ -113,19 +113,6 @@ export default async function NewsPage({
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="rounded-lg object-contain "
                 />
-                <div className="mt-2 md:mt-0">
-                <div className="flex flex-wrap items-center justify-start gap-1 overflow-hidden">
-              //      {news.tags.map((tag) => (
-              //        <Badge
-              //          key={tag.id}
-               //         variant="outline"
-               //         className="text-sm h-7 px-2 items-start"
-               //       >
-               //         {tag.title}
-               //       </Badge>
-                 //   ))}
-                 </div>
-                </div>
               </div>
             )}
 
