@@ -1,6 +1,6 @@
 import { MiniNewsCard } from "@/entities/news/_ui/mini-news-card";
 import { News } from "@prisma/client";
-import { getSimilarNews } from "./_actions/get-similar-news";
+import { getSimilarNews } from "../_actons/get-similar-news";
 
 export async function SimilarNews({ slug }: { slug: string }) {
   const similarNews: News[] = await getSimilarNews(slug);

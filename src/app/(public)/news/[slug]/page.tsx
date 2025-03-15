@@ -1,8 +1,8 @@
 import { DeleteNewsButton } from "@/entities/news";
-import { getSingleNewsBySlug } from "@/entities/news/_actons/get_unic_news_acton";
+import { getSingleNewsBySlug } from "@/entities/news/_actons/get_news_by_slug";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
 import { LastModels } from "@/entities/phone_models";
-import { SimilarNews } from "@/features/news/similar-news/similar-news";
+import { SimilarNews } from "@/entities/news/_ui/similar-news";
 import {
   Card,
   CardContent,

@@ -39,6 +39,7 @@ export function ReviewsSearch() {
       {/* Поле ввода */}
       <Input
         type="text"
+        name="search"
         placeholder="🔍 Поиск обзора по названию..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}

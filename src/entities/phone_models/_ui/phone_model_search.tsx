@@ -39,6 +39,7 @@ export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
       {/* Поле ввода */}
       <Input
         type="text"
+        name="search"
         placeholder="🔍 Поиск модели текущего брэнда..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
