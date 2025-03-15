@@ -11,7 +11,7 @@ export const DeleteNewsButton = ({ slug }: { slug: string }) => {
   if (!session) {
     return null;
   }
-  if (session.data?.user.role !== "admin") {
+  if (session.data?.user.role !== "ADMIN") {
     return null;
   }
 
