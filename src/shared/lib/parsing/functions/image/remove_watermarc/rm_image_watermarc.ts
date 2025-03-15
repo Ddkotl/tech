@@ -21,7 +21,7 @@ export const removeWattermarkWithRetry = async (
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
       } else {
-        throw new Error(
+        console.log(
           "Не удалось удалить вотермарку после максимального количества попыток",
         );
       }

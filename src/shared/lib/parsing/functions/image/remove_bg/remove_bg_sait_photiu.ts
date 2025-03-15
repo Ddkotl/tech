@@ -2,6 +2,8 @@ import path from "path";
 import { chromium } from "playwright";
 import fs from "fs";
 import os from "os";
+import { simulateMouseMovement } from "../simulate_mouse_move";
+import { addHTTPheaders } from "../addHTTPheaders";
 
 /**
  * Удаляет фон с изображения через сайт https://www.photiu.ai/ с использованием Playwright,
@@ -12,18 +14,17 @@ import os from "os";
 export const removeBackgroundWithphotiu = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    // recordVideo: {
-    //   dir: `./img_for_test/v1-${new Date().toISOString()}`,
-    //   size: { width: 1280, height: 720 },
-    // },
-    storageState: undefined,
-    proxy: {
-      server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
-    },
+  const browser = await chromium.launch({
+    headless: true,
+    args: [
+      "--disable-blink-features=AutomationControlled",
+      "--disable-infobars",
+      `--timezone="America/New_York"`,
+      "--lang=en-US",
+    ],
   });
-  const page = await context.newPage();
+
+  const page = await addHTTPheaders(browser);
   try {
     // Создаем временный файл из Buffer
     const tempFilePath = path.join(os.tmpdir(), "input_image.png");
@@ -34,12 +35,13 @@ export const removeBackgroundWithphotiu = async (
     await page.goto("https://www.photiu.ai/background-remover");
     // console.log("Сайт открыт");
     await page.waitForTimeout(1000);
-
+    await simulateMouseMovement(page);
     const cookiebutton = 'button[id="CybotCookiebotDialogBodyButtonDecline"]';
     await page.waitForSelector(cookiebutton, {
       timeout: 60000,
       state: "visible",
     });
+    await simulateMouseMovement(page);
     await page.click(cookiebutton);
     // Загружаем изображение на сайт
     const inputFileSelector = 'input[type="file"]';
@@ -60,7 +62,7 @@ export const removeBackgroundWithphotiu = async (
     // Ждем, пока появится кнопка для скачивания
     const downloadButtonSelector = "button[id='Download HD free']";
     await page.waitForSelector(downloadButtonSelector, { timeout: 60000 });
-
+    await simulateMouseMovement(page);
     // Перехватываем событие скачивания
     const [download] = await Promise.all([
       page.waitForEvent("download"), // Ждем события скачивания

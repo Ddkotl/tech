@@ -21,7 +21,7 @@ export const incriaseImageWithRetry = async (
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
       } else {
-        throw new Error(
+        console.log(
           "Не удалось увеличить изображение после максимального количества попыток",
         );
       }

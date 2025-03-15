@@ -21,7 +21,7 @@ export const сompressImageWithRetry = async (
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
       } else {
-        throw new Error(
+        console.log(
           "Не удалось сжать изображение после максимального количества попыток",
         );
       }

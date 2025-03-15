@@ -98,6 +98,6 @@ export const replaceWatermarkWithSharp = async (
 
     return finalImage;
   } catch (error) {
-    console.error("Ошибка при обработке изображения:", error);
+    console.log("Ошибка при обработке изображения:", error);
   }
 };

@@ -14,14 +14,14 @@ export const removeImageBackgroundWithRetry = async (
       // Попытка удалить фон через Photiu
       return await removeBackgroundWithphotiu(imageBuffer);
     } catch (errorILoveImage) {
-      console.error(
+      console.log(
         `Ошибка при удалении фона с помощью removeBackgroundWithphotiu (попытка ${attempts + 1}):`,
         errorILoveImage,
       );
       try {
         return await removeBgImageILoveImage(imageBuffer);
       } catch (errorPhotiu) {
-        console.error(
+        console.log(
           `Ошибка при удалении фона с помощью removeBgImageILoveImage (попытка ${attempts + 1}):`,
           errorPhotiu,
         );
@@ -30,7 +30,7 @@ export const removeImageBackgroundWithRetry = async (
           // Попытка удалить фон через Carve
           return await removeBackgroundWithCarve(imageBuffer);
         } catch (errorCarve) {
-          console.error(
+          console.log(
             `Ошибка при удалении фона с помощью removeBackgroundWithCarve (попытка ${attempts + 1}):`,
             errorCarve,
           );
@@ -45,8 +45,6 @@ export const removeImageBackgroundWithRetry = async (
     }
   }
 
-  console.error(
-    "Не удалось удалить фон после максимального количества попыток.",
-  );
+  console.log("Не удалось удалить фон после максимального количества попыток.");
   return imageBuffer;
 };

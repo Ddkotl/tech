@@ -2,6 +2,7 @@ import path from "path";
 import { chromium } from "playwright";
 import fs from "fs";
 import os from "os";
+import { addHTTPheaders } from "../addHTTPheaders";
 
 /**
  * Удаляет фон с изображения через сайт carve.photos с использованием Playwright,
@@ -12,18 +13,17 @@ import os from "os";
 export const removeBackgroundWithCarve = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    // recordVideo: {
-    //   dir: `./img_for_test/v1-${new Date().toISOString()}`,
-    //   size: { width: 1280, height: 720 },
-    // },
-    storageState: undefined,
-    proxy: {
-      server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
-    },
+  const browser = await chromium.launch({
+    headless: true,
+    args: [
+      "--disable-blink-features=AutomationControlled",
+      "--disable-infobars",
+      `--timezone="America/New_York"`,
+      "--lang=en-US",
+    ],
   });
-  const page = await context.newPage();
+
+  const page = await addHTTPheaders(browser);
   try {
     // Создаем временный файл из Buffer
     const tempFilePath = path.join(os.tmpdir(), "input_image.png");

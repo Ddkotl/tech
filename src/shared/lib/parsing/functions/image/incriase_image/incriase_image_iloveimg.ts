@@ -3,29 +3,23 @@ import { chromium } from "playwright";
 import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
+import { addHTTPheaders } from "../addHTTPheaders";
 
 export const incriaseImageILoveImage = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    // recordVideo: {
-    //   dir: `./img_for_test/v1-${new Date().toISOString()}`,
-    //   size: { width: 1280, height: 720 },
-    // },
-    storageState: undefined,
-    proxy: {
-      server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
-    },
+  const browser = await chromium.launch({
+    headless: true,
+    args: [
+      "--disable-blink-features=AutomationControlled",
+      "--disable-infobars",
+      `--timezone="America/New_York"`,
+      "--lang=en-US",
+    ],
   });
 
-  const page = await context.newPage();
-  await page.setExtraHTTPHeaders({
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-    "Accept-Language": "en-US,en;q=0.9",
-    Accept: "image/webp,image/apng,image/*,*/*;q=0.8",
-  });
+  const page = await addHTTPheaders(browser);
+
   const tempFilePath = path.join(os.tmpdir(), `input_image.png`);
   const tempDownloadPath = path.join(os.tmpdir(), "processed_image.png");
 
@@ -33,7 +27,7 @@ export const incriaseImageILoveImage = async (
 
   try {
     // Создаем временный файл из Buffer
-
+    await simulateMouseMovement(page);
     // Открываем сайт
     // console.log("Открываем сайт...");
     await page.goto("https://www.iloveimg.com/upscale-image");
@@ -57,9 +51,10 @@ export const incriaseImageILoveImage = async (
     await page.setInputFiles(inputFileSelector, tempFilePath);
     // const inputFileValue = await page.locator(inputFileSelector).inputValue();
     // console.log("Загружен файл:", inputFileValue);
-
+    await simulateMouseMovement(page);
     // Ждем, пока изображение обработается
     await page.waitForTimeout(5000); // Ожидание 5 секунд для обработки
+    await simulateMouseMovement(page);
     await page.waitForSelector("div[class='img-comparison-slider__second']", {
       timeout: 60000,
     });
