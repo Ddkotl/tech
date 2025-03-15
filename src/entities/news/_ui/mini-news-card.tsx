@@ -1,25 +1,32 @@
 import { Card, CardContent } from "@/shared/components";
 import Image from "next/image";
+import Link from "next/link";
 
 interface NewsCardProps {
   title: string;
   previewImage: string | null;
+  slug: string;
 }
 
-export function MiniNewsCard({ title, previewImage }: NewsCardProps) {
+export function MiniNewsCard({ slug, title, previewImage }: NewsCardProps) {
   return (
-    <Card className="w-[200px] flex-shrink-0">
-      <CardContent className="p-2">
-        <div className="aspect-[4/3] relative mb-2">
-          <Image
-            src={previewImage || "/placeholder.svg"}
-            alt={title}
-            fill
-            className="object-cover rounded-sm"
-          />
-        </div>
-        <h3 className="text-sm font-medium line-clamp-2 mb-2">{title}</h3>
-      </CardContent>
-    </Card>
+    <Link
+      href={`/news/${slug}`}
+      className="w-full hover:scale-95 transition-all duration-300"
+    >
+      <Card className="w-[140px] flex-shrink-0">
+        <CardContent className="p-0 image-safe relative">
+          <div className="aspect-[2/1.4] relative ">
+            <Image
+              src={previewImage || "/placeholder.png"}
+              alt={title}
+              fill
+              className="object-cover rounded-sm "
+            />
+          </div>
+          <p className="text-xs font-thin line-clamp-3 m-2">{title}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

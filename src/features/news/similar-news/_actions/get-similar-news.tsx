@@ -25,7 +25,7 @@ export async function getSimilarNews(currentNewsSlug: string) {
     orderBy: {
       createdAt: "desc", // Альтернативная сортировка (можно заменить, если поддерживается другая логика)
     },
-    take: 5, // Возвращаем максимум 5 записей
+    take: 10, // Возвращаем максимум 5 записей
   });
 
   return similarNews;

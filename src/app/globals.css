@@ -194,7 +194,7 @@ body {
     @apply max-w-none  leading-relaxed text-foreground;
 
     h2 {
-      @apply text-lg lg:text-xl font-semibold mt-2 lg:mt-4 border-b-2 border-foreground/40;
+      @apply text-base lg:text-lg font-medium mt-2 lg:mt-4 border-b-2 border-foreground/40;
     }
 
     p {

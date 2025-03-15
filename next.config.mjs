@@ -1,15 +1,15 @@
+// next.config.js
 /** @type {import('next').NextConfig} */
 const isDev = process.env.NODE_ENV !== "production";
 
-// Проверка и значение по умолчанию для S3_ENDPOINT
-const s3Endpoint = process.env.S3_ENDPOINT || 'http://localhost:9000';
-let s3Hostname = 'localhost'; // Значение по умолчанию
+const s3Endpoint = process.env.S3_ENDPOINT || "http://localhost:9000";
+let s3Hostname = "localhost"; // Значение по умолчанию
 
 try {
   s3Hostname = new URL(s3Endpoint).hostname;
 } catch (error) {
-  console.error('Invalid S3_ENDPOINT:', s3Endpoint);
-  console.error('Falling back to default hostname:', s3Hostname);
+  console.error("Invalid S3_ENDPOINT:", error);
+  console.error("Falling back to default hostname:", s3Hostname);
 }
 
 const nextConfig = {
@@ -20,33 +20,21 @@ const nextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
 
-  // Оптимизация изображений
   images: {
-    formats: ["image/webp", "image/avif"], // Добавлен AVIF для лучшего сжатия
+    formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 86400,
-    deviceSizes: [320, 420, 768, 1024, 1200], // Поддержка адаптивных размеров
-    imageSizes: [16, 32, 48, 64, 96], // Оптимизированные размеры
+    deviceSizes: [320, 420, 768, 1024, 1200],
+    imageSizes: [16, 32, 48, 64, 96],
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: s3Hostname, // Используем обработанное значение
-      },
-      {
-        protocol: "https",
-        hostname: "**", // Разрешить все домены (если нужно)
-      },
+      { protocol: "https", hostname: s3Hostname },
+      { protocol: "https", hostname: "**" },
     ],
   },
 
-  // Перенаправления
   rewrites: async () => [
-    {
-      source: "/storage/:path*",
-      destination: `${s3Endpoint}/:path*`,
-    },
+    { source: "/storage/:path*", destination: `${s3Endpoint}/:path*` },
   ],
 
-  // HTTP заголовки безопасности
   headers: async () => [
     {
       source: "/(.*)",
@@ -57,19 +45,35 @@ const nextConfig = {
         { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         {
           key: "Content-Security-Policy",
-          value:
-            "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
+          value: `
+            default-src 'self';
+            img-src 'self' data: https:;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;
+            style-src 'self' 'unsafe-inline';
+            frame-src 'self';
+           connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
+          `.replace(/\n/g, ""),
         },
         {
           key: "Strict-Transport-Security",
           value: "max-age=63072000; includeSubDomains; preload",
+        },
+        {
+          key: "Permissions-Policy",
+          value: "geolocation=(self), microphone=()",
+        },
+        { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+        { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+        { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+        {
+          key: "Set-Cookie",
+          value: "SameSite=None; Secure",
         },
       ],
     },
   ],
 };
 
-// Dev-настройки
 if (isDev) {
   nextConfig.experimental = {
     serverActions: {
@@ -78,12 +82,7 @@ if (isDev) {
   };
 
   nextConfig.images.remotePatterns = [
-    {
-      protocol: "https",
-      hostname: "**",
-      port: "",
-      pathname: "/**",
-    },
+    { protocol: "https", hostname: "**", port: "", pathname: "/**" },
   ];
 
   nextConfig.productionBrowserSourceMaps = true;

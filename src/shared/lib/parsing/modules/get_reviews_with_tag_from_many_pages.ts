@@ -127,7 +127,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
             slug,
             "reviews_preview",
             false,
-            false,
+            true,
             true,
             true,
           )
@@ -142,7 +142,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
             slug,
             "reviews",
             false,
-            false,
+            true,
             true,
             false,
           );

@@ -80,7 +80,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             slug,
             "news_preview",
             false,
-            false,
+            true,
             true,
             true,
           )
@@ -94,7 +94,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             slug,
             "news",
             false,
-            false,
+            true,
             true,
             false,
           );

@@ -19,13 +19,14 @@ export default function NewsCardForList({
     <Card className="max-w-[350px]   transition-all hover:bg-background/80">
       <div className="flex flex-col  gap-1 sm:gap-2  justify-center items-center">
         {/* Image container with fixed aspect ratio */}
-        <div className="relative max-w-[350px]  h-full flex-grow flex-shrink-0 image-safe">
+        <div className="relative  aspect-[343/214] overflow-hidden max-w-[350px] h-full flex-grow flex-shrink-0 image-safe ">
           <Image
             src={SingleNew.previewImage || "/placeholder.png"}
             alt={SingleNew.title}
-            width={350}
-            height={150}
-            className=" object-contain xs1:object-cover rounded-md"
+            width={343}
+            height={214}
+            sizes="(max-width: 640px) 100vw, 350px"
+            className="  object-cover rounded-md"
             priority
           />
           <div className="absolute top-2 left-2 flex flex-wrap gap-1">
