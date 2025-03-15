@@ -8,7 +8,7 @@ export async function SimilarNews({ slug }: { slug: string }) {
   return (
     <section className="overflow-x-auto">
       <h2 className="text-xl font-bold mb-4">Похожие новости</h2>
-      <div className=" w-full flex overflow-x-auto space-x-4 ">
+      <div className=" w-full flex overflow-x-auto gap-2 lg:gap-4 ">
         {similarNews.map((singleNews) => (
           <MiniNewsCard
             key={singleNews.id}

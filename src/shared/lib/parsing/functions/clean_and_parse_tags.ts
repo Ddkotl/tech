@@ -13,7 +13,7 @@ export function cleanAndParseTags(inputString: string): string[] {
     let tagArray = cleanedString
       .split(/[,]+/) // Разделяем по запятым
       .map((tag) => tag.trim()) // Убираем пробелы
-      .filter((tag) => tag.length > 0); // Убираем пустые строки
+      .filter((tag) => tag.length > 0 && tag.length < 25); // Убираем пустые строки
 
     // Если больше 3-х тегов, удаляем самые длинные
     if (tagArray.length > 3) {
