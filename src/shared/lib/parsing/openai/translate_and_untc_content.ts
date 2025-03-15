@@ -7,7 +7,7 @@ export const translateAndUnicText = async (text: string): Promise<string> => {
         {
           role: "system",
           content:
-            "Отвечай строго в  формате html используя только  <p> и <h2> без <html> <head> и <body>,  без добавления комментариев.",
+            "Отвечай на руском языке строго в  формате html используя только  <p> и <h2> без <html> <head> и <body>,  без добавления комментариев.",
         },
         {
           role: "user",

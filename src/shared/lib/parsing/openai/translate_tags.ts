@@ -7,7 +7,7 @@ export const translateTags = async (tags: string): Promise<string> => {
         {
           role: "system",
           content:
-            "Отвечай строго в указанном формате без добавления комментариев.",
+            "Отвечай на руском языке строго в указанном формате без добавления комментариев.",
         },
         {
           role: "user",

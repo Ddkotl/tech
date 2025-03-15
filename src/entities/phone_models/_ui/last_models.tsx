@@ -1,9 +1,6 @@
 import React from "react";
 import { PhoneModelLitleCard } from "./phone_litle_card";
 import { getLastModels } from "../_actions/get_last_models";
-import { REVALIDATE_TIME } from "@/shared/lib/config/public";
-
-export const revalidate = REVALIDATE_TIME;
 
 export const LastModels = async () => {
   const similarModels = await getLastModels();

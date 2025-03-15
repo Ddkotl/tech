@@ -1,8 +1,5 @@
 import { NavigationButton } from "@/shared/components/custom/navigation_button";
 import { getNextAndPrevModelsInfo } from "../_actions/get_next_prev_model";
-import { REVALIDATE_TIME } from "@/shared/lib/config/public";
-
-export const revalidate = REVALIDATE_TIME;
 
 export async function NextAndPrevModelButtons({
   currentModelSlug,

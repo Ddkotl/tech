@@ -55,6 +55,7 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
+      isActive && " shadow-lg",
       className,
     )}
     {...props}

@@ -13,9 +13,6 @@ import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
 import { BrandWithModelsCount } from "@/entities/brands";
 import { Sidebar } from "@/widgets/sidebar/app-sidebar";
-import { REVALIDATE_TIME } from "@/shared/lib/config/public";
-
-export const revalidate = REVALIDATE_TIME;
 
 export async function generateMetadata({
   params,

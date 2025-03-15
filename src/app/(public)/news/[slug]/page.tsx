@@ -74,8 +74,8 @@ export default async function NewsPage({
   await increaseNewsViewsCountAction(params.slug);
 
   return (
-    <Container className="h-full flex flex-1 gap-2 lg:gap-6">
-      <ContentContainer>
+    <Container className="flex gap-2  flex-1 lg:gap-6 ">
+      <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
         <section className="flex flex-col flex-1 gap-2 md:gap-4">
           <Card className="w-full mx-auto p-2">
             <CardHeader className="p-2">

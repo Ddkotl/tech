@@ -7,11 +7,8 @@ import {
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Container } from "@/shared/components";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
-import { REVALIDATE_TIME } from "@/shared/lib/config/public";
 import { Sidebar } from "@/widgets/sidebar/app-sidebar";
 import { Metadata } from "next";
-
-export const revalidate = REVALIDATE_TIME;
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Обзоры",

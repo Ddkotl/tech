@@ -5,32 +5,47 @@ import { LastModels } from "@/entities/phone_models";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Container } from "@/shared/components";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
-import { REVALIDATE_TIME } from "@/shared/lib/config/public";
 import { Sidebar } from "@/widgets/sidebar/app-sidebar";
 import { Metadata } from "next";
 
-export const revalidate = REVALIDATE_TIME;
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}): Promise<Metadata> {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const pageTitle =
+    page > 1
+      ? `Новости смартфонов и гаджетов - Страница ${page}`
+      : "Новости смартфонов и гаджетов";
+  const pageDescription =
+    page > 1
+      ? `Страница ${page} списка всех новостей смартфонов и гаджетов`
+      : "Список всех новостей смартфонов и гаджетов";
+  const canonicalUrl =
+    page > 1
+      ? `https://tech24view.ru/news?page=${page}`
+      : "https://tech24view.ru/news";
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Новости",
-  description:
-    "Получите последние новости технологий, новости технологий и советы по выбору современных гаджетов.",
-  keywords: [
-    "последние новости",
-    "новости технологий",
-    "технологии",
-    "смартфоны",
-    "обзоры",
-    "обзоры смартфонов",
-    "новости",
-    "новости смартфонов",
-    "гаджеты",
-    "мобильные телефоны",
-    "инновации",
-  ],
-  ogImage: "/logo_opengraf.jpg",
-  canonical: "https://tech24view.ru/news",
-});
+  return generateSEOMetadata({
+    title: pageTitle,
+    description: pageDescription,
+    keywords: [
+      "брэнды",
+      "брэнды смартфонов",
+      "технологии",
+      "смартфоны",
+      "обзоры",
+      "новости",
+      "новости смартфонов",
+      "гаджеты",
+      "мобильные телефоны",
+      "инновации",
+    ],
+    ogImage: "/logo_opengraf.jpg",
+    canonical: canonicalUrl,
+  });
+}
 
 export default async function NewsPage({
   searchParams,

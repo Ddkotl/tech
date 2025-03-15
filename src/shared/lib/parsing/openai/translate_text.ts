@@ -6,7 +6,7 @@ export const translateText = async (text: string): Promise<string> => {
       {
         role: "system",
         content:
-          "Отвечай строго в  формате строки,  без добавления комментариев.",
+          "Отвечай на руском языке строго в  формате строки,  без добавления комментариев.",
       },
       {
         role: "user",
