@@ -1,6 +1,9 @@
 import { Browser, Page } from "playwright";
 
-export const addHTTPheaders = async (browser: Browser): Promise<Page> => {
+export const addHTTPheaders = async (
+  browser: Browser,
+  isTest: boolean = false,
+): Promise<Page> => {
   try {
     const context = await browser.newContext({
       viewport: {
@@ -31,10 +34,14 @@ export const addHTTPheaders = async (browser: Browser): Promise<Page> => {
       proxy: {
         server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
       },
-      //   recordVideo: {
-      //     dir: `./img_for_test/v1-${new Date().toISOString()}`,
-      //     size: { width: 1280, height: 720 },
-      //   },
+      ...(isTest
+        ? {
+            recordVideo: {
+              dir: `./img_for_test/v1-${new Date().toISOString()}`,
+              size: { width: 1280, height: 720 },
+            },
+          }
+        : {}),
     });
 
     // Добавляем stealth-плагин
@@ -61,14 +68,14 @@ export const addHTTPheaders = async (browser: Browser): Promise<Page> => {
     });
 
     // Настройка перехвата запросов
-    await page.route(/.*/, (route) => {
-      const blockedResources = ["image", "stylesheet", "font"];
-      if (blockedResources.includes(route.request().resourceType())) {
-        route.abort();
-      } else {
-        route.continue();
-      }
-    });
+    // await page.route(/.*/, (route) => {
+    //   const blockedResources = ["image", "stylesheet", "font"];
+    //   if (blockedResources.includes(route.request().resourceType())) {
+    //     route.abort();
+    //   } else {
+    //     route.continue();
+    //   }
+    // });
     return page;
   } catch (error) {
     console.log("Ошибка при добавлении HTTP-заголовков:", error);

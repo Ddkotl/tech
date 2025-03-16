@@ -1,5 +1,5 @@
 import path from "path";
-import { chromium } from "playwright";
+import { Browser, chromium } from "playwright";
 import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
@@ -8,24 +8,25 @@ import { addHTTPheaders } from "../addHTTPheaders";
 export const incriaseImageILoveImage = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
-  const browser = await chromium.launch({
-    headless: true,
-    args: [
-      "--disable-blink-features=AutomationControlled",
-      "--disable-infobars",
-      `--timezone="America/New_York"`,
-      "--lang=en-US",
-    ],
-  });
-
-  const page = await addHTTPheaders(browser);
-
-  const tempFilePath = path.join(os.tmpdir(), `input_image.png`);
-  const tempDownloadPath = path.join(os.tmpdir(), "processed_image.png");
-
-  fs.writeFileSync(tempFilePath, imageBuffer);
-
+  let browser: Browser | undefined;
   try {
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        "--disable-blink-features=AutomationControlled",
+        "--disable-infobars",
+        `--timezone="America/New_York"`,
+        "--lang=en-US",
+      ],
+    });
+
+    const page = await addHTTPheaders(browser);
+
+    const tempFilePath = path.join(os.tmpdir(), `input_image.png`);
+    const tempDownloadPath = path.join(os.tmpdir(), "processed_image.png");
+
+    fs.writeFileSync(tempFilePath, imageBuffer);
+
     // Создаем временный файл из Buffer
     await simulateMouseMovement(page);
     // Открываем сайт
@@ -102,6 +103,8 @@ export const incriaseImageILoveImage = async (
     console.error("Ошибка при увеличении изображения:", error);
     throw error;
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
   }
 };

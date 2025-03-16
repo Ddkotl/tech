@@ -13,6 +13,7 @@ export function PhoneModelCard({ model }: { model: PartialPhoneModel }) {
             alt={model.short_name}
             width={100} // Физический размер картинки
             height={146.5}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-14 h-20 object-fill mx-auto rounded-md" // Задаем фиксированные размеры
             priority
           />

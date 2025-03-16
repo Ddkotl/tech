@@ -1,5 +1,5 @@
 import path from "path";
-import { chromium } from "playwright";
+import { Browser, chromium } from "playwright";
 import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
@@ -7,24 +7,26 @@ import { addHTTPheaders } from "../addHTTPheaders";
 
 export const removeWattermarkDewatermarck = async (
   imageBuffer: Buffer,
+  textDelete: boolean,
 ): Promise<Buffer> => {
-  const browser = await chromium.launch({
-    headless: true,
-    args: [
-      "--disable-blink-features=AutomationControlled",
-      "--disable-infobars",
-      `--timezone="America/New_York"`,
-      "--lang=en-US",
-    ],
-  });
-
-  const page = await addHTTPheaders(browser);
-  const tempFilePath = path.join(os.tmpdir(), `input_image.png`);
-  const tempDownloadPath = path.join(os.tmpdir(), "processed_image.png");
-
-  fs.writeFileSync(tempFilePath, imageBuffer);
-
+  let browser: Browser | undefined;
   try {
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        // "--disable-blink-features=AutomationControlled",
+        // "--disable-infobars",
+        `--timezone="America/New_York"`,
+        "--lang=en-US",
+      ],
+    });
+
+    const page = await addHTTPheaders(browser, false);
+    const tempFilePath = path.join(os.tmpdir(), `input_image.png`);
+    const tempDownloadPath = path.join(os.tmpdir(), "processed_image.png");
+
+    fs.writeFileSync(tempFilePath, imageBuffer);
+
     // Создаем временный файл из Buffer
 
     // Открываем сайт
@@ -55,6 +57,17 @@ export const removeWattermarkDewatermarck = async (
     await page.waitForTimeout(5000); // Ожидание 5 секунд для обработки
     await page.waitForSelector("img[alt='enhanced-image']", { timeout: 60000 });
     // console.log("Изображение обработано");
+    if (textDelete) {
+      const textDeleteButtonSelector = "button[role='switch']";
+      await page.waitForSelector(textDeleteButtonSelector, {
+        timeout: 60000,
+        state: "attached",
+      });
+      await page.click(textDeleteButtonSelector);
+      await simulateMouseMovement(page);
+      await page.waitForTimeout(5000);
+    }
+    await page.waitForSelector("img[alt='enhanced-image']", { timeout: 60000 });
     await simulateMouseMovement(page);
     // Ожидаем появления кнопки для скачивания
     const downloadButtonSelector = "button:has-text('Download')";
@@ -82,6 +95,8 @@ export const removeWattermarkDewatermarck = async (
     console.error("Ошибка при удалении вотермарки:", error);
     throw error;
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
   }
 };

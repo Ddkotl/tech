@@ -1,5 +1,5 @@
 import path from "path";
-import { chromium } from "playwright";
+import { Browser, chromium } from "playwright";
 import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
@@ -14,18 +14,19 @@ import { addHTTPheaders } from "../addHTTPheaders";
 export const removeBackgroundWithphotiu = async (
   imageBuffer: Buffer,
 ): Promise<Buffer> => {
-  const browser = await chromium.launch({
-    headless: true,
-    args: [
-      "--disable-blink-features=AutomationControlled",
-      "--disable-infobars",
-      `--timezone="America/New_York"`,
-      "--lang=en-US",
-    ],
-  });
-
-  const page = await addHTTPheaders(browser);
+  let browser: Browser | undefined;
   try {
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        "--disable-blink-features=AutomationControlled",
+        "--disable-infobars",
+        `--timezone="America/New_York"`,
+        "--lang=en-US",
+      ],
+    });
+
+    const page = await addHTTPheaders(browser);
     // Создаем временный файл из Buffer
     const tempFilePath = path.join(os.tmpdir(), "input_image.png");
     fs.writeFileSync(tempFilePath, imageBuffer);
@@ -90,6 +91,8 @@ export const removeBackgroundWithphotiu = async (
     console.error("Ошибка при удалении фона:", error);
     throw error;
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close();
+    }
   }
 };

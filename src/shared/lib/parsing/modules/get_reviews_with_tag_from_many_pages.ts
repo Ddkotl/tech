@@ -126,10 +126,13 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
             article.previewImageUrl,
             slug,
             "reviews_preview",
-            false,
-            true,
-            true,
-            true,
+            {
+              convert_to_png: false,
+              incriase: true,
+              proxy_tor: true,
+              remove_wattermark: true,
+              textDelete: true,
+            },
           )
         : "";
 
@@ -137,15 +140,13 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       const contentImagesPaths: string[] = [];
       for (const imgSrc of allImages) {
         if (imgSrc) {
-          const savedPath = await downloadImageForS3(
-            imgSrc,
-            slug,
-            "reviews",
-            false,
-            true,
-            true,
-            false,
-          );
+          const savedPath = await downloadImageForS3(imgSrc, slug, "reviews", {
+            convert_to_png: false,
+            incriase: false,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          });
           if (savedPath) contentImagesPaths.push(savedPath);
         }
       }

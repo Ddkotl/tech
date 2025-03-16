@@ -3,13 +3,14 @@ import { removeWattermarkDewatermarck } from "./remove_watter_mark_dewatermarc";
 
 export const removeWattermarkWithRetry = async (
   imageBuffer: Buffer,
+  textDelete: boolean,
   maxRetries: number = 5,
 ): Promise<Buffer> => {
   let attempts = 0;
 
   while (attempts < maxRetries) {
     try {
-      return await removeWattermarkDewatermarck(imageBuffer);
+      return await removeWattermarkDewatermarck(imageBuffer, textDelete);
     } catch (error) {
       attempts++;
       console.error(

@@ -40,15 +40,13 @@ export const getModelsByBrand = async (
       .locator(".specs-photo-main  img")
       .getAttribute("src");
     const modelImgPath = imgUrl
-      ? await downloadImageForS3(
-          imgUrl,
-          slug,
-          "models_preview",
-          true,
-          true,
-          true,
-          true,
-        )
+      ? await downloadImageForS3(imgUrl, slug, "models_preview", {
+          convert_to_png: true,
+          incriase: true,
+          proxy_tor: true,
+          remove_wattermark: true,
+          textDelete: false,
+        })
       : "";
 
     const releaseDate = await page
@@ -142,10 +140,13 @@ export const getModelsByBrand = async (
               imgSrc,
               slug,
               "models_all",
-              true,
-              true,
-              true,
-              false,
+              {
+                convert_to_png: true,
+                incriase: false,
+                proxy_tor: true,
+                remove_wattermark: true,
+                textDelete: false,
+              },
             );
             if (savedPath) {
               contentImagesPaths.push(savedPath);

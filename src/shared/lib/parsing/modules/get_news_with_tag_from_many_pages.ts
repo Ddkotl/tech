@@ -79,25 +79,26 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
             article.previewImageUrl,
             slug,
             "news_preview",
-            false,
-            true,
-            true,
-            true,
+            {
+              convert_to_png: false,
+              incriase: true,
+              proxy_tor: true,
+              remove_wattermark: true,
+              textDelete: true,
+            },
           )
         : null;
 
       const contentImagesPaths = [];
       for (const imgSrc of imagesSrc) {
         if (imgSrc) {
-          const savedPath = await downloadImageForS3(
-            imgSrc,
-            slug,
-            "news",
-            false,
-            true,
-            true,
-            false,
-          );
+          const savedPath = await downloadImageForS3(imgSrc, slug, "news", {
+            convert_to_png: false,
+            incriase: false,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          });
           if (savedPath) contentImagesPaths.push(savedPath);
         }
       }

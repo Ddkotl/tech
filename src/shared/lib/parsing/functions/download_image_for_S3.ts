@@ -12,16 +12,19 @@ export const downloadImageForS3 = async (
   url: string,
   textForFilename: string | undefined,
   imgDirNameInStorage: string,
-  convert_to_png: boolean = false,
-  remove_wattermark: boolean = false,
-  proxy_tor: boolean = false,
-  incriase: boolean = false,
+  config: {
+    convert_to_png: boolean;
+    remove_wattermark: boolean;
+    proxy_tor: boolean;
+    incriase: boolean;
+    textDelete: boolean;
+  },
 ) => {
   try {
-    if (proxy_tor) {
+    if (config.proxy_tor) {
       await restartTor();
     }
-    const imgName = getImageName(convert_to_png, textForFilename);
+    const imgName = getImageName(config.convert_to_png, textForFilename);
     const response = await axios.get(url, {
       responseType: "arraybuffer",
       headers: {
@@ -32,16 +35,18 @@ export const downloadImageForS3 = async (
     const contentType =
       response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
-    if (incriase) {
+    if (config.incriase) {
       processedImageBuffer = await incriaseImageWithRetry(processedImageBuffer);
       // console.log("изображение увеличено");
     }
-    if (remove_wattermark) {
-      processedImageBuffer =
-        await removeWattermarkWithRetry(processedImageBuffer);
+    if (config.remove_wattermark) {
+      processedImageBuffer = await removeWattermarkWithRetry(
+        processedImageBuffer,
+        config.textDelete,
+      );
       // console.log("удалена вотермарка");
     }
-    if (convert_to_png) {
+    if (config.convert_to_png) {
       processedImageBuffer =
         await removeImageBackgroundWithRetry(processedImageBuffer);
       // console.log("удален фон");

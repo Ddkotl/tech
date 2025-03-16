@@ -1,7 +1,10 @@
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
-import { Button } from "@/shared/components";
+import { Button, Container, ContentContainer } from "@/shared/components";
 import Link from "next/link";
+import { Sidebar } from "@/widgets/sidebar/app-sidebar";
+import { LastModels } from "@/entities/phone_models";
+import { LatestNews } from "@/entities/news/_ui/latest_news";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Главная",
@@ -22,25 +25,24 @@ export const metadata: Metadata = generateSEOMetadata({
 
 export default async function Home() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-row gap-4  justify-between items-center mb-4">
-        <h1 className="text-lg md:text-3xl font-bold ml-6">
-          Последние новости
-        </h1>
-        <Button
-          variant="outline"
-          className="mr-6 flex items-center justify-center"
-        >
-          <Link href={"/news"}>Все новости</Link>
-        </Button>
-      </div>
-      {/* <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 w-full">
-          {latestNews.map((newsItem) => (
-            <NewsCard key={newsItem.id} news={newsItem} />
-          ))}
-        </div>
-      </div> */}
-    </div>
+    <Container className="h-full flex  flex-1  gap-2 lg:gap-6 ">
+      <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
+        <section className="flex flex-col   gap-2 md:gap-4">
+          <div className="flex flex-row gap-4  justify-between items-center mb-4">
+            <h2 className="text-lg md:text-3xl font-bold ml-6">
+              Последние новости
+            </h2>
+            <Button
+              variant="outline"
+              className="mr-6 flex items-center justify-center"
+            >
+              <Link href={"/news"}>Все новости</Link>
+            </Button>
+          </div>
+          <LatestNews count={20} />
+        </section>
+      </ContentContainer>
+      <Sidebar children1={<LastModels />} />
+    </Container>
   );
 }
