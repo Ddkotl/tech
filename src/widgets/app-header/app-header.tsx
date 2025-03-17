@@ -7,6 +7,7 @@ import { Profile } from "../../shared/components/custom/profile";
 import { ToggleTheme } from "@/features/theme/toggle-theme";
 import { Actions } from "./_ui/actions";
 import { AdminLogo } from "../../shared/components/custom/admin-logo";
+import { Container } from "@/shared/components";
 
 export function AppHeader({
   variant,
@@ -17,14 +18,19 @@ export function AppHeader({
   const isAdmin = variant !== "auth";
 
   return (
-    <Layout
-      logo={<Logo />}
-      mobileNav={<MobileMenu items={mainNavItems} logo={<Logo />} />}
-      nav={<MainNav items={mainNavItems} />}
-      profile={isProfile && <Profile />}
-      actions={
-        <Actions adminIcon={isAdmin && <AdminLogo />} theme={<ToggleTheme />} />
-      }
-    />
+    <Container>
+      <Layout
+        logo={<Logo />}
+        mobileNav={<MobileMenu items={mainNavItems} logo={<Logo />} />}
+        nav={<MainNav items={mainNavItems} />}
+        profile={isProfile && <Profile />}
+        actions={
+          <Actions
+            adminIcon={isAdmin && <AdminLogo />}
+            theme={<ToggleTheme />}
+          />
+        }
+      />
+    </Container>
   );
 }

@@ -9,17 +9,15 @@ export async function LatestNews({ count }: { count: number }) {
     return null;
   }
   return (
-    <section className="overflow-x-auto">
-      <div className=" w-full flex overflow-x-auto gap-2 lg:gap-4 ">
-        {latestNews.map((singleNews: PartialNews) => (
-          <MiniNewsCard
-            key={singleNews.id}
-            title={singleNews.title}
-            previewImage={singleNews.previewImage}
-            slug={singleNews.slug}
-          />
-        ))}
-      </div>
+    <section className="  flex overflow-x-auto gap-2 lg:gap-4  ">
+      {latestNews.map((singleNews: PartialNews) => (
+        <MiniNewsCard
+          key={singleNews.id}
+          title={singleNews.title}
+          previewImage={singleNews.previewImage}
+          slug={singleNews.slug}
+        />
+      ))}
     </section>
   );
 }

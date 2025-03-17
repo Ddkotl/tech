@@ -1,27 +1,21 @@
 import { cn } from "@/shared/lib/utils";
 import React from "react";
-type TitleSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+type TitleSize = "md" | "lg" | "xl";
 interface Props {
   size?: TitleSize;
   className?: string;
   text: string;
 }
-export const Title: React.FC<Props> = ({ text, size = "sm", className }) => {
+export const Title: React.FC<Props> = ({ text, size = "lg", className }) => {
   const mapTagBySize = {
-    xs: "h5",
-    sm: "h4",
     md: "h3",
     lg: "h2",
     xl: "h1",
-    "2xl": "h1",
   } as const;
   const mapClassNameBySize = {
-    xs: "text-[16px]",
-    sm: "text-[22px]",
-    md: "text-[26px]",
-    lg: "text-[32px]",
-    xl: "text-[40px]",
-    "2xl": "text-[48px]",
+    md: "text-sm font-semibold lg:text-lg w-full gap-4 text-start",
+    lg: "text-base font-bold lg:text-xl w-full gap-4 text-start",
+    xl: "text-base font-bold lg:text-xl w-full gap-4 text-start",
   } as const;
   return React.createElement(
     mapTagBySize[size],

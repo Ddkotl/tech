@@ -1,5 +1,8 @@
+import { LastModels } from "@/entities/phone_models";
+import { Container, ContentContainer } from "@/shared/components";
 import { AppFooter } from "@/widgets/app-footer/app-footer";
 import { AppHeader } from "@/widgets/app-header/app-header";
+import { Sidebar } from "@/widgets/sidebar/app-sidebar";
 import React from "react";
 
 export default async function Layout({
@@ -8,10 +11,14 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen w-full flex-col">
-      {" "}
+    <div className="flex min-h-screen w-full flex-col gap-2 lg:gap-6">
       <AppHeader variant="public" />
-      <main className="flex flex-auto flex-col p-2 h-full">{children}</main>
+      <Container className="h-full flex  flex-1  gap-2 lg:gap-6 ">
+        <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
+          {children}
+        </ContentContainer>
+        <Sidebar children1={<LastModels />} />
+      </Container>
       <AppFooter />
     </div>
   );

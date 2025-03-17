@@ -1,19 +1,15 @@
 import { DeleteNewsButton } from "@/entities/news";
 import { getSingleNewsBySlug } from "@/entities/news/_actons/get_news_by_slug";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
-import { LastModels } from "@/entities/phone_models";
 import { SimilarNews } from "@/entities/news/_ui/similar-news";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  Container,
-  ContentContainer,
   TimeAgo,
 } from "@/shared/components";
 import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-react";
-import { Sidebar } from "@/widgets/sidebar/app-sidebar";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -74,44 +70,37 @@ export default async function NewsPage({
   await increaseNewsViewsCountAction(params.slug);
 
   return (
-    <Container className="flex gap-2  flex-1 lg:gap-6 ">
-      <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
-        <section className="flex flex-col flex-1 gap-2 md:gap-4">
-          <Card className="w-full mx-auto p-2">
-            <CardHeader className="p-2">
-              <DeleteNewsButton slug={params.slug} />
-              <h1 className="lg:text-xl text-base lg:font-bold font-semibold">
-                {news.title}
-              </h1>
-              <div className="md:text-base text-sm flex flex-col sm:flex-row justify-between items-start sm:items-center text-foreground/80">
-                <span>
-                  <TimeAgo date={news.createdAt} />
-                </span>
-              </div>
-            </CardHeader>
-            <CardContent className="p-2">
-              {news.previewImage && (
-                <ImageGalleryComponent
-                  imagePaths={[
-                    news.previewImage,
-                    ...(news.images || []).filter(
-                      (img) => typeof img === "string",
-                    ),
-                  ]}
-                />
-              )}
-              <div
-                className="prose"
-                dangerouslySetInnerHTML={{ __html: news.content }}
-              />
-            </CardContent>
-            <CardFooter className="flex justify-between items-center p-2">
-              <SimilarNews slug={params.slug} />
-            </CardFooter>
-          </Card>
-        </section>
-      </ContentContainer>
-      <Sidebar children1={<LastModels />} />
-    </Container>
+    <main className="flex flex-col flex-1 gap-2 md:gap-4">
+      <Card className="w-full mx-auto p-2">
+        <CardHeader className="p-2">
+          <DeleteNewsButton slug={params.slug} />
+          <h1 className="lg:text-xl text-base lg:font-bold font-semibold">
+            {news.title}
+          </h1>
+          <div className="md:text-base text-sm flex flex-col sm:flex-row justify-between items-start sm:items-center text-foreground/80">
+            <span>
+              <TimeAgo date={news.createdAt} />
+            </span>
+          </div>
+        </CardHeader>
+        <CardContent className="p-2">
+          {news.previewImage && (
+            <ImageGalleryComponent
+              imagePaths={[
+                news.previewImage,
+                ...(news.images || []).filter((img) => typeof img === "string"),
+              ]}
+            />
+          )}
+          <div
+            className="prose"
+            dangerouslySetInnerHTML={{ __html: news.content }}
+          />
+        </CardContent>
+        <CardFooter className="flex justify-between  p-2">
+          <SimilarNews slug={params.slug} />
+        </CardFooter>
+      </Card>
+    </main>
   );
 }

@@ -10,7 +10,7 @@ export const Container: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <div
       className={cn(
-        "lg:px-4 lg:py-4 py-0  mx-auto container max-w-[1240px]",
+        " px-2 lg:px-4 mx-auto container max-w-[1240px]",
         className,
       )}
     >

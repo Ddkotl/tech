@@ -1,9 +1,7 @@
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
-import { Button, Container, ContentContainer } from "@/shared/components";
+import { Button, Title } from "@/shared/components";
 import Link from "next/link";
-import { Sidebar } from "@/widgets/sidebar/app-sidebar";
-import { LastModels } from "@/entities/phone_models";
 import { LatestNews } from "@/entities/news/_ui/latest_news";
 
 export const metadata: Metadata = generateSEOMetadata({
@@ -25,24 +23,14 @@ export const metadata: Metadata = generateSEOMetadata({
 
 export default async function Home() {
   return (
-    <Container className="h-full flex  flex-1  gap-2 lg:gap-6 ">
-      <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
-        <section className="flex flex-col   gap-2 md:gap-4">
-          <div className="flex flex-row gap-4  justify-between items-center mb-4">
-            <h2 className="text-lg md:text-3xl font-bold ml-6">
-              Последние новости
-            </h2>
-            <Button
-              variant="outline"
-              className="mr-6 flex items-center justify-center"
-            >
-              <Link href={"/news"}>Все новости</Link>
-            </Button>
-          </div>
-          <LatestNews count={20} />
-        </section>
-      </ContentContainer>
-      <Sidebar children1={<LastModels />} />
-    </Container>
+    <main className="flex flex-col flex-1   gap-2 md:gap-4">
+      <div className="flex flex-row gap-4  justify-between items-center ">
+        <Title size="lg" text="Последние новости" />
+        <Link href={"/news"}>
+          <Button variant="outline">Все новости</Button>
+        </Link>
+      </div>
+      <LatestNews count={20} />
+    </main>
   );
 }

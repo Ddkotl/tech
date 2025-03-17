@@ -1,16 +1,10 @@
 import parse from "html-react-parser";
 
 import { getPhoneModelInfo } from "@/entities/phone_models/_actions/get_model_info_by_slug";
-import {
-  LastModels,
-  PhoneModeLFullInfo,
-  SimilarModels,
-} from "@/entities/phone_models";
+import { PhoneModeLFullInfo } from "@/entities/phone_models";
 import { PhoneModelLargeCard } from "@/entities/phone_models/_ui/phone_model_large_card";
-import { Container, ContentContainer } from "@/shared/components";
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
-import { Sidebar } from "@/widgets/sidebar/app-sidebar";
 import { NextAndPrevModelButtons } from "@/entities/phone_models/_ui/prev_next_model_buttons";
 
 export async function generateMetadata({
@@ -59,31 +53,25 @@ export default async function PhoneModelPage({
   }
 
   return (
-    <Container className="flex gap-2  flex-1 lg:gap-6 ">
-      <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
-        {/* Карточка телефона */}
-        <PhoneModelLargeCard phone={phone} />
+    <main className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
+      {/* Карточка телефона */}
+      <PhoneModelLargeCard phone={phone} />
 
-        {/* Раздел "Описание" */}
-        <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg text-safe">
-          <h2 className="text-2xl lg:text-3xl font-semibold ">
-            Подробные характеристики
-          </h2>
-          <div className="prose ">
-            {phone.specifications[0].description
-              ? parse(String(phone.specifications[0].description))
-              : "Описание отсутствует"}
-          </div>
+      {/* Раздел "Описание" */}
+      <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg text-safe">
+        <h2 className="text-2xl lg:text-3xl font-semibold ">
+          Подробные характеристики
+        </h2>
+        <div className="prose ">
+          {phone.specifications[0].description
+            ? parse(String(phone.specifications[0].description))
+            : "Описание отсутствует"}
         </div>
-        <NextAndPrevModelButtons
-          currentModelSlug={params.slug}
-          brandId={phone.brandId}
-        />
-      </ContentContainer>
-      <Sidebar
-        children1={<SimilarModels brandId={phone.brandId} />}
-        children2={<LastModels />}
+      </div>
+      <NextAndPrevModelButtons
+        currentModelSlug={params.slug}
+        brandId={phone.brandId}
       />
-    </Container>
+    </main>
   );
 }
