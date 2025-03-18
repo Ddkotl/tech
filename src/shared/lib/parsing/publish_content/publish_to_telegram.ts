@@ -1,68 +1,52 @@
-async function publishToTelegram({
-  metaTitle,
-  metaDescription,
-  slug,
-  date,
+import { privateConfig } from "../../config/private";
+import { fileStorage } from "../../file-storage";
+import TelegramBot, { InputMediaPhoto } from "node-telegram-bot-api";
+
+export async function publishToTelegram({
   ruTitle,
   content,
   previewImage,
   images,
-  bucketName,
 }: {
-  metaTitle: string;
-  metaDescription: string;
-  slug: string;
-  date: Date;
   ruTitle: string;
   content: string;
   previewImage: string;
   images: string[];
-  bucketName: string;
 }) {
-  const fileStorage = new FileStorage();
-
   try {
+    if (!privateConfig.TELEGRAM_BOT_KEY || !privateConfig.TELEGRAM_CHANNEL_ID) {
+      return;
+    }
+    const bot = new TelegramBot(privateConfig.TELEGRAM_BOT_KEY, {
+      polling: false,
+    });
     // Генерируем временные URL для всех изображений
     const imageUrls = await Promise.all(
       [previewImage, ...images].map((image) =>
-        fileStorage.generatePresignedUrl(bucketName, image)
+        fileStorage.generatePresignedUrl(privateConfig.S3_IMAGES_BUCKET, image),
+      ),
     );
-
+    const formattedContent = content
+      .replace(/<\/?p>/g, "") // Убираем <p> и </p>
+      .replace(/\n/g, "\n\n")
+      .replace(/<h2>/g, "<b>")
+      .replace(/<\/h2>/g, "</b>"); // Добавляем двойные переводы строк
     // Формируем текст поста
-    const postText = `
-<b>${ruTitle}</b>
-
-${content}
-
-<a href="https://tech24view.ru/${slug}">Читать подробнее на сайте</a>
-    `;
+    const postText = `<b>${ruTitle}</b>\n\n${formattedContent}\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
 
     // Создаем медиагруппу
-    const mediaGroup = imageUrls.map((url, index) => ({
-      type: 'photo',
+    const mediaGroup: InputMediaPhoto[] = imageUrls.map((url, index) => ({
+      type: "photo",
       media: url, // Используем временный URL
-      caption: index === 0 ? postText : '', // Текст добавляем только к первой картинке
-      parse_mode: 'HTML',
+      caption: index === 0 ? postText : "", // Текст добавляем только к первой картинке
+      parse_mode: "HTML",
     }));
 
     // Отправляем медиагруппу в канал
-    await bot.sendMediaGroup(CHANNEL_ID, mediaGroup);
 
-    console.log('Пост успешно опубликован в Telegram-канал!');
+    await bot.sendMediaGroup(privateConfig.TELEGRAM_CHANNEL_ID, mediaGroup);
+    console.log("Пост успешно опубликован в Telegram!");
   } catch (error) {
-    console.error('Ошибка при публикации поста в Telegram:', error);
+    console.error("Ошибка при публикации поста в Telegram:", error);
   }
 }
-
-// Пример использования
-publishToTelegram({
-  metaTitle: 'Новый обзор смартфона',
-  metaDescription: 'Обзор нового флагмана 2023 года',
-  slug: 'new-smartphone-review',
-  date: new Date(),
-  ruTitle: 'Обзор нового смартфона 2023 года',
-  content: '<b>Новый смартфон</b> поражает своими характеристиками...',
-  previewImage: 'preview.jpg', // Название файла в MinIO
-  images: ['image1.jpg', 'image2.jpg', 'image3.jpg'], // Названия файлов в MinIO
-  bucketName: 'your-bucket-name', // Название бакета в MinIO
-});

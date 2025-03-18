@@ -9,7 +9,7 @@ export async function LatestNews({ count }: { count: number }) {
     return null;
   }
   return (
-    <section className="  flex overflow-x-auto gap-2 lg:gap-4  ">
+    <section className="flex overflow-x-auto gap-2 lg:gap-4  ">
       {latestNews.map((singleNews: PartialNews) => (
         <MiniNewsCard
           key={singleNews.id}

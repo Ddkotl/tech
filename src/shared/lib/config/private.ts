@@ -24,6 +24,9 @@ const privateConfigSchema = z.object({
   ADMIN_EMAILS: z.string().optional(),
 
   GOOGLE_ANALITICS_4_ID: z.string().optional(),
+
+  TELEGRAM_BOT_KEY: z.string().optional(),
+  TELEGRAM_CHANNEL_ID: z.string().optional(),
 });
 
 export const privateConfig = privateConfigSchema.parse(process.env);
