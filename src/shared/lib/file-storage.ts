@@ -25,6 +25,15 @@ class FileStorage {
     },
   });
 
+  async generatePresignedUrl(bucketName: string, fileName: string, expiry: number = 3600): Promise<string> {
+    const command = new GetObjectCommand({
+      Bucket: bucketName,
+      Key: fileName,
+    });
+
+    return await getSignedUrl(this.s3Client, command, { expiresIn: expiry });
+  }
+
   async uploadImage(file: File, tag: string, fileName?: string) {
     return this.upload(file, privateConfig.S3_IMAGES_BUCKET, tag, fileName);
   }
