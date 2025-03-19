@@ -3,13 +3,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { cn } from "@/shared/lib/utils";
 
-export function ImageGalleryComponent({
-  imagePaths,
-  className,
-}: {
-  imagePaths?: string[];
-  className?: string;
-}) {
+export function ImageGalleryComponent({ imagePaths, className }: { imagePaths?: string[]; className?: string }) {
   const placeholder = "/placeholder.png"; // Путь к заглушке
 
   const images =

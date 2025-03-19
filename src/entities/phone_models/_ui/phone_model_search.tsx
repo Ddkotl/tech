@@ -9,9 +9,7 @@ import { PhoneModelsList } from "./phone_model_list";
 
 export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredPhoneModels, setFilteredPhoneModels] = useState<
-    PartialPhoneModel[] | []
-  >([]);
+  const [filteredPhoneModels, setFilteredPhoneModels] = useState<PartialPhoneModel[] | []>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, startTransition] = useTransition();
 
@@ -68,18 +66,14 @@ export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
               transition={{ duration: 0.3 }}
               className="absolute  top-full mt-2 w-full max-w-md -translate-x-1/2 rounded-lg border p-4 shadow-lg bg-background border-foreground/20 z-20"
             >
-              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">
-                Результаты поиска
-              </h2>
+              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">Результаты поиска</h2>
 
               {loading ? (
                 <p className="text-center text-muted-foreground">Загрузка...</p>
               ) : filteredPhoneModels.length > 0 ? (
                 <PhoneModelsList models={filteredPhoneModels} />
               ) : (
-                <p className="text-center text-muted-foreground">
-                  Бренды не найдены
-                </p>
+                <p className="text-center text-muted-foreground">Бренды не найдены</p>
               )}
             </motion.div>
           </>

@@ -10,10 +10,7 @@ export const GoogleAnalytics = ({ gaId }: GoogleAnalyticsProps) => {
   return (
     <>
       {/* Подключаем Google Tag Manager */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
       <Script
         id="google-analytics"
         strategy="afterInteractive"

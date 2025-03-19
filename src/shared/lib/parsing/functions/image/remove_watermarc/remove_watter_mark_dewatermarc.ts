@@ -5,10 +5,7 @@ import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
 import { addHTTPheaders } from "../addHTTPheaders";
 
-export const removeWattermarkDewatermarck = async (
-  imageBuffer: Buffer,
-  textDelete: boolean,
-): Promise<Buffer> => {
+export const removeWattermarkDewatermarck = async (imageBuffer: Buffer, textDelete: boolean): Promise<Buffer> => {
   let browser: Browser | undefined;
   try {
     browser = await chromium.launch({
@@ -76,7 +73,7 @@ export const removeWattermarkDewatermarck = async (
     // Перехватываем событие скачивания
     const [download] = await Promise.all([
       page.waitForEvent("download"),
-      page.click(downloadButtonSelector),
+      page.click(`${downloadButtonSelector} >> nth=0`),
     ]);
 
     // Сохраняем файл на диск

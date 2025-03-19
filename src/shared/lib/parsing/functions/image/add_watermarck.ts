@@ -1,8 +1,5 @@
 import sharp from "sharp";
-export const replaceWatermarkWithSharp = async (
-  imageBuffer: Buffer,
-  replacementText: string,
-) => {
+export const replaceWatermarkWithSharp = async (imageBuffer: Buffer, replacementText: string) => {
   try {
     // Передаем Buffer в sharp
     const { width, height } = await sharp(imageBuffer).metadata();

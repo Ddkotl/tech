@@ -21,8 +21,7 @@ export function ImageGallery({ images }: ImageGalleryProps) {
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } =
-        scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
     }
@@ -51,11 +50,7 @@ export function ImageGallery({ images }: ImageGalleryProps) {
         onScroll={handleScroll}
       >
         {images.map((src, index) => (
-          <Card
-            key={index}
-            className="flex-shrink-0 cursor-pointer"
-            onClick={() => openModal(index)}
-          >
+          <Card key={index} className="flex-shrink-0 cursor-pointer" onClick={() => openModal(index)}>
             <CardContent className="p-2">
               <div className="relative w-64 h-64">
                 <Image

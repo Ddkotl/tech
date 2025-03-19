@@ -6,11 +6,7 @@ import { useAppSession } from "@/entities/user/session";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function SignInGuard({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SignInGuard({ children }: { children: React.ReactNode }) {
   const session = useAppSession();
   const router = useRouter();
   const isAuthenticated = session.status === "authenticated";
@@ -21,8 +17,7 @@ export default function SignInGuard({
     }
   }, [isAuthenticated, router]);
 
-  const isLoading =
-    session.status === "loading" || session.status === "authenticated";
+  const isLoading = session.status === "loading" || session.status === "authenticated";
 
   return (
     <>

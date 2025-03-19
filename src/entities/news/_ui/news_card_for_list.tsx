@@ -1,20 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Button,
-  Card,
-  CardDescription,
-  CardTitle,
-  TimeAgo,
-} from "@/shared/components";
+import { Button, Card, CardDescription, CardTitle, TimeAgo } from "@/shared/components";
 import { TagBage } from "@/entities/tag";
 import { PartialNewsWithTags } from "../_domain/types";
 
-export default function NewsCardForList({
-  SingleNew,
-}: {
-  SingleNew: PartialNewsWithTags;
-}) {
+export default function NewsCardForList({ SingleNew }: { SingleNew: PartialNewsWithTags }) {
   return (
     <Card className="max-w-[350px]   transition-all hover:bg-background/80">
       <div className="flex flex-col  gap-1 sm:gap-2  justify-center items-center">
@@ -30,9 +20,7 @@ export default function NewsCardForList({
             priority
           />
           <div className="absolute top-2 left-2 flex flex-wrap gap-1">
-            {SingleNew?.tags.map((tag) => (
-              <TagBage key={tag.slug} slug={tag.slug} title={tag.title} />
-            ))}
+            {SingleNew?.tags.map((tag) => <TagBage key={tag.slug} slug={tag.slug} title={tag.title} />)}
           </div>
         </div>
 
@@ -49,9 +37,7 @@ export default function NewsCardForList({
               <TimeAgo date={SingleNew.createdAt} />
             </CardDescription>
 
-            <p className="text-sm line-clamp-3 mt-2 text-muted-foreground">
-              {SingleNew.meta_description}
-            </p>
+            <p className="text-sm line-clamp-3 mt-2 text-muted-foreground">{SingleNew.meta_description}</p>
           </div>
 
           <div className=" pt-2">

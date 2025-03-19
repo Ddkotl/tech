@@ -1,9 +1,6 @@
 import { Browser, Page } from "playwright";
 
-export const addHTTPheaders = async (
-  browser: Browser,
-  isTest: boolean = false,
-): Promise<Page> => {
+export const addHTTPheaders = async (browser: Browser, isTest: boolean = false): Promise<Page> => {
   try {
     const context = await browser.newContext({
       viewport: {
@@ -23,12 +20,10 @@ export const addHTTPheaders = async (
       httpCredentials: undefined,
       extraHTTPHeaders: {
         "Accept-Language": "en-US,en;q=0.9",
-        "Sec-Ch-Ua":
-          '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+        "Sec-Ch-Ua": '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
         "Sec-Ch-Ua-Mobile": "?0",
         "Sec-Ch-Ua-Platform": '"Windows"',
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
         Referer: "https://www.google.com/",
       },
       proxy: {

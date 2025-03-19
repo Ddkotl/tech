@@ -9,10 +9,6 @@ export const useRole = () => {
   return session?.data?.user?.role;
 };
 
-export function AppSessionProvider({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
+export function AppSessionProvider({ children }: { children?: React.ReactNode }) {
   return <NextAuthSessionProvider>{children}</NextAuthSessionProvider>;
 }

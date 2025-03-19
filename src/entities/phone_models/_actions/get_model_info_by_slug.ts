@@ -3,9 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PhoneModeLFullInfo } from "../_domain/types";
 
-export async function getPhoneModelInfo(
-  slug: string,
-): Promise<PhoneModeLFullInfo | null> {
+export async function getPhoneModelInfo(slug: string): Promise<PhoneModeLFullInfo | null> {
   try {
     return await dataBase.phoneModels.findUnique({
       where: { slug },

@@ -3,10 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialPhoneModel } from "../_domain/types";
 
-export async function searchPhoneModel(
-  brandSlug: string,
-  query: string,
-): Promise<PartialPhoneModel[] | []> {
+export async function searchPhoneModel(brandSlug: string, query: string): Promise<PartialPhoneModel[] | []> {
   if (!query || !brandSlug) {
     return [];
   }

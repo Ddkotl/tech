@@ -1,9 +1,6 @@
 import { createId } from "@/shared/lib/id";
 
-export const getImageName = (
-  convert_to_png: boolean,
-  text?: string | undefined,
-): string => {
+export const getImageName = (convert_to_png: boolean, text?: string | undefined): string => {
   const sanitizedTitle = text
     ?.toLowerCase()
     .replace(/[^a-z0-9]+/g, "_") // Заменяем любые не буквы/цифры на "_"

@@ -32,30 +32,22 @@ export const downloadImageForS3 = async (
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
       },
     });
-    const contentType =
-      response.headers["content-type"] || "application/octet-stream";
+    const contentType = response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
     if (config.incriase) {
       processedImageBuffer = await incriaseImageWithRetry(processedImageBuffer);
       // console.log("изображение увеличено");
     }
     if (config.remove_wattermark) {
-      processedImageBuffer = await removeWattermarkWithRetry(
-        processedImageBuffer,
-        config.textDelete,
-      );
+      processedImageBuffer = await removeWattermarkWithRetry(processedImageBuffer, config.textDelete);
       // console.log("удалена вотермарка");
     }
     if (config.convert_to_png) {
-      processedImageBuffer =
-        await removeImageBackgroundWithRetry(processedImageBuffer);
+      processedImageBuffer = await removeImageBackgroundWithRetry(processedImageBuffer);
       // console.log("удален фон");
     }
 
-    processedImageBuffer = await replaceWatermarkWithSharp(
-      processedImageBuffer,
-      "tech24view.ru",
-    );
+    processedImageBuffer = await replaceWatermarkWithSharp(processedImageBuffer, "tech24view.ru");
     // console.log("вотермарка добавлена");
     processedImageBuffer = await сompressImageWithRetry(processedImageBuffer);
     // console.log("изображение сжато");
@@ -65,11 +57,7 @@ export const downloadImageForS3 = async (
     // Создаем File из Blob (если имя файла известно)
     const file = new File([blob], imgName, { type: contentType });
 
-    const storedFile = await fileStorage.uploadImage(
-      file,
-      imgDirNameInStorage,
-      imgName,
-    );
+    const storedFile = await fileStorage.uploadImage(file, imgDirNameInStorage, imgName);
 
     return storedFile.path;
   } catch (error) {

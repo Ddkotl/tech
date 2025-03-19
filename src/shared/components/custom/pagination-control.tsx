@@ -61,9 +61,7 @@ export function PaginationControl({
   const endItem = Math.min(startItem + pageSize - 1, totalItems);
 
   return (
-    <div
-      className={`flex flex-col md:flex-row justify-center items-center gap-4 ${className}`}
-    >
+    <div className={`flex flex-col md:flex-row justify-center items-center gap-4 ${className}`}>
       {/* Счетчик элементов */}
       <div className="text-xs text-muted-foreground w-full text-center md:text-start">
         Показано {startItem}–{endItem} из {totalItems}

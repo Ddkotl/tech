@@ -3,9 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { ReviewFullInfo } from "../_domain/types";
 
-export const getReviewsFullInfoBySlug = async (
-  slug: string,
-): Promise<ReviewFullInfo | null> => {
+export const getReviewsFullInfoBySlug = async (slug: string): Promise<ReviewFullInfo | null> => {
   try {
     return await dataBase.reviews.findUnique({
       where: { slug: slug },

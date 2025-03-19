@@ -7,10 +7,7 @@ import cv from "@techstark/opencv-js";
  * @param options - Опции для обработки.
  * @returns Promise<File> - PNG с прозрачным фоном.
  */
-export const convertToPNG = async (
-  file: File,
-  options: { resizeWidth?: number } = {},
-): Promise<File> => {
+export const convertToPNG = async (file: File, options: { resizeWidth?: number } = {}): Promise<File> => {
   const { resizeWidth = 300 } = options;
 
   try {
@@ -42,27 +39,13 @@ export const convertToPNG = async (
     // Применяем адаптивный порог для выделения объекта
     // console.log("Применяем пороговую обработку...");
     const binary = new cv.Mat();
-    cv.adaptiveThreshold(
-      gray,
-      binary,
-      255,
-      cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-      cv.THRESH_BINARY_INV,
-      11,
-      2,
-    );
+    cv.adaptiveThreshold(gray, binary, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2);
 
     // Находим контуры
     // console.log("Находим контуры...");
     const contours = new cv.MatVector();
     const hierarchy = new cv.Mat();
-    cv.findContours(
-      binary,
-      contours,
-      hierarchy,
-      cv.RETR_EXTERNAL,
-      cv.CHAIN_APPROX_SIMPLE,
-    );
+    cv.findContours(binary, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
     // Определяем самый большой контур
     // console.log("Ищем самый большой контур...");
@@ -103,14 +86,8 @@ export const convertToPNG = async (
     const boundingRect = cv.boundingRect(bestContour);
     boundingRect.x = Math.max(0, boundingRect.x - 5);
     boundingRect.y = Math.max(0, boundingRect.y - 5);
-    boundingRect.width = Math.min(
-      mask.cols - boundingRect.x,
-      boundingRect.width + 15,
-    );
-    boundingRect.height = Math.min(
-      mask.rows - boundingRect.y,
-      boundingRect.height + 20,
-    );
+    boundingRect.width = Math.min(mask.cols - boundingRect.x, boundingRect.width + 15);
+    boundingRect.height = Math.min(mask.rows - boundingRect.y, boundingRect.height + 20);
 
     // 🔹 Применяем маску к альфа-каналу
     // console.log("Применяем маску к альфа-каналу...");

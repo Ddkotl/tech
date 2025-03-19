@@ -9,9 +9,7 @@ import { ReviewsList } from "./reviews_list";
 
 export function ReviewsSearch() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredReviews, setFilteredReviews] = useState<
-    PartialReviewsWithTags[] | []
-  >([]);
+  const [filteredReviews, setFilteredReviews] = useState<PartialReviewsWithTags[] | []>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, startTransition] = useTransition();
 
@@ -68,18 +66,14 @@ export function ReviewsSearch() {
               transition={{ duration: 0.3 }}
               className="absolute  top-full mt-2  max-w-[90vw] -translate-x-1/2 left-0 md:-left-full rounded-lg border p-4 shadow-lg bg-background border-foreground/20 z-20"
             >
-              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">
-                Результаты поиска
-              </h2>
+              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">Результаты поиска</h2>
 
               {loading ? (
                 <p className="text-center text-muted-foreground">Загрузка...</p>
               ) : filteredReviews.length > 0 ? (
                 <ReviewsList reviews={filteredReviews} />
               ) : (
-                <p className="text-center text-muted-foreground">
-                  Обзоры не найдены
-                </p>
+                <p className="text-center text-muted-foreground">Обзоры не найдены</p>
               )}
             </motion.div>
           </>

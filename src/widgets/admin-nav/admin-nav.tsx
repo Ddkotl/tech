@@ -5,11 +5,7 @@ import { MobileNav } from "./_ui/mobile-nav";
 
 import { AppSearch } from "@/shared/components/custom/app-search";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <Layout
       navAside={<DesktopNav logo={<LogoIcon />} />}

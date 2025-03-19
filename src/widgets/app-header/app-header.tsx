@@ -9,11 +9,7 @@ import { Actions } from "./_ui/actions";
 import { AdminLogo } from "../../shared/components/custom/admin-logo";
 import { Container } from "@/shared/components";
 
-export function AppHeader({
-  variant,
-}: {
-  variant: "auth" | "private" | "public" | "admin";
-}) {
+export function AppHeader({ variant }: { variant: "auth" | "private" | "public" | "admin" }) {
   const isProfile = variant !== "auth";
   const isAdmin = variant !== "auth";
 
@@ -24,12 +20,7 @@ export function AppHeader({
         mobileNav={<MobileMenu items={mainNavItems} logo={<Logo />} />}
         nav={<MainNav items={mainNavItems} />}
         profile={isProfile && <Profile />}
-        actions={
-          <Actions
-            adminIcon={isAdmin && <AdminLogo />}
-            theme={<ToggleTheme />}
-          />
-        }
+        actions={<Actions adminIcon={isAdmin && <AdminLogo />} theme={<ToggleTheme />} />}
       />
     </Container>
   );

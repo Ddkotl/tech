@@ -5,10 +5,7 @@ export default function NotFound() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-background via-background/50 to-background dark:from-foreground/10 dark:via-foreground/5 dark:to-foreground/10">
       <div className="text-center p-6 max-w-md">
-        <h1
-          className="mb-4 text-6xl sm:text-8xl font-extrabold text-foreground animate-pulse"
-          aria-label="Ошибка 404"
-        >
+        <h1 className="mb-4 text-6xl sm:text-8xl font-extrabold text-foreground animate-pulse" aria-label="Ошибка 404">
           404
         </h1>
         <p className="mb-6 text-lg sm:text-xl text-foreground/80 animate-bounce">

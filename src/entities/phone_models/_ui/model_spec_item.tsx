@@ -13,8 +13,6 @@ export const ModelSpecItem = ({
     <span>{icon}</span>
 
     <span className="font-medium text-sm foreground/70">{title}:</span>
-    <span className="text-xs text-foreground/60 ml-auto text-end">
-      {value ? value : "-"}
-    </span>
+    <span className="text-xs text-foreground/60 ml-auto text-end">{value ? value : "-"}</span>
   </div>
 );

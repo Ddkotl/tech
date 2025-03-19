@@ -9,9 +9,7 @@ import { searchNews } from "../_actons/search_news";
 
 export function NewsSearch() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredNews, setFilteredNews] = useState<PartialNewsWithTags[] | []>(
-    [],
-  );
+  const [filteredNews, setFilteredNews] = useState<PartialNewsWithTags[] | []>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, startTransition] = useTransition();
 
@@ -68,18 +66,14 @@ export function NewsSearch() {
               transition={{ duration: 0.3 }}
               className="absolute  top-full mt-2  max-w-[90vw] -translate-x-1/2 left-0 md:-left-full rounded-lg border p-4 shadow-lg bg-background border-foreground/20 z-50"
             >
-              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">
-                Результаты поиска
-              </h2>
+              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">Результаты поиска</h2>
 
               {loading ? (
                 <p className="text-center text-muted-foreground">Загрузка...</p>
               ) : filteredNews.length > 0 ? (
                 <NewsList news={filteredNews} />
               ) : (
-                <p className="text-center text-muted-foreground">
-                  Обзоры не найдены
-                </p>
+                <p className="text-center text-muted-foreground">Обзоры не найдены</p>
               )}
             </motion.div>
           </>

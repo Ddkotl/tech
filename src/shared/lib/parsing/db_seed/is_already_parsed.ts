@@ -13,9 +13,7 @@ export const IsNewsAlresdyParsed = async (title: string) => {
   }
 };
 
-export const IsReviewAlreadyParsed = async (
-  title: string,
-): Promise<boolean> => {
+export const IsReviewAlreadyParsed = async (title: string): Promise<boolean> => {
   const isTitliExist = await dataBase.reviewsParsedTitles.findFirst({
     where: {
       title: title,

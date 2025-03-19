@@ -5,9 +5,7 @@ import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
 import { addHTTPheaders } from "../addHTTPheaders";
 
-export const compressImageILoveImage = async (
-  imageBuffer: Buffer,
-): Promise<Buffer> => {
+export const compressImageILoveImage = async (imageBuffer: Buffer): Promise<Buffer> => {
   let browser: Browser | undefined;
   try {
     browser = await chromium.launch({
@@ -65,10 +63,7 @@ export const compressImageILoveImage = async (
     await page.waitForSelector(downloadButtonSelector, { timeout: 60000 });
     // console.log("processTask доступна");
     // Перехватываем событие скачивания
-    const [download] = await Promise.all([
-      page.waitForEvent("download"),
-      page.click(downloadButtonSelector),
-    ]);
+    const [download] = await Promise.all([page.waitForEvent("download"), page.click(downloadButtonSelector)]);
     await simulateMouseMovement(page);
     // Сохраняем файл на диск
     await download.saveAs(tempDownloadPath);

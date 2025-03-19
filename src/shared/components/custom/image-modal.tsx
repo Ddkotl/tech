@@ -14,12 +14,7 @@ interface ImageModalProps {
   onClose: () => void;
 }
 
-export function ImageModal({
-  images,
-  initialIndex,
-  isOpen,
-  onClose,
-}: ImageModalProps) {
+export function ImageModal({ images, initialIndex, isOpen, onClose }: ImageModalProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
   useEffect(() => {
@@ -27,15 +22,11 @@ export function ImageModal({
   }, [initialIndex]);
 
   const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : images.length - 1,
-    );
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex < images.length - 1 ? prevIndex + 1 : 0,
-    );
+    setCurrentIndex((prevIndex) => (prevIndex < images.length - 1 ? prevIndex + 1 : 0));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -50,10 +41,7 @@ export function ImageModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent
-        className="max-w-full max-h-full p-0 overflow-hidden "
-        onKeyDown={handleKeyDown}
-      >
+      <DialogContent className="max-w-full max-h-full p-0 overflow-hidden " onKeyDown={handleKeyDown}>
         <div className="relative w-full h-[100vh]  flex items-center justify-center bg-background/90">
           <Image
             src={images[currentIndex] || "/placeholder.svg"}

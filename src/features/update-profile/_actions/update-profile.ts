@@ -13,9 +13,7 @@ const resultSchema = z.object({
   profile: profileSchema,
 });
 
-export const updateProfileAction = async (
-  props: z.infer<typeof propsSchema>,
-) => {
+export const updateProfileAction = async (props: z.infer<typeof propsSchema>) => {
   const { userId, data } = propsSchema.parse(props);
 
   const session = await getAppSessionStrictServer();

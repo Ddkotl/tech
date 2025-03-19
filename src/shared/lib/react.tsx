@@ -31,11 +31,7 @@ export function useAppearanceDelay(
     minDisplay?: number;
   },
 ) {
-  const {
-    minDisplay = 500,
-    defaultValue = false,
-    appearenceDelay = 500,
-  } = options;
+  const { minDisplay = 500, defaultValue = false, appearenceDelay = 500 } = options;
 
   const [delayedShow, setDelayedShow] = useState(defaultValue);
 
@@ -62,10 +58,7 @@ export function ComposeChildren({ children }: { children: ReactNode }) {
   return (
     <>
       {array.reduceRight(
-        (child, element) =>
-          isValidElement(element)
-            ? createElement(element.type, element.props, child)
-            : child,
+        (child, element) => (isValidElement(element) ? createElement(element.type, element.props, child) : child),
         last,
       )}
     </>
@@ -74,9 +67,7 @@ export function ComposeChildren({ children }: { children: ReactNode }) {
 
 type Fn<ARGS extends unknown[], R> = (...args: ARGS) => R;
 
-export function useEventCallback<A extends unknown[], R>(
-  fn: Fn<A, R>,
-): Fn<A, R> {
+export function useEventCallback<A extends unknown[], R>(fn: Fn<A, R>): Fn<A, R> {
   const ref = useRef<Fn<A, R>>(fn);
   useEffect(() => {
     ref.current = fn;

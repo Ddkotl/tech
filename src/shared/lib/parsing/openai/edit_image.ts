@@ -17,8 +17,7 @@ export const EditImage = async (
     });
     const chatCompletion = await client.images.edit({
       image: imageFile, // Исходное изображение
-      prompt:
-        "Не меняй исходное изображение, удали белый фон(сделай его прозрачным), улучши качество", // Описание изменений
+      prompt: "Не меняй исходное изображение, удали белый фон(сделай его прозрачным), улучши качество", // Описание изменений
       model: IMAGE_AI_MODEL,
       response_format: "url", // Формат ответа
     });

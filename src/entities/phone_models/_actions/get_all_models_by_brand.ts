@@ -1,9 +1,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialPhoneModel } from "../_domain/types";
 
-export const getPhoneModelsByBrandSlug = async (
-  brandSlug: string,
-): Promise<PartialPhoneModel[]> => {
+export const getPhoneModelsByBrandSlug = async (brandSlug: string): Promise<PartialPhoneModel[]> => {
   try {
     return await dataBase.phoneModels.findMany({
       where: { brand: { slug: brandSlug } },

@@ -3,10 +3,7 @@ import { removeBgImageILoveImage } from "./remove_bg_iloveimg";
 import { removeBackgroundWithCarve } from "./remove_bg_sait_cave";
 import { removeBackgroundWithphotiu } from "./remove_bg_sait_photiu";
 
-export const removeImageBackgroundWithRetry = async (
-  imageBuffer: Buffer,
-  maxRetries: number = 5,
-): Promise<Buffer> => {
+export const removeImageBackgroundWithRetry = async (imageBuffer: Buffer, maxRetries: number = 5): Promise<Buffer> => {
   let attempts = 0;
 
   while (attempts < maxRetries) {

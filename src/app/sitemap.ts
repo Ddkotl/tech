@@ -19,13 +19,11 @@ export async function getSitemapData(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/brands`, lastModified: new Date().toISOString() },
     ...news?.map((newsItem) => ({
       url: `${baseUrl}/news/${newsItem.slug}`,
-      lastModified:
-        newsItem.updatedAt || newsItem.createdAt || new Date().toISOString(),
+      lastModified: newsItem.updatedAt || newsItem.createdAt || new Date().toISOString(),
     })),
     ...reviews?.map((review) => ({
       url: `${baseUrl}/reviews/${review.slug}`,
-      lastModified:
-        review.updatedAt || review.createdAt || new Date().toISOString(),
+      lastModified: review.updatedAt || review.createdAt || new Date().toISOString(),
     })),
     ...brands?.map((brand) => ({
       url: `${baseUrl}/brands/${brand.slug}`,

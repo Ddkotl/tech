@@ -26,15 +26,12 @@ export const metadata: Metadata = {
     default: "tech24view",
     template: "%s | tech24view",
   },
-  description:
-    "Обзоры смартфонов, свежие новости технологий и полезные советы для пользователей современных гаджетов.",
-  keywords:
-    "технологии, смартфоны, обзоры, новости, гаджеты, мобильные телефоны, инновации",
+  description: "Обзоры смартфонов, свежие новости технологий и полезные советы для пользователей современных гаджетов.",
+  keywords: "технологии, смартфоны, обзоры, новости, гаджеты, мобильные телефоны, инновации",
   metadataBase: new URL("https://tech24view.ru"),
   openGraph: {
     title: "tech24view - Обзоры смартфонов и новости технологий",
-    description:
-      "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",
+    description: "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",
     url: "https://tech24view.ru",
     type: "website",
     locale: "ru_RU",
@@ -59,9 +56,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}  antialiased h-full relative`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable}  antialiased h-full relative`}>
         <AppProvider>{children}</AppProvider>
         <ScrollToTopButton />
         <GoogleAnalytics gaId={privateConfig.GOOGLE_ANALITICS_4_ID || ""} />

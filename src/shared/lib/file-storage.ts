@@ -26,11 +26,7 @@ class FileStorage {
     },
   });
 
-  async generatePresignedUrl(
-    bucketName: string,
-    fileName: string,
-    expiry: number = 3600,
-  ): Promise<string> {
+  async generatePresignedUrl(bucketName: string, fileName: string, expiry: number = 3600): Promise<string> {
     const command = new GetObjectCommand({
       Bucket: bucketName,
       Key: fileName,
@@ -43,12 +39,7 @@ class FileStorage {
     return this.upload(file, privateConfig.S3_IMAGES_BUCKET, tag, fileName);
   }
 
-  async upload(
-    file: File,
-    bucket: string,
-    tag: string,
-    fileName?: string,
-  ): Promise<StoredFile> {
+  async upload(file: File, bucket: string, tag: string, fileName?: string): Promise<StoredFile> {
     // Создаем полный путь (если папка указана)
     const folderPrefix = `${tag}/`;
     const fileKey =

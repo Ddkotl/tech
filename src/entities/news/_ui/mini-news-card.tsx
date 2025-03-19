@@ -10,10 +10,7 @@ interface NewsCardProps {
 
 export function MiniNewsCard({ slug, title, previewImage }: NewsCardProps) {
   return (
-    <Link
-      href={`/news/${slug}`}
-      className="w-full hover:scale-95 transition-all duration-300"
-    >
+    <Link href={`/news/${slug}`} className="w-full hover:scale-95 transition-all duration-300">
       <Card className="w-[140px] flex-shrink-0">
         <CardContent className="p-0 image-safe relative">
           <div className="aspect-[2/1.4] relative ">

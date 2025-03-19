@@ -8,11 +8,7 @@ export function SignInButton() {
   const handleSignOut = () => signIn();
 
   return (
-    <Button
-      variant={"outline"}
-      onClick={handleSignOut}
-      className="group relative bg-foreground text-background "
-    >
+    <Button variant={"outline"} onClick={handleSignOut} className="group relative bg-foreground text-background ">
       <LogIn className="mr-2 h-4 w-4 group-hover:opacity-0 duration-300 " />
       <span className="group-hover:opacity-0 duration-300 ">Войти</span>
       <FaArrowRight

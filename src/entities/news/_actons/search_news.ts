@@ -3,9 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialNewsWithTags } from "../_domain/types";
 
-export async function searchNews(
-  query: string,
-): Promise<PartialNewsWithTags[] | []> {
+export async function searchNews(query: string): Promise<PartialNewsWithTags[] | []> {
   if (!query) return [];
   try {
     return await dataBase.news.findMany({

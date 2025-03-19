@@ -9,9 +9,7 @@ import { BrandWithModelsCount } from "../_domain/types";
 
 export function BrandSearch() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredBrands, setFilteredBrands] = useState<
-    BrandWithModelsCount[] | []
-  >([]);
+  const [filteredBrands, setFilteredBrands] = useState<BrandWithModelsCount[] | []>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, startTransition] = useTransition();
 
@@ -67,18 +65,14 @@ export function BrandSearch() {
               transition={{ duration: 0.3 }}
               className="absolute  top-full mt-2 w-full max-w-md -translate-x-1/2 rounded-lg border p-4 shadow-lg bg-background border-foreground/20 z-20"
             >
-              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">
-                Результаты поиска
-              </h2>
+              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">Результаты поиска</h2>
 
               {loading ? (
                 <p className="text-center text-muted-foreground">Загрузка...</p>
               ) : filteredBrands.length > 0 ? (
                 <BrandList brands={filteredBrands} />
               ) : (
-                <p className="text-center text-muted-foreground">
-                  Бренды не найдены
-                </p>
+                <p className="text-center text-muted-foreground">Бренды не найдены</p>
               )}
             </motion.div>
           </>

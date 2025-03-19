@@ -2,28 +2,16 @@ import { DeleteNewsButton } from "@/entities/news";
 import { getSingleNewsBySlug } from "@/entities/news/_actons/get_news_by_slug";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
 import { SimilarNews } from "@/entities/news/_ui/similar-news";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  TimeAgo,
-} from "@/shared/components";
+import { Card, CardContent, CardFooter, CardHeader, TimeAgo } from "@/shared/components";
 import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const news = await getSingleNewsBySlug(params.slug);
   if (!news) notFound();
 
-  const description =
-    news.meta_description ||
-    "Получите последние обзоры смартфонов и новости технологий.";
+  const description = news.meta_description || "Получите последние обзоры смартфонов и новости технологий.";
   const imageUrl = news.previewImage || "/logo_opengraf.jpg";
   const url = `https://tech24view.ru/news/${params.slug}`;
 
@@ -59,11 +47,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function NewsPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function NewsPage({ params }: { params: { slug: string } }) {
   const news = await getSingleNewsBySlug(params.slug);
   if (!news) notFound();
 
@@ -74,9 +58,7 @@ export default async function NewsPage({
       <Card className="w-full mx-auto p-2">
         <CardHeader className="p-2">
           <DeleteNewsButton slug={params.slug} />
-          <h1 className="lg:text-xl text-base lg:font-bold font-semibold">
-            {news.title}
-          </h1>
+          <h1 className="lg:text-xl text-base lg:font-bold font-semibold">{news.title}</h1>
           <div className="md:text-base text-sm flex flex-col sm:flex-row justify-between items-start sm:items-center text-foreground/80">
             <span>
               <TimeAgo date={news.createdAt} />
@@ -86,16 +68,10 @@ export default async function NewsPage({
         <CardContent className="p-2">
           {news.previewImage && (
             <ImageGalleryComponent
-              imagePaths={[
-                news.previewImage,
-                ...(news.images || []).filter((img) => typeof img === "string"),
-              ]}
+              imagePaths={[news.previewImage, ...(news.images || []).filter((img) => typeof img === "string")]}
             />
           )}
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: news.content }}
-          />
+          <div className="prose" dangerouslySetInnerHTML={{ __html: news.content }} />
         </CardContent>
         <CardFooter className="flex justify-between  p-2">
           <SimilarNews slug={params.slug} />

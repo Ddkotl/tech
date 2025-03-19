@@ -20,4 +20,8 @@ export const mainNavItems: NavItems[] = [
     name: "Брэнды",
     path: "/brands",
   },
+  {
+    name: "Тэги",
+    path: "/tags",
+  },
 ];

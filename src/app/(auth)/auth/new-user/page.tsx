@@ -4,11 +4,7 @@ import { UpdateProfileForm } from "@/features/update-profile/update-profile-form
 import { redirect } from "next/navigation";
 import AuthorizedGuard from "@/features/auth/authorized-guard";
 
-export default async function NewUserPage({
-  searchParams,
-}: {
-  searchParams: { callbackUrl?: string };
-}) {
+export default async function NewUserPage({ searchParams }: { searchParams: { callbackUrl?: string } }) {
   const session = await getAppSessionServer();
 
   if (!session) {
@@ -25,10 +21,7 @@ export default async function NewUserPage({
           </p>
         </div>
         <Separator />
-        <UpdateProfileForm
-          userId={session.user.id}
-          callbackUrl={searchParams.callbackUrl}
-        />
+        <UpdateProfileForm userId={session.user.id} callbackUrl={searchParams.callbackUrl} />
       </main>
     </AuthorizedGuard>
   );

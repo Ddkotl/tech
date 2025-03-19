@@ -9,11 +9,7 @@ import { convertToPNG } from "./image/convert_to_png";
  * @param outputDir - Папка, куда сохранить изображение.
  * @param fileName - Имя файла (по умолчанию: image_{timestamp}.png).
  */
-export const saveImageFromUrl = async (
-  imageUrl: string,
-  outputDir: string,
-  fileName?: string,
-): Promise<string> => {
+export const saveImageFromUrl = async (imageUrl: string, outputDir: string, fileName?: string): Promise<string> => {
   try {
     // Создаем папку, если она не существует
     if (!fs.existsSync(outputDir)) {
@@ -32,8 +28,7 @@ export const saveImageFromUrl = async (
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
       },
     });
-    const contentType =
-      response.headers["content-type"] || "application/octet-stream";
+    const contentType = response.headers["content-type"] || "application/octet-stream";
 
     const blob = new Blob([response.data], { type: contentType });
 

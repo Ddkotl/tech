@@ -1,25 +1,12 @@
 "use client";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/shared/components";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/components";
 import { cn } from "@/shared/lib/utils";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function NavItem({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
+export function NavItem({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (

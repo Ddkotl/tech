@@ -4,10 +4,7 @@ import { generateDataForPost } from "../functions/generate_data_for_post";
 import { downloadImageForS3 } from "../functions/download_image_for_S3";
 import { translateAndUnicTitle } from "../openai/translate_and_untc_title";
 import { translateAndUnicText } from "../openai/translate_and_untc_content";
-import {
-  GenerateMetaDescription,
-  GenerateMetaTitle,
-} from "../openai/generate_meta";
+import { GenerateMetaDescription, GenerateMetaTitle } from "../openai/generate_meta";
 import { translateTags } from "../openai/translate_tags";
 import { ParseNews } from "../db_seed/parse_news";
 import { transliterateToUrl } from "../../transliteration";
@@ -29,9 +26,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       elements.map((el) => ({
         titleForImg: el.querySelector("a > h3")?.textContent?.trim(),
         title: el.querySelector("a > h3")?.textContent?.trim(),
-        data: el
-          .querySelector(".meta-line > .meta-item-time")
-          ?.textContent?.trim(),
+        data: el.querySelector(".meta-line > .meta-item-time")?.textContent?.trim(),
         link: el.querySelector("a")?.getAttribute("href"),
         previewImageUrl: el.querySelector("img")?.getAttribute("src"),
       })),
@@ -46,47 +41,34 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       }
       const generatedDate = generateDataForPost(article.data);
       await page.goto(`https://www.gsmarena.com/${article.link}`);
-      const content: string[] = await page
-        .locator(".review-body p")
-        .allTextContents();
+      const content: string[] = await page.locator(".review-body p").allTextContents();
       const contentResponse: string = content.join(" ");
       const tags = await page
         .locator(".article-tags .float-right a")
         .evaluateAll((tags) =>
-          tags
-            .map((tag) => tag.textContent?.trim().toLowerCase())
-            .filter((tag) => tag !== undefined),
+          tags.map((tag) => tag.textContent?.trim().toLowerCase()).filter((tag) => tag !== undefined),
         );
       if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
         continue;
       }
-      const translatedTitle = article.title
-        ? await safeTranslate(article.title, translateAndUnicTitle)
-        : "";
+      const translatedTitle = article.title ? await safeTranslate(article.title, translateAndUnicTitle) : "";
       const slug: string = transliterateToUrl(translatedTitle);
       let imagesSrc: string[] = await page
         .locator(".review-body > img")
-        .evaluateAll((imgs) =>
-          imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null),
-        );
+        .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null));
 
       const imgGalery = await getImagesFromPageGallery(page);
       imagesSrc = imagesSrc.concat(imgGalery);
 
       // Сохранение превью и всех картинок
       const previewPath = article.previewImageUrl
-        ? await downloadImageForS3(
-            article.previewImageUrl,
-            slug,
-            "news_preview",
-            {
-              convert_to_png: false,
-              incriase: true,
-              proxy_tor: true,
-              remove_wattermark: true,
-              textDelete: true,
-            },
-          )
+        ? await downloadImageForS3(article.previewImageUrl, slug, "news_preview", {
+            convert_to_png: false,
+            incriase: true,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          })
         : null;
 
       const contentImagesPaths = [];
@@ -103,20 +85,11 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         }
       }
 
-      const translatedContent = await safeTranslate(
-        contentResponse,
-        translateAndUnicText,
-      );
+      const translatedContent = await safeTranslate(contentResponse, translateAndUnicText);
       const metaTitle = await safeTranslate(translatedTitle, GenerateMetaTitle);
-      const metaDescription = await safeTranslate(
-        translatedContent,
-        GenerateMetaDescription,
-      );
+      const metaDescription = await safeTranslate(translatedContent, GenerateMetaDescription);
       const translatedTags = await safeTranslate(tags.join(","), translateTags);
-      const generatedTags = await safeTranslate(
-        translatedContent,
-        generateTags,
-      );
+      const generatedTags = await safeTranslate(translatedContent, generateTags);
       const parsedTags = (() => {
         try {
           return translatedTags
@@ -136,9 +109,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         generatedDate,
         article.title ? article.title : "",
         translatedTitle ? cleaneText(translatedTitle) : "",
-        translatedContent
-          ? cleaneText(translatedContent).replace(/html/gi, "")
-          : "",
+        translatedContent ? cleaneText(translatedContent).replace(/html/gi, "") : "",
         previewPath ? previewPath : "",
         contentImagesPaths,
         parsedTags ? parsedTags : [""],

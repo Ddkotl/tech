@@ -5,24 +5,14 @@ import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
 import { Metadata } from "next";
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: { searchParams: { page?: string } }): Promise<Metadata> {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageTitle =
-    page > 1
-      ? `Новости смартфонов и гаджетов - Страница ${page}`
-      : "Новости смартфонов и гаджетов";
+  const pageTitle = page > 1 ? `Новости смартфонов и гаджетов - Страница ${page}` : "Новости смартфонов и гаджетов";
   const pageDescription =
     page > 1
       ? `Страница ${page} списка всех новостей смартфонов и гаджетов`
       : "Список всех новостей смартфонов и гаджетов";
-  const canonicalUrl =
-    page > 1
-      ? `https://tech24view.ru/news?page=${page}`
-      : "https://tech24view.ru/news";
+  const canonicalUrl = page > 1 ? `https://tech24view.ru/news?page=${page}` : "https://tech24view.ru/news";
 
   return generateSEOMetadata({
     title: pageTitle,
@@ -44,11 +34,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function NewsPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
+export default async function NewsPage({ searchParams }: { searchParams: { page?: string } }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = 6;
   const { news, totalNewsCount } = await getNewsWithPaginaton(page, pageSize);
@@ -66,9 +52,7 @@ export default async function NewsPage({
         {news && news.length > 0 ? (
           <NewsList news={news} />
         ) : (
-          <p className="text-center text-muted-foreground">
-            Нет доступных новостей
-          </p>
+          <p className="text-center text-muted-foreground">Нет доступных новостей</p>
         )}
       </div>
       <PaginationControl

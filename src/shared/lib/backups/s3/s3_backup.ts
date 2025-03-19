@@ -5,21 +5,9 @@ import path from "path";
 
 config();
 
-const {
-  MINIO_CONTAINER,
-  S3_IMAGES_BUCKET,
-  BACKUP_DIR,
-  MINIO_ROOT_USER,
-  MINIO_ROOT_PASSWORD,
-} = process.env;
+const { MINIO_CONTAINER, S3_IMAGES_BUCKET, BACKUP_DIR, MINIO_ROOT_USER, MINIO_ROOT_PASSWORD } = process.env;
 
-if (
-  !MINIO_CONTAINER ||
-  !S3_IMAGES_BUCKET ||
-  !BACKUP_DIR ||
-  !MINIO_ROOT_USER ||
-  !MINIO_ROOT_PASSWORD
-) {
+if (!MINIO_CONTAINER || !S3_IMAGES_BUCKET || !BACKUP_DIR || !MINIO_ROOT_USER || !MINIO_ROOT_PASSWORD) {
   console.error("❌ Не заданы переменные окружения!");
   process.exit(1);
 }
@@ -49,10 +37,7 @@ export const createMinioBackup = () => {
     );
 
     // Архивируем на хосте
-    execSync(
-      `tar -cjf ${backupFolder}.tar.bz2 -C ${BACKUP_DIR} minio_backup_tech_${date}`,
-      { stdio: "inherit" },
-    );
+    execSync(`tar -cjf ${backupFolder}.tar.bz2 -C ${BACKUP_DIR} minio_backup_tech_${date}`, { stdio: "inherit" });
 
     // Удаляем временную папку
     fs.rmSync(backupFolder, { recursive: true, force: true });

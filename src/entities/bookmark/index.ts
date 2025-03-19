@@ -1,7 +1,4 @@
-export {
-  getNewsIsBookmarkedQuery,
-  useInvalidateBookmarksCountQuery,
-} from "./_queries/get_news_isBookmarked_query";
+export { getNewsIsBookmarkedQuery, useInvalidateBookmarksCountQuery } from "./_queries/get_news_isBookmarked_query";
 export {
   getNewsBookmarksCountQuery,
   useInvalidateNewsBookmarksCountQuery,

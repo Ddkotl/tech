@@ -17,9 +17,5 @@ export const Title: React.FC<Props> = ({ text, size = "lg", className }) => {
     lg: "text-base font-bold lg:text-xl w-full gap-4 text-start",
     xl: "text-base font-bold lg:text-xl w-full gap-4 text-start",
   } as const;
-  return React.createElement(
-    mapTagBySize[size],
-    { className: cn(mapClassNameBySize[size], className) },
-    text,
-  );
+  return React.createElement(mapTagBySize[size], { className: cn(mapClassNameBySize[size], className) }, text);
 };

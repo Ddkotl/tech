@@ -20,10 +20,7 @@ export const DeleteNewsButton = ({ slug }: { slug: string }) => {
     router.push("/news");
   };
   return (
-    <Button
-      onClick={handleDelete}
-      className="bg-red-500 text-white px-4 py-2 rounded-md"
-    >
+    <Button onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded-md">
       Delete Current News
     </Button>
   );

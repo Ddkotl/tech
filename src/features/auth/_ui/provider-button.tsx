@@ -10,11 +10,7 @@ interface ProviderButtonProps {
   name: string;
 }
 
-export function ProviderButton({
-  provider,
-}: {
-  provider: ProviderButtonProps;
-}) {
+export function ProviderButton({ provider }: { provider: ProviderButtonProps }) {
   const oauthSignIn = useOAuthSignIn(provider.id);
 
   const getIcon = (providerId: string) => {
@@ -31,12 +27,7 @@ export function ProviderButton({
   };
 
   return (
-    <Button
-      variant="outline"
-      type="button"
-      disabled={oauthSignIn.isPending}
-      onClick={() => oauthSignIn.signIn()}
-    >
+    <Button variant="outline" type="button" disabled={oauthSignIn.isPending} onClick={() => oauthSignIn.signIn()}>
       {oauthSignIn.isPending ? (
         <Spinner className="mr-2 h-4 w-4 animate-spin" aria-label="Вход" />
       ) : (

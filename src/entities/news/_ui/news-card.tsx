@@ -53,11 +53,7 @@ export default function NewsCard({
           {/* Render tags */}
           <div className="flex flex-wrap items-center justify-center gap-1 h-[60px] overflow-hidden ">
             {news.tags.map((tag) => (
-              <Badge
-                key={tag.id}
-                variant="outline"
-                className="text-sm h-7 truncate px-2"
-              >
+              <Badge key={tag.id} variant="outline" className="text-sm h-7 truncate px-2">
                 {tag.title}
               </Badge>
             ))}

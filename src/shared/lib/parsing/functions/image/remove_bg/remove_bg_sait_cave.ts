@@ -10,9 +10,7 @@ import { addHTTPheaders } from "../addHTTPheaders";
  * @param imageBuffer - Изображение в виде Buffer.
  * @returns Buffer с изображением без фона.
  */
-export const removeBackgroundWithCarve = async (
-  imageBuffer: Buffer,
-): Promise<Buffer> => {
+export const removeBackgroundWithCarve = async (imageBuffer: Buffer): Promise<Buffer> => {
   let browser: Browser | undefined;
   try {
     browser = await chromium.launch({
@@ -47,9 +45,7 @@ export const removeBackgroundWithCarve = async (
     });
     await page.waitForFunction(
       () => {
-        const imgElement = document.querySelector(
-          "img[alt='изображение без фона']",
-        ) as HTMLImageElement;
+        const imgElement = document.querySelector("img[alt='изображение без фона']") as HTMLImageElement;
         return imgElement?.src.startsWith("blob:");
       },
       { timeout: 60000 },

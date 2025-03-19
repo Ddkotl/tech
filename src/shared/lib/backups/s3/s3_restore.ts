@@ -5,21 +5,9 @@ import path from "path";
 
 config();
 
-const {
-  MINIO_CONTAINER,
-  S3_IMAGES_BUCKET,
-  BACKUP_DIR,
-  MINIO_ROOT_USER,
-  MINIO_ROOT_PASSWORD,
-} = process.env;
+const { MINIO_CONTAINER, S3_IMAGES_BUCKET, BACKUP_DIR, MINIO_ROOT_USER, MINIO_ROOT_PASSWORD } = process.env;
 
-if (
-  !MINIO_CONTAINER ||
-  !S3_IMAGES_BUCKET ||
-  !BACKUP_DIR ||
-  !MINIO_ROOT_USER ||
-  !MINIO_ROOT_PASSWORD
-) {
+if (!MINIO_CONTAINER || !S3_IMAGES_BUCKET || !BACKUP_DIR || !MINIO_ROOT_USER || !MINIO_ROOT_PASSWORD) {
   console.error("❌ Не заданы переменные окружения!");
   process.exit(1);
 }
@@ -27,9 +15,7 @@ if (
 export const restoreLatestMinioBackup = (backupPath?: string) => {
   const files = fs
     .readdirSync(BACKUP_DIR)
-    .filter(
-      (file) => file.startsWith("minio_backup_") && file.endsWith(".tar.bz2"),
-    )
+    .filter((file) => file.startsWith("minio_backup_") && file.endsWith(".tar.bz2"))
     .sort()
     .reverse();
 
@@ -38,10 +24,7 @@ export const restoreLatestMinioBackup = (backupPath?: string) => {
     process.exit(1);
   }
 
-  const latestMinioBackup = path.join(
-    BACKUP_DIR,
-    backupPath ? backupPath : files[0],
-  );
+  const latestMinioBackup = path.join(BACKUP_DIR, backupPath ? backupPath : files[0]);
 
   try {
     console.log(`🔄 Восстановление из ${latestMinioBackup}...`);
@@ -54,10 +37,7 @@ export const restoreLatestMinioBackup = (backupPath?: string) => {
     execSync(`tar -xjf ${latestMinioBackup} -C ${restoreDir}`, {
       stdio: "inherit",
     });
-    const restorePath = path.join(
-      restoreDir,
-      path.basename(backupPath ? backupPath : files[0], ".tar.bz2"),
-    );
+    const restorePath = path.join(restoreDir, path.basename(backupPath ? backupPath : files[0], ".tar.bz2"));
     // Копируем данные с сервера в контейнер MinIO
     execSync(
       `docker exec ${MINIO_CONTAINER} mkdir -p /tmp/${S3_IMAGES_BUCKET} &&

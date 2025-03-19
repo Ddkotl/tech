@@ -2,13 +2,7 @@ import { News, NewsBookmark, Tag } from "@prisma/client";
 
 export type PartialNews = Pick<
   News,
-  | "id"
-  | "createdAt"
-  | "previewImage"
-  | "slug"
-  | "views"
-  | "title"
-  | "meta_description"
+  "id" | "createdAt" | "previewImage" | "slug" | "views" | "title" | "meta_description"
 >;
 
 export type NewsWithIncludes = News & {
@@ -20,7 +14,4 @@ export type NewsWithIncludes = News & {
 export type PartialNewsWithTags = PartialNews & {
   tags: Pick<Tag, "slug" | "title">[];
 };
-export type PartialNewsBySitemap = Pick<
-  News,
-  "createdAt" | "slug" | "updatedAt"
->;
+export type PartialNewsBySitemap = Pick<News, "createdAt" | "slug" | "updatedAt">;

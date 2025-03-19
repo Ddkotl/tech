@@ -1,16 +1,11 @@
-import {
-  getReviewsWithPaginaton,
-  ReviewsList,
-  ReviewsSearch,
-} from "@/entities/reviews";
+import { getReviewsWithPaginaton, ReviewsList, ReviewsSearch } from "@/entities/reviews";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { PaginationControl } from "@/shared/components/custom/pagination-control";
 import { Metadata } from "next";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Обзоры",
-  description:
-    "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",
+  description: "Получите последние обзоры смартфонов, новости технологий и советы по выбору современных гаджетов.",
   keywords: [
     "технологии",
     "смартфоны",
@@ -26,17 +21,10 @@ export const metadata: Metadata = generateSEOMetadata({
   canonical: "https://tech24view.ru/reviews",
 });
 
-export default async function ReviewsPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
+export default async function ReviewsPage({ searchParams }: { searchParams: { page?: string } }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = 6;
-  const { reviews, totalReviewsCount } = await getReviewsWithPaginaton(
-    page,
-    pageSize,
-  );
+  const { reviews, totalReviewsCount } = await getReviewsWithPaginaton(page, pageSize);
   const totalPages = Math.ceil(totalReviewsCount / pageSize);
 
   return (
@@ -51,9 +39,7 @@ export default async function ReviewsPage({
         {reviews && reviews.length > 0 ? (
           <ReviewsList reviews={reviews} />
         ) : (
-          <p className="text-center text-muted-foreground">
-            Нет доступных обзоров
-          </p>
+          <p className="text-center text-muted-foreground">Нет доступных обзоров</p>
         )}
       </div>
       <PaginationControl

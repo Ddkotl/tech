@@ -6,8 +6,7 @@ export const generateTags = async (text: string): Promise<string> => {
       messages: [
         {
           role: "system",
-          content:
-            "Отвечай на руском языке строго в указанном формате без добавления комментариев.",
+          content: "Отвечай на руском языке строго в указанном формате без добавления комментариев.",
         },
         {
           role: "user",

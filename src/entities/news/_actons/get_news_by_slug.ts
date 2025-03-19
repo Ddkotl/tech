@@ -3,9 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { NewsWithIncludes } from "../_domain/types";
 
-export const getSingleNewsBySlug = async (
-  slug: string,
-): Promise<NewsWithIncludes | null> => {
+export const getSingleNewsBySlug = async (slug: string): Promise<NewsWithIncludes | null> => {
   try {
     const news = await dataBase.news.findUnique({
       where: { slug: slug },

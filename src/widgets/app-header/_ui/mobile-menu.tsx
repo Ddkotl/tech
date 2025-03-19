@@ -16,13 +16,7 @@ import { NavItems } from "../_settings/main-nav-items";
 import { cn } from "@/shared/lib/utils";
 import { usePathname } from "next/navigation";
 
-export function MobileMenu({
-  logo,
-  items,
-}: {
-  logo: React.ReactNode;
-  items: NavItems[];
-}) {
+export function MobileMenu({ logo, items }: { logo: React.ReactNode; items: NavItems[] }) {
   const pathname = usePathname();
   return (
     <Sheet>
@@ -33,9 +27,7 @@ export function MobileMenu({
       </SheetTrigger>
       <SheetContent side="left">
         <SheetTitle className="sr-only">Меню</SheetTitle>
-        <SheetDescription className="sr-only">
-          Главное меню, выберите пункт меню ниже
-        </SheetDescription>
+        <SheetDescription className="sr-only">Главное меню, выберите пункт меню ниже</SheetDescription>
         <SheetHeader className=" border-b pb-5 mb-5">
           <SheetClose asChild>{logo}</SheetClose>
         </SheetHeader>

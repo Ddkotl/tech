@@ -3,13 +3,7 @@
 import { useEffect } from "react";
 import { AlertTriangle, RotateCcw } from "lucide-react";
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -19,15 +13,11 @@ export default function Error({
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-background via-background/50 to-background dark:from-foreground/10 dark:via-foreground/5 dark:to-foreground/10">
       <div className="text-center p-6 max-w-md">
         <AlertTriangle className="mx-auto h-16 w-16 text-red-500 animate-bounce" />
-        <h1
-          className="mt-4 mb-2 text-3xl sm:text-4xl font-bold text-foreground"
-          aria-label="Произошла ошибка"
-        >
+        <h1 className="mt-4 mb-2 text-3xl sm:text-4xl font-bold text-foreground" aria-label="Произошла ошибка">
           Упс! Что-то пошло не так.
         </h1>
         <p className="mb-6 text-lg text-foreground/80">
-          Мы столкнулись с неожиданной проблемой. Наша команда уже работает над
-          её устранением.
+          Мы столкнулись с неожиданной проблемой. Наша команда уже работает над её устранением.
         </p>
         <button
           onClick={() => reset()}

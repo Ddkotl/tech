@@ -20,8 +20,7 @@ export async function generateMetadata({
   const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
   const brandName = brand?.name.toUpperCase();
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageTitle =
-    page > 1 ? `Модели ${brandName} - Страница ${page}` : `Модели ${brandName}`;
+  const pageTitle = page > 1 ? `Модели ${brandName} - Страница ${page}` : `Модели ${brandName}`;
   const pageDescription =
     page > 1
       ? `Страница ${page} списка всех доступных моделей ${brandName}`
@@ -64,15 +63,10 @@ export default async function ModelsByBrandPage({
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = 35;
   const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
-  const models: PartialPhoneModel[] | [] =
-    await getPhoneModelsListWithPaginaton(params.slug, page, pageSize);
+  const models: PartialPhoneModel[] | [] = await getPhoneModelsListWithPaginaton(params.slug, page, pageSize);
 
   if (!brand) {
-    return (
-      <div className="text-center text-foreground text-xl mt-10">
-        Бренд не найден
-      </div>
-    );
+    return <div className="text-center text-foreground text-xl mt-10">Бренд не найден</div>;
   }
   const totalPages = Math.ceil(brand._count.phones / pageSize);
   return (

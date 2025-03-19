@@ -7,11 +7,7 @@ import { signIn } from "next-auth/react";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function AuthorizedGuard({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthorizedGuard({ children }: { children: React.ReactNode }) {
   const session = useAppSession();
 
   const isUnauthenticated = session.status === "unauthenticated";
@@ -25,8 +21,7 @@ export default function AuthorizedGuard({
     }
   }, [isUnauthenticated]);
 
-  const isLoading =
-    session.status === "loading" || session.status === "unauthenticated";
+  const isLoading = session.status === "loading" || session.status === "unauthenticated";
 
   return (
     <>

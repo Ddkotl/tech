@@ -42,9 +42,7 @@ const ERROR_PATTERNS = [
 ];
 
 const containsError = (response: string): boolean => {
-  return ERROR_PATTERNS.some((pattern) =>
-    response.toLowerCase().includes(pattern),
-  );
+  return ERROR_PATTERNS.some((pattern) => response.toLowerCase().includes(pattern));
 };
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

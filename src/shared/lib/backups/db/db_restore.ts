@@ -5,8 +5,7 @@ import path from "path";
 
 config();
 
-const { POSTGRES_USER, POSTGRES_DB, POSTGRES_CONTAINER, BACKUP_DIR } =
-  process.env;
+const { POSTGRES_USER, POSTGRES_DB, POSTGRES_CONTAINER, BACKUP_DIR } = process.env;
 
 if (!POSTGRES_USER || !POSTGRES_DB || !POSTGRES_CONTAINER || !BACKUP_DIR) {
   console.error("Не заданы переменные окружения!");

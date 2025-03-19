@@ -24,8 +24,7 @@ export const cleanupOldDBBackups = () => {
   const today = new Date();
   const oldFiles = files.filter((file) => {
     const fileDate = new Date(file.date);
-    const diffDays =
-      (today.getTime() - fileDate.getTime()) / (1000 * 60 * 60 * 24);
+    const diffDays = (today.getTime() - fileDate.getTime()) / (1000 * 60 * 60 * 24);
     if (fileDate.getDate() === 15) {
       fs.copyFileSync(file.path, path.join(BACKUP_DIR, "db_old", file.name));
       fs.rmSync(file.path);

@@ -11,11 +11,7 @@ export async function NextAndPrevModelButtons({
   const data = await getNextAndPrevModelsInfo(currentModelSlug, brandId);
 
   if (!data) {
-    return (
-      <div className="text-foreground">
-        Не удалось загрузить данные о соседних моделях.
-      </div>
-    );
+    return <div className="text-foreground">Не удалось загрузить данные о соседних моделях.</div>;
   }
 
   return (

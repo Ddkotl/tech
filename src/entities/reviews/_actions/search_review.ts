@@ -3,9 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialReviewsWithTags } from "../_domain/types";
 
-export async function searchReview(
-  query: string,
-): Promise<PartialReviewsWithTags[] | []> {
+export async function searchReview(query: string): Promise<PartialReviewsWithTags[] | []> {
   if (!query) return [];
   try {
     return await dataBase.reviews.findMany({

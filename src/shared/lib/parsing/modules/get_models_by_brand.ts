@@ -36,9 +36,7 @@ export const getModelsByBrand = async (
       continue;
     }
 
-    const imgUrl = await page
-      .locator(".specs-photo-main  img")
-      .getAttribute("src");
+    const imgUrl = await page.locator(".specs-photo-main  img").getAttribute("src");
     const modelImgPath = imgUrl
       ? await downloadImageForS3(imgUrl, slug, "models_preview", {
           convert_to_png: true,
@@ -49,74 +47,35 @@ export const getModelsByBrand = async (
         })
       : "";
 
-    const releaseDate = await page
-      .locator('span[data-spec="released-hl"]')
-      .innerText();
-    const translatedReleaseDate = await safeTranslate(
-      releaseDate,
-      translateReleaseDateAI,
-      fullName,
-    );
+    const releaseDate = await page.locator('span[data-spec="released-hl"]').innerText();
+    const translatedReleaseDate = await safeTranslate(releaseDate, translateReleaseDateAI, fullName);
 
-    const weightAndThicknes = await page
-      .locator('span[data-spec="body-hl"]')
-      .innerText();
+    const weightAndThicknes = await page.locator('span[data-spec="body-hl"]').innerText();
     // const splitedWeightAndThicknes = weightAndThicknes.split(",");
     // const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
     // const thicknes = splitedWeightAndThicknes[1]
     //   ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
     //   : "";
-    const translatedWeight = await safeTranslate(
-      weightAndThicknes,
-      translateWeightAI,
-      fullName,
-    );
-    const translatedThicknes = await safeTranslate(
-      weightAndThicknes,
-      translateThicknesAI,
-      fullName,
-    );
+    const translatedWeight = await safeTranslate(weightAndThicknes, translateWeightAI, fullName);
+    const translatedThicknes = await safeTranslate(weightAndThicknes, translateThicknesAI, fullName);
 
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
 
-    const storage = await page
-      .locator('span[data-spec="storage-hl"]')
-      .innerText();
-    const translatedStorage = await safeTranslate(
-      storage,
-      translateStorageAI,
-      fullName,
-    );
-    const ram = await page
-      .locator('strong[class="accent accent-expansion"]')
-      .innerText();
+    const storage = await page.locator('span[data-spec="storage-hl"]').innerText();
+    const translatedStorage = await safeTranslate(storage, translateStorageAI, fullName);
+    const ram = await page.locator('strong[class="accent accent-expansion"]').innerText();
 
     const translatedRam = await safeTranslate(ram, translateRamAI, fullName);
 
-    const processor = await page
-      .locator('div[data-spec="chipset-hl"]')
-      .innerText();
-    const screen_duim = await page
-      .locator('strong > span[data-spec="displaysize-hl"]')
-      .innerText();
-    const screen_px = await page
-      .locator('div[data-spec="displayres-hl"]')
-      .innerText();
+    const processor = await page.locator('div[data-spec="chipset-hl"]').innerText();
+    const screen_duim = await page.locator('strong > span[data-spec="displaysize-hl"]').innerText();
+    const screen_px = await page.locator('div[data-spec="displayres-hl"]').innerText();
 
-    const camera_photo = await page
-      .locator('strong[class="accent accent-camera"]')
-      .innerText();
-    const camera_video = await page
-      .locator('div[data-spec="videopixels-hl"]')
-      .innerText();
-    const batary_capasity = await page
-      .locator('strong[class="accent accent-battery"]')
-      .innerText();
+    const camera_photo = await page.locator('strong[class="accent accent-camera"]').innerText();
+    const camera_video = await page.locator('div[data-spec="videopixels-hl"]').innerText();
+    const batary_capasity = await page.locator('strong[class="accent accent-battery"]').innerText();
     const description = await page.locator('div[id="specs-list"]').innerHTML();
-    const translatedDescription = await safeTranslate(
-      description,
-      generateModelDescription,
-    );
+    const translatedDescription = await safeTranslate(description, generateModelDescription);
     const contentImagesPaths = [];
     try {
       const imagesPageUrl = await page
@@ -129,25 +88,16 @@ export const getModelsByBrand = async (
         await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`);
         const imagesSrc = await page
           .locator("#pictures-list > img")
-          .evaluateAll((imgs) =>
-            imgs
-              .map((img) => img.getAttribute("src"))
-              .filter((e) => e !== null),
-          );
+          .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null));
         for (const imgSrc of imagesSrc) {
           if (imgSrc) {
-            const savedPath = await downloadImageForS3(
-              imgSrc,
-              slug,
-              "models_all",
-              {
-                convert_to_png: true,
-                incriase: false,
-                proxy_tor: true,
-                remove_wattermark: true,
-                textDelete: false,
-              },
-            );
+            const savedPath = await downloadImageForS3(imgSrc, slug, "models_all", {
+              convert_to_png: true,
+              incriase: false,
+              proxy_tor: true,
+              remove_wattermark: true,
+              textDelete: false,
+            });
             if (savedPath) {
               contentImagesPaths.push(savedPath);
             }

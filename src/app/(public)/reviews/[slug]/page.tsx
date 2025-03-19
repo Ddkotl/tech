@@ -35,31 +35,17 @@ import { PhoneModelCard } from "@/entities/phone_models/_ui/phone_model_card";
 //   });
 // }
 
-export default async function ReviewPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const review: ReviewFullInfo | null = await getReviewsFullInfoBySlug(
-    params.slug,
-  );
+export default async function ReviewPage({ params }: { params: { slug: string } }) {
+  const review: ReviewFullInfo | null = await getReviewsFullInfoBySlug(params.slug);
   if (!review) {
-    return (
-      <div className="text-center py-10 text-foreground">
-        Не удалось получить информацию о обзоре
-      </div>
-    );
+    return <div className="text-center py-10 text-foreground">Не удалось получить информацию о обзоре</div>;
   }
 
   return (
     <main className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg text-safe">
-      <h1 className="text-base font-bold lg:text-xl w-full gap-4 text-center md:text-start">
-        {review.title}
-      </h1>
+      <h1 className="text-base font-bold lg:text-xl w-full gap-4 text-center md:text-start">{review.title}</h1>
       {review.phoneModel ? <PhoneModelCard model={review.phoneModel} /> : ""}
-      <div className="prose ">
-        {review.content ? parse(String(review.content)) : "Обзор отсутствует"}
-      </div>
+      <div className="prose ">{review.content ? parse(String(review.content)) : "Обзор отсутствует"}</div>
     </main>
   );
 }

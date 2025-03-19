@@ -11,9 +11,7 @@ import { addHTTPheaders } from "../addHTTPheaders";
  * @param imageBuffer - Изображение в виде Buffer.
  * @returns Buffer с изображением без фона.
  */
-export const removeBackgroundWithphotiu = async (
-  imageBuffer: Buffer,
-): Promise<Buffer> => {
+export const removeBackgroundWithphotiu = async (imageBuffer: Buffer): Promise<Buffer> => {
   let browser: Browser | undefined;
   try {
     browser = await chromium.launch({

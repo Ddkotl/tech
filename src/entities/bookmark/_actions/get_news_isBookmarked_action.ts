@@ -2,10 +2,7 @@
 
 import { dataBase } from "@/shared/lib/db_conect";
 
-export const getNewsIsBookmarkedAction = async (
-  newsId: string,
-  userId: string,
-): Promise<boolean> => {
+export const getNewsIsBookmarkedAction = async (newsId: string, userId: string): Promise<boolean> => {
   const isBookmarked = await dataBase.newsBookmark.findFirst({
     where: {
       newsId: newsId,

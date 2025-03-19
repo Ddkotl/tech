@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import { ProfileForm } from "./_ui/profile-form";
 import { getProfileQuery } from "@/entities/user/profile";
 
-export function UpdateProfileForm({
-  userId,
-  callbackUrl,
-}: {
-  userId: string;
-  callbackUrl?: string;
-}) {
+export function UpdateProfileForm({ userId, callbackUrl }: { userId: string; callbackUrl?: string }) {
   const router = useRouter();
   const profileQuery = useQuery({
     ...getProfileQuery(userId),

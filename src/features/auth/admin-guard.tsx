@@ -7,11 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export default function AdminGuard({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminGuard({ children }: { children: React.ReactNode }) {
   const session = useAppSession();
   const router = useRouter();
   const isAdmin = session.data?.user.role === ROLES.ADMIN;
@@ -32,9 +28,7 @@ export default function AdminGuard({
     <>
       <FullPageSpinner isLoading={isLoading} />
 
-      {session.status === "authenticated" &&
-        session.data?.user.role === ROLES.ADMIN &&
-        children}
+      {session.status === "authenticated" && session.data?.user.role === ROLES.ADMIN && children}
     </>
   );
 }

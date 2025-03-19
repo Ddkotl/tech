@@ -1,9 +1,7 @@
 import { cleaneText } from "../functions/cleane_text";
 import { client, TEXT_AI_MODEL } from "./ai_client";
 
-export const generateModelDescription = async (
-  text: string,
-): Promise<string> => {
+export const generateModelDescription = async (text: string): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [

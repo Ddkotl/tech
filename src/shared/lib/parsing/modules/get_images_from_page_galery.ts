@@ -1,9 +1,7 @@
 import { Page } from "playwright";
 
 // Функция для извлечения URL из стиля
-export const extractBackgroundImage = async (
-  element: ReturnType<Page["locator"]>,
-): Promise<string | null> => {
+export const extractBackgroundImage = async (element: ReturnType<Page["locator"]>): Promise<string | null> => {
   const style = await element.getAttribute("style");
   if (!style) return null;
 
@@ -13,9 +11,7 @@ export const extractBackgroundImage = async (
   return decodeURIComponent(urlMatch[1]).replace(/(^['"]|['"]$)/g, "");
 };
 
-export const getImagesFromPageGallery = async (
-  page: Page,
-): Promise<string[]> => {
+export const getImagesFromPageGallery = async (page: Page): Promise<string[]> => {
   const imgUrlList: string[] = [];
   const imgGalleryFirstLinkLocator = "p.image-row > a";
   const imgLocator = "div[class='map']";
@@ -57,8 +53,7 @@ export const getImagesFromPageGallery = async (
     while (iteration++ < MAX_ITERATIONS) {
       const nextButton = page.locator(nextButtonLocator).first();
 
-      if (!(await nextButton.isVisible()) || !(await nextButton.isEnabled()))
-        break;
+      if (!(await nextButton.isVisible()) || !(await nextButton.isEnabled())) break;
 
       await nextButton.click();
       await page.waitForTimeout(2000);
@@ -68,8 +63,7 @@ export const getImagesFromPageGallery = async (
       await page.waitForTimeout(2000);
       if (!currentImageSrc) continue;
       if (currentImageSrc === firstImageSrc) break;
-      if (!imgUrlList.includes(currentImageSrc))
-        imgUrlList.push(currentImageSrc);
+      if (!imgUrlList.includes(currentImageSrc)) imgUrlList.push(currentImageSrc);
     }
 
     return imgUrlList;

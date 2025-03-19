@@ -3,13 +3,17 @@ import { fileStorage } from "../../file-storage";
 import TelegramBot, { InputMediaPhoto } from "node-telegram-bot-api";
 
 export async function publishToTelegram({
+  type,
+  slug,
+  meta_description,
   ruTitle,
-  content,
   previewImage,
   images,
 }: {
+  type: "news" | "reviews";
+  slug: string;
   ruTitle: string;
-  content: string;
+  meta_description: string;
   previewImage: string;
   images: string[];
 }) {
@@ -22,17 +26,11 @@ export async function publishToTelegram({
     });
     // Генерируем временные URL для всех изображений
     const imageUrls = await Promise.all(
-      [previewImage, ...images].map((image) =>
-        fileStorage.generatePresignedUrl(privateConfig.S3_IMAGES_BUCKET, image),
-      ),
+      [previewImage, ...images].map((image) => fileStorage.generatePresignedUrl(privateConfig.S3_IMAGES_BUCKET, image)),
     );
-    const formattedContent = content
-      .replace(/<\/?p>/g, "") // Убираем <p> и </p>
-      .replace(/\n/g, "\n\n")
-      .replace(/<h2>/g, "<b>")
-      .replace(/<\/h2>/g, "</b>"); // Добавляем двойные переводы строк
+    console.log(imageUrls);
     // Формируем текст поста
-    const postText = `<b>${ruTitle}</b>\n\n${formattedContent}\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
+    const postText = `<b>${ruTitle}</b>\n\n${meta_description}\n\n<a href="https://tech24view.ru/${type}/${slug}">Читать полностью на сайте</a>\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
 
     // Создаем медиагруппу
     const mediaGroup: InputMediaPhoto[] = imageUrls.map((url, index) => ({

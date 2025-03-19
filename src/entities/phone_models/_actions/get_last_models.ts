@@ -3,9 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialPhoneModel } from "../_domain/types";
 
-export async function getLastModels(): Promise<
-  (PartialPhoneModel & { brand?: { name: string } })[] | []
-> {
+export async function getLastModels(): Promise<(PartialPhoneModel & { brand?: { name: string } })[] | []> {
   try {
     return await dataBase.phoneModels.findMany({
       select: {

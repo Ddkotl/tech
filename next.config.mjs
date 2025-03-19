@@ -31,9 +31,7 @@ const nextConfig = {
     ],
   },
 
-  rewrites: async () => [
-    { source: "/storage/:path*", destination: `${s3Endpoint}/:path*` },
-  ],
+  rewrites: async () => [{ source: "/storage/:path*", destination: `${s3Endpoint}/:path*` }],
 
   headers: async () => [
     {
@@ -81,9 +79,7 @@ if (isDev) {
     },
   };
 
-  nextConfig.images.remotePatterns = [
-    { protocol: "https", hostname: "**", port: "", pathname: "/**" },
-  ];
+  nextConfig.images.remotePatterns = [{ protocol: "https", hostname: "**", port: "", pathname: "/**" }];
 
   nextConfig.productionBrowserSourceMaps = true;
 }

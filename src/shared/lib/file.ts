@@ -1,7 +1,4 @@
-export function selectFile(
-  contentType: string,
-  multiple: true,
-): Promise<File[]>;
+export function selectFile(contentType: string, multiple: true): Promise<File[]>;
 export function selectFile(contentType: string): Promise<File>;
 export function selectFile(contentType: string, multiple?: boolean) {
   return new Promise((resolve) => {

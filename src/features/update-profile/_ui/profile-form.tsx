@@ -108,11 +108,7 @@ export function ProfileForm({
             <FormItem>
               <FormDescription>Аватарка</FormDescription>
               <FormControl>
-                <AvatarField
-                  value={field.value}
-                  onChange={field.onChange}
-                  profile={profile}
-                />
+                <AvatarField value={field.value} onChange={field.onChange} profile={profile} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -120,10 +116,7 @@ export function ProfileForm({
         />
         <Button type="submit" disabled={updateProfileMutation.isPending}>
           {updateProfileMutation.isPending && (
-            <Spinner
-              className="mr-2 h-4 w-4 animate-spin"
-              aria-label="Обновление профиля"
-            />
+            <Spinner className="mr-2 h-4 w-4 animate-spin" aria-label="Обновление профиля" />
           )}
           {submitText}
         </Button>

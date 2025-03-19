@@ -7,11 +7,7 @@ import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { NextAndPrevModelButtons } from "@/entities/phone_models/_ui/prev_next_model_buttons";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(params.slug);
 
   return generateSEOMetadata({
@@ -38,18 +34,10 @@ export async function generateMetadata({
   });
 }
 
-export default async function PhoneModelPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function PhoneModelPage({ params }: { params: { slug: string } }) {
   const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(params.slug);
   if (!phone) {
-    return (
-      <div className="text-center py-10 text-foreground">
-        Не удалось получить информацию о модели
-      </div>
-    );
+    return <div className="text-center py-10 text-foreground">Не удалось получить информацию о модели</div>;
   }
 
   return (
@@ -59,19 +47,14 @@ export default async function PhoneModelPage({
 
       {/* Раздел "Описание" */}
       <div className=" p-4 rounded-xl border bg-card text-card-foreground shadow-lg text-safe">
-        <h2 className="text-2xl lg:text-3xl font-semibold ">
-          Подробные характеристики
-        </h2>
+        <h2 className="text-2xl lg:text-3xl font-semibold ">Подробные характеристики</h2>
         <div className="prose ">
           {phone.specifications[0].description
             ? parse(String(phone.specifications[0].description))
             : "Описание отсутствует"}
         </div>
       </div>
-      <NextAndPrevModelButtons
-        currentModelSlug={params.slug}
-        brandId={phone.brandId}
-      />
+      <NextAndPrevModelButtons currentModelSlug={params.slug} brandId={phone.brandId} />
     </main>
   );
 }

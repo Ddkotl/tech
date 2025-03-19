@@ -13,18 +13,13 @@ export const removeWattermarkWithRetry = async (
       return await removeWattermarkDewatermarck(imageBuffer, textDelete);
     } catch (error) {
       attempts++;
-      console.error(
-        `Ошибка при удалении вотермарки (попытка ${attempts}):`,
-        error,
-      );
+      console.error(`Ошибка при удалении вотермарки (попытка ${attempts}):`, error);
 
       if (attempts < maxRetries) {
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
       } else {
-        console.log(
-          "Не удалось удалить вотермарку после максимального количества попыток",
-        );
+        console.log("Не удалось удалить вотермарку после максимального количества попыток");
       }
     }
   }

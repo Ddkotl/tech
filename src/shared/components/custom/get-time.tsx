@@ -3,13 +3,7 @@
 import { cn } from "@/shared/lib/utils";
 import { useEffect, useState } from "react";
 
-export const TimeAgo = ({
-  date,
-  className,
-}: {
-  date: Date;
-  className?: string;
-}) => {
+export const TimeAgo = ({ date, className }: { date: Date; className?: string }) => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -35,9 +29,7 @@ export const TimeAgo = ({
     const month = date.getMonth() + 1; // Месяцы начинаются с 0
     const year = date.getFullYear();
     return (
-      <span
-        className={cn(className, "text-sm")}
-      >{`${day < 10 ? `0${day}` : day}/${
+      <span className={cn(className, "text-sm")}>{`${day < 10 ? `0${day}` : day}/${
         month < 10 ? `0${month}` : month
       }/${year}`}</span>
     );

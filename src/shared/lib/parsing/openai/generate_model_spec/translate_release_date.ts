@@ -1,16 +1,12 @@
 import { client, TEXT_AI_MODEL } from "../ai_client";
 
-export const translateReleaseDateAI = async (
-  text: string,
-  fullName: string | undefined,
-): Promise<string> => {
+export const translateReleaseDateAI = async (text: string, fullName: string | undefined): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
         {
           role: "system",
-          content:
-            "Отвечай строго в  формате строки,  без добавления комментариев.",
+          content: "Отвечай строго в  формате строки,  без добавления комментариев.",
         },
         {
           role: "user",

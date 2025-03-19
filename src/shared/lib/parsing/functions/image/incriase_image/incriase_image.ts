@@ -1,10 +1,7 @@
 import { restartTor } from "@/shared/lib/tor";
 import { incriaseImageILoveImage } from "./incriase_image_iloveimg";
 
-export const incriaseImageWithRetry = async (
-  imageBuffer: Buffer,
-  maxRetries: number = 5,
-): Promise<Buffer> => {
+export const incriaseImageWithRetry = async (imageBuffer: Buffer, maxRetries: number = 5): Promise<Buffer> => {
   let attempts = 0;
 
   while (attempts < maxRetries) {
@@ -12,18 +9,13 @@ export const incriaseImageWithRetry = async (
       return await incriaseImageILoveImage(imageBuffer);
     } catch (error) {
       attempts++;
-      console.error(
-        `Ошибка при увеличении изображения (попытка ${attempts}):`,
-        error,
-      );
+      console.error(`Ошибка при увеличении изображения (попытка ${attempts}):`, error);
 
       if (attempts < maxRetries) {
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
       } else {
-        console.log(
-          "Не удалось увеличить изображение после максимального количества попыток",
-        );
+        console.log("Не удалось увеличить изображение после максимального количества попыток");
       }
     }
   }

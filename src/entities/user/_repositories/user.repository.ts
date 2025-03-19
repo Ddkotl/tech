@@ -30,10 +30,7 @@ export class UserRepository {
       throw new Error(`You have some error: ${error}`);
     }
   }
-  async updateProfile(
-    userId: UserId,
-    data: Partial<Profile>,
-  ): Promise<Profile> {
+  async updateProfile(userId: UserId, data: Partial<Profile>): Promise<Profile> {
     try {
       return await dataBase.user.update({
         where: { id: userId },

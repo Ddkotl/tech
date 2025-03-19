@@ -29,9 +29,7 @@ export function MobileNav({ logo }: { logo?: React.ReactNode }) {
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-1 text-lg font-medium">
           <SheetTitle className="sr-only">Админ Меню</SheetTitle>
-          <SheetDescription className="sr-only">
-            Админ меню, выберите пункт меню ниже
-          </SheetDescription>
+          <SheetDescription className="sr-only">Админ меню, выберите пункт меню ниже</SheetDescription>
           <SheetHeader className=" border-b pb-5 mb-5">
             <SheetClose asChild>{logo}</SheetClose>
           </SheetHeader>

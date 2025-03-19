@@ -6,7 +6,7 @@ import Image from "next/image";
 export function PhoneModelCard({ model }: { model: PartialPhoneModel }) {
   return (
     <Link href={`/phone_model/${model.slug}`}>
-      <Card className=" shadow-md transition-all  duration-300 hover:scale-105  hover:shadow-lg hover:bg-foreground/10  p-0 h-full flex flex-col ">
+      <Card className=" shadow-md transition-all  duration-300 hover:scale-95  hover:shadow-lg hover:bg-foreground/10  p-0 h-full flex flex-col ">
         <CardContent className="p-1 image-safe">
           <Image
             src={model.main_image}
@@ -19,9 +19,7 @@ export function PhoneModelCard({ model }: { model: PartialPhoneModel }) {
           />
         </CardContent>
         <CardFooter className="flex justify-center p-1">
-          <CardTitle className="text-xs flex text-center items-center justify-center">
-            {model.short_name}
-          </CardTitle>
+          <CardTitle className="text-xs flex text-center items-center justify-center">{model.short_name}</CardTitle>
         </CardFooter>
       </Card>
     </Link>

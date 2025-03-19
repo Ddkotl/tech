@@ -3,24 +3,14 @@ import { Profile } from "../_domain/types";
 import { cn } from "@/shared/lib/utils";
 import { getProfileLetters } from "../_vm/get-profile-letters";
 
-export const ProfileAvatar = ({
-  profile,
-  className,
-}: {
-  profile?: Profile;
-  className?: string;
-}) => {
+export const ProfileAvatar = ({ profile, className }: { profile?: Profile; className?: string }) => {
   if (!profile) {
     return null;
   }
 
   return (
     <Avatar className={cn(className)}>
-      <AvatarImage
-        crossOrigin="anonymous"
-        src={profile.image ?? ""}
-        className="object-cover"
-      />
+      <AvatarImage crossOrigin="anonymous" src={profile.image ?? ""} className="object-cover" />
       <AvatarFallback>{getProfileLetters(profile)}</AvatarFallback>
     </Avatar>
   );
