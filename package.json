@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"npm run start_crone_parse\"",
+    "dev": "concurrently \"next dev\" \"bun run start_crone_parse\"",
     "build": "next build",
-    "start": "concurrently \"next start\" \"npm run start_crone_parse\"",
+    "start": "concurrently \"next start\" \"bun run start_crone_parse\"",
     "lint": "next lint",
     "lint:types": "tsc --noEmit",
     "prettier": "prettier -w .",
@@ -15,7 +15,7 @@
     "start_crone_parse": "wait-on http://localhost:3000/auth/sign-in && curl -X GET http://localhost:3000/api/crone/parse",
     "restore:minio": "tsx src/shared/lib/backups/s3/s3_restore.ts",
     "restore:db": "tsx src/shared/lib/backups/db/db_restore.ts",
-    "restore": "bun run restore:minio && npm run restore:db",
+    "restore": "bun run restore:minio && bun run restore:db",
     "backup": "tsx src/shared/lib/backups/db/db_backup.ts && tsx src/shared/lib/backups/s3/s3_backup.ts"
   },
   "dependencies": {
