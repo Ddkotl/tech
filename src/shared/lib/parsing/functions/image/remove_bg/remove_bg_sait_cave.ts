@@ -2,7 +2,7 @@ import path from "path";
 import { Browser, chromium } from "playwright";
 import fs from "fs";
 import os from "os";
-import { addHTTPheaders } from "../addHTTPheaders";
+import { addHTTPheaders } from "../../addHTTPheaders";
 
 /**
  * Удаляет фон с изображения через сайт carve.photos с использованием Playwright,

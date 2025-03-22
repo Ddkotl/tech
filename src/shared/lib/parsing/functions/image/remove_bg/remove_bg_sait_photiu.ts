@@ -3,7 +3,7 @@ import { Browser, chromium } from "playwright";
 import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
-import { addHTTPheaders } from "../addHTTPheaders";
+import { addHTTPheaders } from "../../addHTTPheaders";
 
 /**
  * Удаляет фон с изображения через сайт https://www.photiu.ai/ с использованием Playwright,
