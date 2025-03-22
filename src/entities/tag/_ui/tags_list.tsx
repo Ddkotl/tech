@@ -5,7 +5,7 @@ import { getAllTags } from "../_actions/get_all_tags";
 import { TagCard } from "./tag_card";
 import { Card, CardContent, CardHeader, Skeleton } from "@/shared/components";
 
-export function TagsList() {
+export function TagsList({ tagsCount }: { tagsCount?: number | undefined }) {
   const {
     data: tags,
     error,
@@ -20,12 +20,11 @@ export function TagsList() {
     return <div>Error: {error.message}</div>;
   }
   if (isLoading || isFetching) {
-    // Отображаем скелетоны
     return (
       <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {Array.from({ length: tagsCount ? tagsCount : 20 }).map((_, i) => (
           <Card
-            key={i} // Добавляем уникальный ключ для каждого элемента
+            key={i}
             className="p-0 h-24 flex flex-col justify-evenly shadow-md transition-all duration-300 hover:scale-95 hover:shadow-lg hover:bg-foreground/10 items-center"
           >
             <CardHeader className="p-1 flex items-center justify-center text-center">

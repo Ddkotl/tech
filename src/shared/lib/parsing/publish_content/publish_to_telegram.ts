@@ -1,5 +1,4 @@
 import { privateConfig } from "../../config/private";
-import { fileStorage } from "../../file-storage";
 import TelegramBot, { InputMediaPhoto } from "node-telegram-bot-api";
 
 export async function publishToTelegram({
@@ -25,12 +24,13 @@ export async function publishToTelegram({
       polling: false,
     });
     // Генерируем временные URL для всех изображений
-    const imageUrls = await Promise.all(
-      [previewImage, ...images].map((image) => fileStorage.generatePresignedUrl(privateConfig.S3_IMAGES_BUCKET, image)),
-    );
+    const imageUrls = [previewImage, ...images].map((image) => {
+      return `${privateConfig.TEST_ENV_BASE_URL}${image}`;
+    });
+
     console.log(imageUrls);
     // Формируем текст поста
-    const postText = `<b>${ruTitle}</b>\n\n${meta_description}\n\n<a href="https://tech24view.ru/${type}/${slug}">Читать полностью на сайте</a>\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
+    const postText = `<b>${ruTitle}</b>\n\n${meta_description}\n\n<a href="${privateConfig.TEST_ENV_BASE_URL}/${type}/${slug}">Читать полностью на сайте</a>\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
 
     // Создаем медиагруппу
     const mediaGroup: InputMediaPhoto[] = imageUrls.map((url, index) => ({

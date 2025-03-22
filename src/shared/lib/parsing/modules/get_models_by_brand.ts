@@ -37,15 +37,6 @@ export const getModelsByBrand = async (
     }
 
     const imgUrl = await page.locator(".specs-photo-main  img").getAttribute("src");
-    const modelImgPath = imgUrl
-      ? await downloadImageForS3(imgUrl, slug, "models_preview", {
-          convert_to_png: true,
-          incriase: true,
-          proxy_tor: true,
-          remove_wattermark: true,
-          textDelete: false,
-        })
-      : "";
 
     const releaseDate = await page.locator('span[data-spec="released-hl"]').innerText();
     const translatedReleaseDate = await safeTranslate(releaseDate, translateReleaseDateAI, fullName);
@@ -76,6 +67,17 @@ export const getModelsByBrand = async (
     const batary_capasity = await page.locator('strong[class="accent accent-battery"]').innerText();
     const description = await page.locator('div[id="specs-list"]').innerHTML();
     const translatedDescription = await safeTranslate(description, generateModelDescription);
+
+    const modelImgPath = imgUrl
+      ? await downloadImageForS3(imgUrl, slug, "models_preview", {
+          page: page,
+          convert_to_png: true,
+          incriase: true,
+          proxy_tor: true,
+          remove_wattermark: true,
+          textDelete: false,
+        })
+      : "";
     const contentImagesPaths = [];
     try {
       const imagesPageUrl = await page
@@ -92,6 +94,7 @@ export const getModelsByBrand = async (
         for (const imgSrc of imagesSrc) {
           if (imgSrc) {
             const savedPath = await downloadImageForS3(imgSrc, slug, "models_all", {
+              page: page,
               convert_to_png: true,
               incriase: false,
               proxy_tor: true,

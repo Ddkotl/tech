@@ -74,18 +74,6 @@ export const addHTTPheaders = async (browser: Browser, isTest: boolean = false):
     return page;
   } catch (error) {
     console.log("Ошибка при добавлении HTTP-заголовков:", error);
-    const context1 = await browser.newContext({
-      //   recordVideo: {
-      //     dir: `./img_for_test/v1-${new Date().toISOString()}`,
-      //     size: { width: 1280, height: 720 },
-      //   },
-      storageState: undefined,
-      proxy: {
-        server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
-      },
-    });
-
-    const page1 = await context1.newPage();
-    return page1;
+    throw error; // Проброс ошибки для логирования в вызывающем коде
   }
 };

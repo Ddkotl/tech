@@ -3,6 +3,7 @@ import { delay } from "./delay";
 import { transliterateToUrl } from "../../transliteration";
 import { isTagExist } from "./is_tag_exist";
 import { dataBase } from "../../db_conect";
+import { publishToTelegram } from "../publish_content/publish_to_telegram";
 
 export async function ParseNews(
   metaTitle: string,
@@ -62,12 +63,14 @@ export async function ParseNews(
 
   console.log(`Created news with title: ${createdNews.title}`);
   await delay(1000);
-  // await publishToTelegram({
-  //   type: "news",
-  //   slug: slug,
-  //   meta_description: metaDescription,
-  //   images: images,
-  //   previewImage: previewImage,
-  //   ruTitle: ruTitle,
-  // });
+  if (process.env.NODE_ENV === "production") {
+    await publishToTelegram({
+      type: "news",
+      slug: slug,
+      meta_description: metaDescription,
+      images: images,
+      previewImage: previewImage,
+      ruTitle: ruTitle,
+    });
+  }
 }

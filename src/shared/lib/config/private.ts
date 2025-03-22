@@ -27,6 +27,8 @@ const privateConfigSchema = z.object({
 
   TELEGRAM_BOT_KEY: z.string().optional(),
   TELEGRAM_CHANNEL_ID: z.string().optional(),
+
+  TEST_ENV_BASE_URL: z.string().optional(),
 });
 
 export const privateConfig = privateConfigSchema.parse(process.env);

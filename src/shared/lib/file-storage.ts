@@ -1,5 +1,4 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import cuid from "cuid";
 
@@ -25,15 +24,6 @@ class FileStorage {
       secretAccessKey: privateConfig.S3_SECRET_ACCESS_KEY,
     },
   });
-
-  async generatePresignedUrl(bucketName: string, fileName: string, expiry: number = 3600): Promise<string> {
-    const command = new GetObjectCommand({
-      Bucket: bucketName,
-      Key: fileName,
-    });
-
-    return await getSignedUrl(this.s3Client, command, { expiresIn: expiry });
-  }
 
   async uploadImage(file: File, tag: string, fileName?: string) {
     return this.upload(file, privateConfig.S3_IMAGES_BUCKET, tag, fileName);
