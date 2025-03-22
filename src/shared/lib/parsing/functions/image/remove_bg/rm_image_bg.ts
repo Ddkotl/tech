@@ -2,21 +2,26 @@ import { restartTor } from "@/shared/lib/tor";
 import { removeBgImageILoveImage } from "./remove_bg_iloveimg";
 import { removeBackgroundWithCarve } from "./remove_bg_sait_cave";
 import { removeBackgroundWithphotiu } from "./remove_bg_sait_photiu";
+import { Page } from "playwright";
 
-export const removeImageBackgroundWithRetry = async (imageBuffer: Buffer, maxRetries: number = 5): Promise<Buffer> => {
+export const removeImageBackgroundWithRetry = async (
+  imageBuffer: Buffer,
+  page: Page,
+  maxRetries: number = 5,
+): Promise<Buffer> => {
   let attempts = 0;
 
   while (attempts < maxRetries) {
     try {
       // Попытка удалить фон через Photiu
-      return await removeBackgroundWithphotiu(imageBuffer);
+      return await removeBackgroundWithphotiu(imageBuffer, page);
     } catch (errorILoveImage) {
       console.log(
         `Ошибка при удалении фона с помощью removeBackgroundWithphotiu (попытка ${attempts + 1}):`,
         errorILoveImage,
       );
       try {
-        return await removeBgImageILoveImage(imageBuffer);
+        return await removeBgImageILoveImage(imageBuffer, page);
       } catch (errorPhotiu) {
         console.log(
           `Ошибка при удалении фона с помощью removeBgImageILoveImage (попытка ${attempts + 1}):`,
@@ -25,7 +30,7 @@ export const removeImageBackgroundWithRetry = async (imageBuffer: Buffer, maxRet
 
         try {
           // Попытка удалить фон через Carve
-          return await removeBackgroundWithCarve(imageBuffer);
+          return await removeBackgroundWithCarve(imageBuffer, page);
         } catch (errorCarve) {
           console.log(
             `Ошибка при удалении фона с помощью removeBackgroundWithCarve (попытка ${attempts + 1}):`,

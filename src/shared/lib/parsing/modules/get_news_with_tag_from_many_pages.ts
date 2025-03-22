@@ -60,31 +60,6 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       const imgGalery = await getImagesFromPageGallery(page);
       imagesSrc = imagesSrc.concat(imgGalery);
 
-      // Сохранение превью и всех картинок
-      const previewPath = article.previewImageUrl
-        ? await downloadImageForS3(article.previewImageUrl, slug, "news_preview", {
-            convert_to_png: false,
-            incriase: true,
-            proxy_tor: true,
-            remove_wattermark: true,
-            textDelete: true,
-          })
-        : null;
-
-      const contentImagesPaths = [];
-      for (const imgSrc of imagesSrc) {
-        if (imgSrc) {
-          const savedPath = await downloadImageForS3(imgSrc, slug, "news", {
-            convert_to_png: false,
-            incriase: false,
-            proxy_tor: true,
-            remove_wattermark: true,
-            textDelete: true,
-          });
-          if (savedPath) contentImagesPaths.push(savedPath);
-        }
-      }
-
       const translatedContent = await safeTranslate(contentResponse, translateAndUnicText);
       const metaTitle = await safeTranslate(translatedTitle, GenerateMetaTitle);
       const metaDescription = await safeTranslate(translatedContent, GenerateMetaDescription);
@@ -102,6 +77,32 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         }
       })();
 
+      // Сохранение превью и всех картинок
+      const previewPath = article.previewImageUrl
+        ? await downloadImageForS3(article.previewImageUrl, slug, "news_preview", {
+            page: page,
+            convert_to_png: false,
+            incriase: true,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          })
+        : null;
+
+      const contentImagesPaths = [];
+      for (const imgSrc of imagesSrc) {
+        if (imgSrc) {
+          const savedPath = await downloadImageForS3(imgSrc, slug, "news", {
+            page: page,
+            convert_to_png: false,
+            incriase: false,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          });
+          if (savedPath) contentImagesPaths.push(savedPath);
+        }
+      }
       await ParseNews(
         cleaneText(metaTitle),
         cleaneText(metaDescription),

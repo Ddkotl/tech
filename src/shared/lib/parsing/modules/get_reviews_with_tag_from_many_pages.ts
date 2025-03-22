@@ -92,31 +92,6 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
 
       const translatedTitle: string = article.title ? await safeTranslate(article.title, translateAndUnicTitle) : "";
       const slug: string = transliterateToUrl(translatedTitle);
-      // Сохранение превью изображения
-      const previewPath: string | null = article.previewImageUrl
-        ? await downloadImageForS3(article.previewImageUrl, slug, "reviews_preview", {
-            convert_to_png: false,
-            incriase: true,
-            proxy_tor: true,
-            remove_wattermark: true,
-            textDelete: true,
-          })
-        : "";
-
-      // Сохранение всех изображений из обзора
-      const contentImagesPaths: string[] = [];
-      for (const imgSrc of allImages) {
-        if (imgSrc) {
-          const savedPath = await downloadImageForS3(imgSrc, slug, "reviews", {
-            convert_to_png: false,
-            incriase: false,
-            proxy_tor: true,
-            remove_wattermark: true,
-            textDelete: true,
-          });
-          if (savedPath) contentImagesPaths.push(savedPath);
-        }
-      }
 
       const translatedContent: string = await safeTranslate(contentPages.join(" "), translateAndUnicText);
       const metaTitle: string = await safeTranslate(translatedTitle, GenerateMetaTitle);
@@ -135,7 +110,33 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
           console.log("Ошибка при парсинге tags", e);
         }
       })();
+      // Сохранение превью изображения
+      const previewPath: string | null = article.previewImageUrl
+        ? await downloadImageForS3(article.previewImageUrl, slug, "reviews_preview", {
+            page: page,
+            convert_to_png: false,
+            incriase: true,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          })
+        : "";
 
+      // Сохранение всех изображений из обзора
+      const contentImagesPaths: string[] = [];
+      for (const imgSrc of allImages) {
+        if (imgSrc) {
+          const savedPath = await downloadImageForS3(imgSrc, slug, "reviews", {
+            page: page,
+            convert_to_png: false,
+            incriase: false,
+            proxy_tor: true,
+            remove_wattermark: true,
+            textDelete: true,
+          });
+          if (savedPath) contentImagesPaths.push(savedPath);
+        }
+      }
       await ParseReviews(
         cleaneText(metaTitle),
         cleaneText(metaDescription),

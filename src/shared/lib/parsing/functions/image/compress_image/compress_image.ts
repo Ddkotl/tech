@@ -1,12 +1,17 @@
 import { restartTor } from "@/shared/lib/tor";
 import { compressImageILoveImage } from "./compress_image_iloveimg";
+import { Page } from "playwright";
 
-export const сompressImageWithRetry = async (imageBuffer: Buffer, maxRetries: number = 5): Promise<Buffer> => {
+export const сompressImageWithRetry = async (
+  imageBuffer: Buffer,
+  page: Page,
+  maxRetries: number = 5,
+): Promise<Buffer> => {
   let attempts = 0;
 
   while (attempts < maxRetries) {
     try {
-      return await compressImageILoveImage(imageBuffer);
+      return await compressImageILoveImage(imageBuffer, page);
     } catch (error) {
       attempts++;
       console.error(`Ошибка при сжатии изображения (попытка ${attempts}):`, error);

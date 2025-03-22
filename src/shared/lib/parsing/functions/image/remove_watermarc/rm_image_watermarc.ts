@@ -1,8 +1,10 @@
 import { restartTor } from "@/shared/lib/tor";
 import { removeWattermarkDewatermarck } from "./remove_watter_mark_dewatermarc";
+import { Page } from "playwright";
 
 export const removeWattermarkWithRetry = async (
   imageBuffer: Buffer,
+  page: Page,
   textDelete: boolean,
   maxRetries: number = 10,
 ): Promise<Buffer> => {
@@ -10,7 +12,7 @@ export const removeWattermarkWithRetry = async (
 
   while (attempts < maxRetries) {
     try {
-      return await removeWattermarkDewatermarck(imageBuffer, textDelete);
+      return await removeWattermarkDewatermarck(imageBuffer, page, textDelete);
     } catch (error) {
       attempts++;
       console.error(`Ошибка при удалении вотермарки (попытка ${attempts}):`, error);

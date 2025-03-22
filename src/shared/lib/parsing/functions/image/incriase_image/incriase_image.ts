@@ -1,12 +1,17 @@
 import { restartTor } from "@/shared/lib/tor";
 import { incriaseImageILoveImage } from "./incriase_image_iloveimg";
+import { Page } from "playwright";
 
-export const incriaseImageWithRetry = async (imageBuffer: Buffer, maxRetries: number = 5): Promise<Buffer> => {
+export const incriaseImageWithRetry = async (
+  imageBuffer: Buffer,
+  page: Page,
+  maxRetries: number = 5,
+): Promise<Buffer> => {
   let attempts = 0;
 
   while (attempts < maxRetries) {
     try {
-      return await incriaseImageILoveImage(imageBuffer);
+      return await incriaseImageILoveImage(imageBuffer, page);
     } catch (error) {
       attempts++;
       console.error(`Ошибка при увеличении изображения (попытка ${attempts}):`, error);

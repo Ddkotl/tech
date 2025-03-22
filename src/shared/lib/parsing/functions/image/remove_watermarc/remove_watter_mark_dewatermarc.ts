@@ -1,24 +1,15 @@
 import path from "path";
-import { Browser, chromium } from "playwright";
+import { Page } from "playwright";
 import fs from "fs";
 import os from "os";
 import { simulateMouseMovement } from "../simulate_mouse_move";
-import { addHTTPheaders } from "../../addHTTPheaders";
 
-export const removeWattermarkDewatermarck = async (imageBuffer: Buffer, textDelete: boolean): Promise<Buffer> => {
-  let browser: Browser | undefined;
+export const removeWattermarkDewatermarck = async (
+  imageBuffer: Buffer,
+  page: Page,
+  textDelete: boolean,
+): Promise<Buffer> => {
   try {
-    browser = await chromium.launch({
-      headless: true,
-      args: [
-        // "--disable-blink-features=AutomationControlled",
-        // "--disable-infobars",
-        `--timezone="America/New_York"`,
-        "--lang=en-US",
-      ],
-    });
-
-    const page = await addHTTPheaders(browser, false);
     const tempFilePath = path.join(os.tmpdir(), `input_image.png`);
     const tempDownloadPath = path.join(os.tmpdir(), "processed_image.png");
 
@@ -91,9 +82,5 @@ export const removeWattermarkDewatermarck = async (imageBuffer: Buffer, textDele
   } catch (error) {
     console.error("Ошибка при удалении вотермарки:", error);
     throw error;
-  } finally {
-    if (browser) {
-      await browser.close();
-    }
   }
 };
