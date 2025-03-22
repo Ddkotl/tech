@@ -10,6 +10,7 @@ import { translateThicknesAI } from "../openai/generate_model_spec/translate_thi
 import { translateStorageAI } from "../openai/generate_model_spec/translate_storage";
 import { translateRamAI } from "../openai/generate_model_spec/translate_ram";
 import { dataBase } from "../../db_conect";
+import { checkRequestLimits } from "../functions/check_requesl_limits";
 export const getModelsByBrand = async (
   modelNotExist: {
     model: string;
@@ -19,9 +20,8 @@ export const getModelsByBrand = async (
   page: Page,
 ) => {
   for (const model of modelNotExist) {
-    await page.goto(`https://www.gsmarena.com/${model.url}`, {
-      waitUntil: "domcontentloaded",
-    });
+    await page.goto(`https://www.gsmarena.com/${model.url}`, { timeout: 60000, waitUntil: "load" });
+    await checkRequestLimits(page);
     const shortName = model.model;
     const fullName = await page.locator(".specs-phone-name-title").innerText();
 
@@ -87,7 +87,7 @@ export const getModelsByBrand = async (
         .getAttribute("href");
 
       if (imagesPageUrl) {
-        await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`);
+        await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`, { timeout: 60000, waitUntil: "load" });
         const imagesSrc = await page
           .locator("#pictures-list > img")
           .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null));

@@ -13,15 +13,14 @@ import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
 import { getImagesFromPageGallery } from "./get_images_from_page_galery";
+import { checkRequestLimits } from "../functions/check_requesl_limits";
 
 export const parseNewsFromManyPages = async (page: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
     console.log(`Parsing news from page ${i}`);
 
-    await page.goto(`https://www.gsmarena.com/news.php3?iPage=${i}`, {
-      waitUntil: "domcontentloaded",
-    });
-
+    await page.goto(`https://www.gsmarena.com/news.php3?iPage=${i}`, { timeout: 60000, waitUntil: "load" });
+    await checkRequestLimits(page);
     const articles = await page.locator(".news-item").evaluateAll((elements) =>
       elements.map((el) => ({
         titleForImg: el.querySelector("a > h3")?.textContent?.trim(),
@@ -40,7 +39,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         continue;
       }
       const generatedDate = generateDataForPost(article.data);
-      await page.goto(`https://www.gsmarena.com/${article.link}`);
+      await page.goto(`https://www.gsmarena.com/${article.link}`, { timeout: 60000, waitUntil: "load" });
       const content: string[] = await page.locator(".review-body p").allTextContents();
       const contentResponse: string = content.join(" ");
       const tags = await page
@@ -76,7 +75,6 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
           console.log("Ошибка при парсинге tags", e);
         }
       })();
-
       // Сохранение превью и всех картинок
       const previewPath = article.previewImageUrl
         ? await downloadImageForS3(article.previewImageUrl, slug, "news_preview", {

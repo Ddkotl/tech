@@ -6,7 +6,7 @@ export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
 
   while (currentPage) {
     // Переход на текущую страницу
-    await page.goto(currentPage, { waitUntil: "domcontentloaded" });
+    await page.goto(currentPage, { timeout: 60000, waitUntil: "load" });
 
     // Локатор для всех моделей на странице
     const allModelsSinglePage = await page.locator(".makers > ul > li > a").evaluateAll((elements) =>

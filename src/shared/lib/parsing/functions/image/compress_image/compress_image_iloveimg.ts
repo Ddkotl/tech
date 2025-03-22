@@ -15,7 +15,7 @@ export const compressImageILoveImage = async (imageBuffer: Buffer, page: Page): 
 
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://www.iloveimg.com/compress-image");
+    await page.goto("https://www.iloveimg.com/compress-image", { timeout: 60000, waitUntil: "load" });
     // console.log("Сайт открыт");
     await simulateMouseMovement(page);
     // Нажимаем на кнопку согласия (если она есть)
