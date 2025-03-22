@@ -12,14 +12,13 @@ import { cleanAndParseTags } from "../functions/clean_and_parse_tags";
 import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
+import { checkRequestLimits } from "../functions/check_requesl_limits";
 
 export const parseReviewsFromManyPages = async (page: Page, n: number) => {
   for (let i = n; 0 < i; i--) {
     console.log(`Parsing reviews from page ${i}`);
-    await page.goto(`https://www.gsmarena.com/reviews.php3?iPage=${i}`, {
-      waitUntil: "domcontentloaded",
-    });
-
+    await page.goto(`https://www.gsmarena.com/reviews.php3?iPage=${i}`, { timeout: 60000, waitUntil: "load" });
+    await checkRequestLimits(page);
     const articles = await page.locator(".review-item").evaluateAll((elements) =>
       elements.map((el) => ({
         titleForImg: el.querySelector(".review-item-content > h3")?.textContent?.trim(),
@@ -54,7 +53,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       let currentUrl: string | null = `https://www.gsmarena.com/${article.link}`;
       // Обработка всех страниц обзора
       while (currentUrl) {
-        await page.goto(currentUrl, { waitUntil: "domcontentloaded" });
+        await page.goto(currentUrl, { timeout: 60000, waitUntil: "load" });
         if (!mobileModelName) {
           const shortName: string | null = await page
             .locator('li[class="article-info-meta-link meta-link-specs"]')

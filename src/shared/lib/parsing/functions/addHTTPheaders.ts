@@ -24,7 +24,6 @@ export const addHTTPheaders = async (browser: Browser, isTest: boolean = false):
         "Sec-Ch-Ua-Mobile": "?0",
         "Sec-Ch-Ua-Platform": '"Windows"',
         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-        Referer: "https://www.google.com/",
       },
       proxy: {
         server: "socks5://127.0.0.1:9050", // Адрес Tor SOCKS-прокси
@@ -40,14 +39,14 @@ export const addHTTPheaders = async (browser: Browser, isTest: boolean = false):
     });
 
     // Добавляем stealth-плагин
-    await context.addInitScript(() => {
-      Object.defineProperty(navigator, "plugins", {
-        get: () => [1, 2, 3, 4, 5],
-      });
-      Object.defineProperty(navigator, "languages", {
-        get: () => ["en-US", "en"],
-      });
-    });
+    // await context.addInitScript(() => {
+    //   Object.defineProperty(navigator, "plugins", {
+    //     get: () => [1, 2, 3, 4, 5],
+    //   });
+    //   Object.defineProperty(navigator, "languages", {
+    //     get: () => ["en-US", "en"],
+    //   });
+    // });
 
     const page = await context.newPage();
 

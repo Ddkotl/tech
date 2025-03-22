@@ -1,11 +1,16 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getAllTags } from "../_actions/get_all_tags";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { TagCard } from "./tag_card";
 import { Card, CardContent, CardHeader, Skeleton } from "@/shared/components";
+import { useCallback, useEffect, useState } from "react";
+import { getAllTagsWithPagination } from "../_actions/get_all_tags_with_pagination";
 
-export function TagsList({ tagsCount }: { tagsCount?: number | undefined }) {
+export function TagsList() {
+  const perPage = 10;
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const [observer, setObserver] = useState<IntersectionObserver | null>(null);
   const {
     data: tags,
     error,
@@ -14,15 +19,46 @@ export function TagsList({ tagsCount }: { tagsCount?: number | undefined }) {
     isFetching,
   } = useQuery({
     queryKey: ["tags"],
-    queryFn: () => getAllTags(),
+    queryFn: () => getAllTagsWithPagination(page, perPage),
+    placeholderData: keepPreviousData,
   });
+  useEffect(() => {
+    if (tags && tags.length < perPage) {
+      setHasNextPage(false);
+    }
+  }, [tags]);
+  // Функция для отслеживания прокрутки
+  const loadMore = useCallback(
+    (entry: IntersectionObserverEntry) => {
+      if (entry.isIntersecting && hasNextPage && !isFetching) {
+        setPage((prevPage) => prevPage + 1); // Увеличиваем номер страницы для подгрузки данных
+      }
+    },
+    [hasNextPage, isFetching],
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const newObserver = new IntersectionObserver(([entry]) => loadMore(entry), {
+        rootMargin: "200px", // Начинаем загружать данные, когда остается 200px до конца
+      });
+      setObserver(newObserver);
+    }
+  }, [loadMore]);
+
+  // Создаем реф для отслеживания элемента
+  const lastTagRef = (node: HTMLElement | null) => {
+    if (node && observer) {
+      observer.observe(node); // Начинаем отслеживать последний элемент
+    }
+  };
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
   if (isLoading || isFetching) {
     return (
       <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
-        {Array.from({ length: tagsCount ? tagsCount : 20 }).map((_, i) => (
+        {Array.from({ length: 24 }).map((_, i) => (
           <Card
             key={i}
             className="p-0 h-24 flex flex-col justify-evenly shadow-md transition-all duration-300 hover:scale-95 hover:shadow-lg hover:bg-foreground/10 items-center"
@@ -42,14 +78,15 @@ export function TagsList({ tagsCount }: { tagsCount?: number | undefined }) {
 
   return (
     <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
-      {tags?.map((tag) => (
-        <TagCard
-          key={tag.id}
-          tagSlug={tag.slug}
-          tagTitle={tag.title}
-          newsCount={tag._count.news}
-          reviewsCount={tag._count.reviews}
-        />
+      {tags?.map((tag, index) => (
+        <div ref={index === tags.length - 1 ? lastTagRef : null} key={tag.id}>
+          <TagCard
+            tagSlug={tag.slug}
+            tagTitle={tag.title}
+            newsCount={tag._count.news}
+            reviewsCount={tag._count.reviews}
+          />
+        </div>
       ))}
     </div>
   );

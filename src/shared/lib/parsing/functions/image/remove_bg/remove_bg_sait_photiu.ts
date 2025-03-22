@@ -18,7 +18,7 @@ export const removeBackgroundWithphotiu = async (imageBuffer: Buffer, page: Page
 
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://www.photiu.ai/background-remover");
+    await page.goto("https://www.photiu.ai/background-remover", { timeout: 60000, waitUntil: "load" });
     // console.log("Сайт открыт");
     await page.waitForTimeout(1000);
     await simulateMouseMovement(page);

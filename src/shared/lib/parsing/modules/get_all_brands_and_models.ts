@@ -5,9 +5,7 @@ import { checkModelsExisting } from "../db_seed/check_models_existing";
 import { getModelsByBrand } from "./get_models_by_brand";
 
 export const getAllBrandsAndModels = async (page: Page) => {
-  await page.goto("https://www.gsmarena.com/makers.php3", {
-    waitUntil: "domcontentloaded",
-  });
+  await page.goto("https://www.gsmarena.com/makers.php3", { timeout: 60000, waitUntil: "load" });
   const articles = await page.locator(".st-text > table > tbody > tr > td ").evaluateAll((el) => {
     return el
       .map((e) => ({
