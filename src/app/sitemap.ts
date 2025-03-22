@@ -39,8 +39,3 @@ export async function getSitemapData(): Promise<MetadataRoute.Sitemap> {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return await getSitemapData();
 }
-
-export const config = {
-  runtime: "edge",
-  revalidate: 6 * 60 * 60,
-};
