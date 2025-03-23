@@ -5,50 +5,46 @@ import { removeBackgroundWithphotiu } from "./remove_bg_sait_photiu";
 import { Page } from "playwright";
 import { resetPageData } from "../../resetPageData";
 
+// Тип для функций удаления фона
+type BackgroundRemover = {
+  name: string;
+  func: (imageBuffer: Buffer, page: Page) => Promise<Buffer>;
+};
+
 export const removeImageBackgroundWithRetry = async (
   imageBuffer: Buffer,
   page: Page,
-  maxRetries: number = 5,
+  maxRetriesPerService: number = 5,
 ): Promise<Buffer> => {
-  let attempts = 0;
+  // Список обработчиков в порядке приоритета
+  const removers: BackgroundRemover[] = [
+    { name: "Photiu", func: removeBackgroundWithphotiu },
+    { name: "ILoveImage", func: removeBgImageILoveImage },
+    { name: "Carve", func: removeBackgroundWithCarve },
+  ];
 
-  while (attempts < maxRetries) {
-    try {
-      // Попытка удалить фон через Photiu
-      return await removeBackgroundWithphotiu(imageBuffer, page);
-    } catch (errorILoveImage) {
-      console.log(
-        `Ошибка при удалении фона с помощью removeBackgroundWithphotiu (попытка ${attempts + 1}):`,
-        errorILoveImage,
-      );
+  for (const remover of removers) {
+    let attempts = 0;
+
+    while (attempts < maxRetriesPerService) {
       try {
-        return await removeBgImageILoveImage(imageBuffer, page);
-      } catch (errorPhotiu) {
-        console.log(
-          `Ошибка при удалении фона с помощью removeBgImageILoveImage (попытка ${attempts + 1}):`,
-          errorPhotiu,
-        );
+        const result = await remover.func(imageBuffer, page);
+        return result;
+      } catch (error) {
+        attempts++;
+        console.log(`[${remover.name}] Попытка ${attempts}/${maxRetriesPerService} неудачна:`, error);
 
-        try {
-          // Попытка удалить фон через Carve
-          return await removeBackgroundWithCarve(imageBuffer, page);
-        } catch (errorCarve) {
-          console.log(
-            `Ошибка при удалении фона с помощью removeBackgroundWithCarve (попытка ${attempts + 1}):`,
-            errorCarve,
-          );
+        if (attempts < maxRetriesPerService) {
+          console.log("Перезапуск Tor и повторная попытка...");
+          await restartTor();
+          await resetPageData(page);
         }
       }
     }
 
-    attempts++;
-    if (attempts < maxRetries) {
-      console.log("Перезапуск Tor и повторная попытка...");
-      await restartTor();
-      await resetPageData(page);
-    }
+    console.log(`[${remover.name}] Все попытки исчерпаны`);
   }
 
-  console.log("Не удалось удалить фон после максимального количества попыток.");
+  console.log("Все сервисы не смогли обработать изображение");
   return imageBuffer;
 };
