@@ -1,17 +1,19 @@
-import { Card, CardContent } from "@/shared/components";
+import { Card, CardContent, Skeleton } from "@/shared/components";
 import Image from "next/image";
 import Link from "next/link";
 
-interface NewsCardProps {
+export function MiniNewsCard({
+  slug,
+  title,
+  previewImage,
+}: {
   title: string;
   previewImage: string | null;
   slug: string;
-}
-
-export function MiniNewsCard({ slug, title, previewImage }: NewsCardProps) {
+}) {
   return (
     <Link href={`/news/${slug}`} className="w-full hover:scale-95 transition-all duration-300">
-      <Card className="w-[140px] flex-shrink-0">
+      <Card className="w-[140px] flex-shrink-0 ">
         <CardContent className="p-0 image-safe relative">
           <div className="aspect-[2/1.4] relative ">
             <Image
@@ -26,5 +28,17 @@ export function MiniNewsCard({ slug, title, previewImage }: NewsCardProps) {
         </CardContent>
       </Card>
     </Link>
+  );
+}
+export function SceletonMiniNewsCard() {
+  return (
+    <Card className="w-[140px] flex-shrink-0 justify-center items-center">
+      <CardContent className="p-0 w-full flex flex-col items-center justify-center">
+        <Skeleton className="w-full h-28 mb-3" />
+        <Skeleton className="w-32 h-2 mb-1" />
+        <Skeleton className="w-32 h-2 mb-1" />
+        <Skeleton className="w-32 h-2 mb-3" />
+      </CardContent>
+    </Card>
   );
 }

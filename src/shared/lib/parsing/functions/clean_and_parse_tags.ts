@@ -9,6 +9,7 @@ export function cleanAndParseTags(inputString: string): string[] {
     // Заменяем одинарные кавычки на двойные и убираем лишние пробелы
     cleanedString = cleanedString.replace(/,\s*/g, ",").replace(/'/g, '"');
 
+    cleanedString = cleanedString.replace(/андроид/gi, "android");
     // Разделяем строку по запятым и пробелам, очищаем теги
     let tagArray = cleanedString
       .split(/[,]+/) // Разделяем по запятым

@@ -3,6 +3,8 @@ import { Browser, Page } from "playwright";
 export const addHTTPheaders = async (browser: Browser, isTest: boolean = false): Promise<Page[]> => {
   try {
     const context = await browser.newContext({
+      bypassCSP: true,
+      javaScriptEnabled: true,
       viewport: {
         width: 1280 + Math.floor(Math.random() * 200),
         height: 720 + Math.floor(Math.random() * 200),
