@@ -14,7 +14,11 @@ export async function resetPageData(page: Page) {
       } catch (error) {
         console.log("Нет доступа к localStorage", error);
       }
-      sessionStorage.clear();
+      try {
+        sessionStorage.clear();
+      } catch (error) {
+        console.log("Нет доступа к sessionStorage", error);
+      }
     });
 
     // 3. Очистить IndexedDB и Cache Storage

@@ -21,6 +21,7 @@ export default async function Home() {
           <Button variant="outline">Все новости</Button>
         </Link>
       </div>
+
       <LatestNews count={20} />
     </main>
   );
