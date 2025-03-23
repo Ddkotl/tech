@@ -19,7 +19,7 @@ export const removeWattermarkDewatermarck = async (
 
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://dewatermark.ai/", { timeout: 60000, waitUntil: "load" });
+    await page.goto("https://dewatermark.ai/", { timeout: 60000, waitUntil: "domcontentloaded" });
     // console.log("Сайт открыт");
 
     // Нажимаем на кнопку согласия (если она есть)

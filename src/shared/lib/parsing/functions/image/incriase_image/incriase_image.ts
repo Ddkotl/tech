@@ -1,6 +1,7 @@
 import { restartTor } from "@/shared/lib/tor";
 import { incriaseImageILoveImage } from "./incriase_image_iloveimg";
 import { Page } from "playwright";
+import { resetPageData } from "../../resetPageData";
 
 export const incriaseImageWithRetry = async (
   imageBuffer: Buffer,
@@ -19,6 +20,7 @@ export const incriaseImageWithRetry = async (
       if (attempts < maxRetries) {
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
+        await resetPageData(page);
       } else {
         console.log("Не удалось увеличить изображение после максимального количества попыток");
       }

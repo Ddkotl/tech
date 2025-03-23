@@ -15,7 +15,7 @@ export const removeBgImageILoveImage = async (imageBuffer: Buffer, page: Page): 
 
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://www.iloveimg.com/remove-background", { timeout: 60000, waitUntil: "load" });
+    await page.goto("https://www.iloveimg.com/remove-background", { timeout: 60000, waitUntil: "domcontentloaded" });
     // console.log("Сайт открыт");
 
     // Нажимаем на кнопку согласия (если она есть)

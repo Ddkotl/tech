@@ -3,6 +3,7 @@ import { removeBgImageILoveImage } from "./remove_bg_iloveimg";
 import { removeBackgroundWithCarve } from "./remove_bg_sait_cave";
 import { removeBackgroundWithphotiu } from "./remove_bg_sait_photiu";
 import { Page } from "playwright";
+import { resetPageData } from "../../resetPageData";
 
 export const removeImageBackgroundWithRetry = async (
   imageBuffer: Buffer,
@@ -44,6 +45,7 @@ export const removeImageBackgroundWithRetry = async (
     if (attempts < maxRetries) {
       console.log("Перезапуск Tor и повторная попытка...");
       await restartTor();
+      await resetPageData(page);
     }
   }
 

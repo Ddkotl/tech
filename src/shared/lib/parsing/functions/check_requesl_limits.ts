@@ -2,7 +2,7 @@ import { Page } from "playwright";
 import { restartTor } from "../../tor";
 
 export async function checkRequestLimits(page: Page): Promise<void> {
-  const MAX_RETRIES = 10;
+  const MAX_RETRIES = 20;
   const ERROR_TEXT = "text=Too Many Requests";
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {

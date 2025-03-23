@@ -1,4 +1,5 @@
 import { Page } from "playwright";
+import { checkRequestLimits } from "../functions/check_requesl_limits";
 
 export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
   const allModelsUrl = [];
@@ -6,8 +7,13 @@ export const getModelsUrlByBrand = async (brandUrl: string, page: Page) => {
 
   while (currentPage) {
     // Переход на текущую страницу
-    await page.goto(currentPage, { timeout: 60000, waitUntil: "load" });
-
+    await page.goto(currentPage, { timeout: 60000, waitUntil: "domcontentloaded" });
+    try {
+      await page.waitForSelector(".makers", { state: "visible", timeout: 60000 });
+    } catch (error) {
+      console.log(error);
+      await checkRequestLimits(page);
+    }
     // Локатор для всех моделей на странице
     const allModelsSinglePage = await page.locator(".makers > ul > li > a").evaluateAll((elements) =>
       elements.map((e) => ({
