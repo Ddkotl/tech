@@ -55,13 +55,11 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
       }
       const content: string[] = await page.locator(".review-body p").allTextContents();
       const contentResponse: string = content.join(" ");
-      console.log(contentResponse);
       const tags = await page
         .locator(".article-tags .float-right a")
         .evaluateAll((tags) =>
           tags.map((tag) => tag.textContent?.trim().toLowerCase()).filter((tag) => tag !== undefined),
         );
-      console.log(tags);
       if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
         continue;
       }
@@ -75,7 +73,6 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
       imagesSrc = imagesSrc.concat(imgGalery);
 
       const translatedContent = await safeTranslate(contentResponse, translateAndUnicText);
-      console.log(translatedContent);
       const metaTitle = await safeTranslate(translatedTitle, GenerateMetaTitle);
       const metaDescription = await safeTranslate(translatedContent, GenerateMetaDescription);
       const translatedTags = await safeTranslate(tags.join(","), translateTags);
@@ -91,7 +88,6 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
           console.log("Ошибка при парсинге tags", e);
         }
       })();
-      console.log(parsedTags);
       // Сохранение превью и всех картинок
       const previewPath = article.previewImageUrl
         ? await downloadImageForS3(article.previewImageUrl, slug, "news_preview", {
