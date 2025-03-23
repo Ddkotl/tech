@@ -9,7 +9,11 @@ export async function resetPageData(page: Page) {
 
     // 2. Очистить LocalStorage и SessionStorage
     await page.evaluate(() => {
-      localStorage.clear();
+      try {
+        localStorage.clear();
+      } catch (error) {
+        console.log("Нет доступа к localStorage", error);
+      }
       sessionStorage.clear();
     });
 
