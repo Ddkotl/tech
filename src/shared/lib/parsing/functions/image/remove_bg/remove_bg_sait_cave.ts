@@ -17,7 +17,7 @@ export const removeBackgroundWithCarve = async (imageBuffer: Buffer, page: Page)
 
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://carve.photos/", { timeout: 60000, waitUntil: "load" });
+    await page.goto("https://carve.photos/", { timeout: 60000, waitUntil: "domcontentloaded" });
     // console.log("Сайт открыт");
     await page.waitForTimeout(1000);
 

@@ -1,6 +1,7 @@
 import { restartTor } from "@/shared/lib/tor";
 import { compressImageILoveImage } from "./compress_image_iloveimg";
 import { Page } from "playwright";
+import { resetPageData } from "../../resetPageData";
 
 export const сompressImageWithRetry = async (
   imageBuffer: Buffer,
@@ -19,6 +20,7 @@ export const сompressImageWithRetry = async (
       if (attempts < maxRetries) {
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
+        await resetPageData(page);
       } else {
         console.log("Не удалось сжать изображение после максимального количества попыток");
       }

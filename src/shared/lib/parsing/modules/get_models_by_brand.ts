@@ -18,10 +18,16 @@ export const getModelsByBrand = async (
   }[],
   brandName: string,
   page: Page,
+  pageToImages: Page,
 ) => {
   for (const model of modelNotExist) {
-    await page.goto(`https://www.gsmarena.com/${model.url}`, { timeout: 60000, waitUntil: "load" });
-    await checkRequestLimits(page);
+    await page.goto(`https://www.gsmarena.com/${model.url}`, { timeout: 60000, waitUntil: "domcontentloaded" });
+    try {
+      await page.waitForSelector(".specs-phone-name-title", { state: "visible", timeout: 60000 });
+    } catch (error) {
+      console.log(error);
+      await checkRequestLimits(page);
+    }
     const shortName = model.model;
     const fullName = await page.locator(".specs-phone-name-title").innerText();
 
@@ -70,7 +76,7 @@ export const getModelsByBrand = async (
 
     const modelImgPath = imgUrl
       ? await downloadImageForS3(imgUrl, slug, "models_preview", {
-          page: page,
+          page: pageToImages,
           convert_to_png: true,
           incriase: true,
           proxy_tor: true,
@@ -87,14 +93,20 @@ export const getModelsByBrand = async (
         .getAttribute("href");
 
       if (imagesPageUrl) {
-        await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`, { timeout: 60000, waitUntil: "load" });
+        await page.goto(`https://www.gsmarena.com/${imagesPageUrl}`, { timeout: 60000, waitUntil: "domcontentloaded" });
+        try {
+          await page.waitForSelector("#pictures-list", { state: "visible", timeout: 60000 });
+        } catch (error) {
+          console.log(error);
+          await checkRequestLimits(page);
+        }
         const imagesSrc = await page
           .locator("#pictures-list > img")
           .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("src")).filter((e) => e !== null));
         for (const imgSrc of imagesSrc) {
           if (imgSrc) {
             const savedPath = await downloadImageForS3(imgSrc, slug, "models_all", {
-              page: page,
+              page: pageToImages,
               convert_to_png: true,
               incriase: false,
               proxy_tor: true,

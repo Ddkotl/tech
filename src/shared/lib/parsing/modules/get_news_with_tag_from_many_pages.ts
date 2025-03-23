@@ -15,12 +15,19 @@ import { safeTranslate } from "../functions/safe_translate";
 import { getImagesFromPageGallery } from "./get_images_from_page_galery";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
 
-export const parseNewsFromManyPages = async (page: Page, n: number) => {
+export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
     console.log(`Parsing news from page ${i}`);
 
-    await page.goto(`https://www.gsmarena.com/news.php3?iPage=${i}`, { timeout: 60000, waitUntil: "load" });
-    await checkRequestLimits(page);
+    await page.goto(`https://www.gsmarena.com/news.php3?iPage=${i}`, { timeout: 60000, waitUntil: "domcontentloaded" });
+
+    try {
+      await page.waitForSelector(".news-item", { state: "visible", timeout: 60000 });
+    } catch (error) {
+      console.log(error);
+      await checkRequestLimits(page);
+    }
+
     const articles = await page.locator(".news-item").evaluateAll((elements) =>
       elements.map((el) => ({
         titleForImg: el.querySelector("a > h3")?.textContent?.trim(),
@@ -39,14 +46,22 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
         continue;
       }
       const generatedDate = generateDataForPost(article.data);
-      await page.goto(`https://www.gsmarena.com/${article.link}`, { timeout: 60000, waitUntil: "load" });
+      await page.goto(`https://www.gsmarena.com/${article.link}`, { timeout: 60000, waitUntil: "domcontentloaded" });
+      try {
+        await page.waitForSelector(".review-body", { state: "visible", timeout: 60000 });
+      } catch (error) {
+        console.log(error);
+        await checkRequestLimits(page);
+      }
       const content: string[] = await page.locator(".review-body p").allTextContents();
       const contentResponse: string = content.join(" ");
+      console.log(contentResponse);
       const tags = await page
         .locator(".article-tags .float-right a")
         .evaluateAll((tags) =>
           tags.map((tag) => tag.textContent?.trim().toLowerCase()).filter((tag) => tag !== undefined),
         );
+      console.log(tags);
       if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
         continue;
       }
@@ -60,6 +75,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       imagesSrc = imagesSrc.concat(imgGalery);
 
       const translatedContent = await safeTranslate(contentResponse, translateAndUnicText);
+      console.log(translatedContent);
       const metaTitle = await safeTranslate(translatedTitle, GenerateMetaTitle);
       const metaDescription = await safeTranslate(translatedContent, GenerateMetaDescription);
       const translatedTags = await safeTranslate(tags.join(","), translateTags);
@@ -75,10 +91,11 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
           console.log("Ошибка при парсинге tags", e);
         }
       })();
+      console.log(parsedTags);
       // Сохранение превью и всех картинок
       const previewPath = article.previewImageUrl
         ? await downloadImageForS3(article.previewImageUrl, slug, "news_preview", {
-            page: page,
+            page: pageToImages,
             convert_to_png: false,
             incriase: true,
             proxy_tor: true,
@@ -91,7 +108,7 @@ export const parseNewsFromManyPages = async (page: Page, n: number) => {
       for (const imgSrc of imagesSrc) {
         if (imgSrc) {
           const savedPath = await downloadImageForS3(imgSrc, slug, "news", {
-            page: page,
+            page: pageToImages,
             convert_to_png: false,
             incriase: false,
             proxy_tor: true,

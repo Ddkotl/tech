@@ -13,12 +13,12 @@ export async function StartParse() {
 
     // const context = await browser.newContext();
     // const page = await context.newPage();
-    const page = await addHTTPheaders(browser, true);
+    const [page, pageToImages] = await addHTTPheaders(browser, false);
     await restartTor();
 
-    await parseNewsFromManyPages(page, 2);
-    await getAllBrandsAndModels(page);
-    await parseReviewsFromManyPages(page, 2);
+    await parseNewsFromManyPages(page, pageToImages, 2);
+    await getAllBrandsAndModels(page, pageToImages);
+    await parseReviewsFromManyPages(page, pageToImages, 2);
   } catch (error) {
     console.log("Error in StartParse", error);
   } finally {

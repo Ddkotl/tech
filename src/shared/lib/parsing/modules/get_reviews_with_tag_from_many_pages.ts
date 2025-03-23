@@ -14,11 +14,19 @@ import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
 
-export const parseReviewsFromManyPages = async (page: Page, n: number) => {
+export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, n: number) => {
   for (let i = n; 0 < i; i--) {
     console.log(`Parsing reviews from page ${i}`);
-    await page.goto(`https://www.gsmarena.com/reviews.php3?iPage=${i}`, { timeout: 60000, waitUntil: "load" });
-    await checkRequestLimits(page);
+    await page.goto(`https://www.gsmarena.com/reviews.php3?iPage=${i}`, {
+      timeout: 60000,
+      waitUntil: "domcontentloaded",
+    });
+    try {
+      await page.waitForSelector(".review-item", { state: "visible", timeout: 60000 });
+    } catch (error) {
+      console.log(error);
+      await checkRequestLimits(page);
+    }
     const articles = await page.locator(".review-item").evaluateAll((elements) =>
       elements.map((el) => ({
         titleForImg: el.querySelector(".review-item-content > h3")?.textContent?.trim(),
@@ -53,7 +61,13 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       let currentUrl: string | null = `https://www.gsmarena.com/${article.link}`;
       // Обработка всех страниц обзора
       while (currentUrl) {
-        await page.goto(currentUrl, { timeout: 60000, waitUntil: "load" });
+        await page.goto(currentUrl, { timeout: 60000, waitUntil: "domcontentloaded" });
+        try {
+          await page.waitForSelector(".review-body", { state: "visible", timeout: 60000 });
+        } catch (error) {
+          console.log(error);
+          await checkRequestLimits(page);
+        }
         if (!mobileModelName) {
           const shortName: string | null = await page
             .locator('li[class="article-info-meta-link meta-link-specs"]')
@@ -112,7 +126,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       // Сохранение превью изображения
       const previewPath: string | null = article.previewImageUrl
         ? await downloadImageForS3(article.previewImageUrl, slug, "reviews_preview", {
-            page: page,
+            page: pageToImages,
             convert_to_png: false,
             incriase: true,
             proxy_tor: true,
@@ -126,7 +140,7 @@ export const parseReviewsFromManyPages = async (page: Page, n: number) => {
       for (const imgSrc of allImages) {
         if (imgSrc) {
           const savedPath = await downloadImageForS3(imgSrc, slug, "reviews", {
-            page: page,
+            page: pageToImages,
             convert_to_png: false,
             incriase: false,
             proxy_tor: true,

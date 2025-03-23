@@ -1,6 +1,7 @@
 import { restartTor } from "@/shared/lib/tor";
 import { removeWattermarkDewatermarck } from "./remove_watter_mark_dewatermarc";
 import { Page } from "playwright";
+import { resetPageData } from "../../resetPageData";
 
 export const removeWattermarkWithRetry = async (
   imageBuffer: Buffer,
@@ -20,6 +21,7 @@ export const removeWattermarkWithRetry = async (
       if (attempts < maxRetries) {
         console.log("Перезапуск Tor и повторная попытка...");
         await restartTor();
+        await resetPageData(page);
       } else {
         console.log("Не удалось удалить вотермарку после максимального количества попыток");
       }

@@ -15,7 +15,7 @@ export const incriaseImageILoveImage = async (imageBuffer: Buffer, page: Page): 
     await simulateMouseMovement(page);
     // Открываем сайт
     // console.log("Открываем сайт...");
-    await page.goto("https://www.iloveimg.com/upscale-image", { timeout: 60000, waitUntil: "load" });
+    await page.goto("https://www.iloveimg.com/upscale-image", { timeout: 60000, waitUntil: "domcontentloaded" });
     // console.log("Сайт открыт");
 
     // Нажимаем на кнопку согласия (если она есть)
