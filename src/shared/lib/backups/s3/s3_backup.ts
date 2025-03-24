@@ -30,14 +30,16 @@ export const createMinioBackup = () => {
 
     // Копируем файлы из MinIO на хост
     execSync(
-      `docker exec ${MINIO_CONTAINER} mc alias set myminio http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
-       docker exec ${MINIO_CONTAINER} mc cp --recursive myminio/${S3_IMAGES_BUCKET} /tmp/minio_backup > /dev/null &&
-       docker cp ${MINIO_CONTAINER}:/tmp/minio_backup ${backupFolder} > /dev/null`,
+      `nice -n 19 ionice -c 3  docker exec ${MINIO_CONTAINER} mc alias set myminio http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
+       nice -n 19 ionice -c 3  docker exec ${MINIO_CONTAINER} mc cp --recursive myminio/${S3_IMAGES_BUCKET} /tmp/minio_backup > /dev/null &&
+       nice -n 19 ionice -c 3 docker cp ${MINIO_CONTAINER}:/tmp/minio_backup ${backupFolder} > /dev/null`,
       { stdio: "inherit" },
     );
 
     // Архивируем на хосте
-    execSync(`tar -cjf ${backupFolder}.tar.bz2 -C ${BACKUP_DIR} minio_backup_tech_${date}`, { stdio: "inherit" });
+    execSync(` nice -n 19 ionice -c 3 tar -cjf ${backupFolder}.tar.bz2 -C ${BACKUP_DIR} minio_backup_tech_${date}`, {
+      stdio: "inherit",
+    });
 
     // Удаляем временную папку
     fs.rmSync(backupFolder, { recursive: true, force: true });

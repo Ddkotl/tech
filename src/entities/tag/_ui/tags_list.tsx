@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getAllTagsWithPagination } from "../_actions/get_all_tags_with_pagination";
 
 export function TagsList() {
-  const perPage = 10;
+  const perPage = 100;
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [observer, setObserver] = useState<IntersectionObserver | null>(null);
