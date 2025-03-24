@@ -73,7 +73,7 @@ export default async function NewsPage({ params }: { params: { slug: string } })
           )}
           <div className="prose" dangerouslySetInnerHTML={{ __html: news.content }} />
         </CardContent>
-        <CardFooter className="flex justify-between  p-2">
+        <CardFooter className="flex flex-col flex-1  p-2 gap-2 md:gap-4">
           <SimilarNews slug={params.slug} />
         </CardFooter>
       </Card>
