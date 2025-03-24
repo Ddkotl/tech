@@ -73,7 +73,7 @@ export function NewsSearch() {
               ) : filteredNews.length > 0 ? (
                 <NewsList news={filteredNews} />
               ) : (
-                <p className="text-center text-muted-foreground">Обзоры не найдены</p>
+                <p className="text-center text-muted-foreground">Ничего не найдено</p>
               )}
             </motion.div>
           </>

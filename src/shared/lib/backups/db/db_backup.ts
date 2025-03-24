@@ -24,7 +24,7 @@ export const createBackup = () => {
   try {
     console.log(`Создание бэкапа ${backupFile}...`);
     execSync(
-      `docker exec ${POSTGRES_CONTAINER} pg_dump -U ${POSTGRES_USER} -F c ${POSTGRES_DB} | bzip2 > ${backupFile}`,
+      `nice -n 19 ionice -c 3  docker exec ${POSTGRES_CONTAINER} pg_dump -U ${POSTGRES_USER} -F c ${POSTGRES_DB} | bzip2 > ${backupFile}`,
       { stdio: "inherit" },
     );
     console.log("✅ Бэкап успешно создан!");
