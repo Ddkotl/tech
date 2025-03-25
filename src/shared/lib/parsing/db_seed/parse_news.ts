@@ -65,6 +65,7 @@ export async function ParseNews(
   console.log(`Created news with title: ${createdNews.title}`);
   await delay(1000);
   if (privateConfig.NODE_ENV === "production") {
+    console.log("start parse to tg")
     await publishToTelegram({
       type: "news",
       slug: slug,
