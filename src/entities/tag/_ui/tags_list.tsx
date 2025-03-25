@@ -1,76 +1,46 @@
 "use client";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { TagCard } from "./tag_card";
-import { Card, CardContent, CardHeader, Skeleton } from "@/shared/components";
-import { useCallback, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getAllTagsWithPagination } from "../_actions/get_all_tags_with_pagination";
+import { useEffect } from "react";
+import { TagsWithCounts } from "../_domain/types";
+import { SkeletonTagCard, TagCard } from "./tag_card";
 
 export function TagsList() {
-  const perPage = 100;
-  const [page, setPage] = useState(1);
-  const [hasNextPage, setHasNextPage] = useState(true);
-  const [observer, setObserver] = useState<IntersectionObserver | null>(null);
+  const perPage = 20;
+  const { ref, inView } = useInView();
+
   const {
     data: tags,
-    error,
     isError,
     isLoading,
-    isFetching,
-  } = useQuery({
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ["tags"],
-    queryFn: () => getAllTagsWithPagination(page, perPage),
-    placeholderData: keepPreviousData,
+    queryFn: (pageParam) => getAllTagsWithPagination(pageParam.pageParam, perPage),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPage) => {
+      const nextPage = lastPage.length === perPage ? allPage.length + 1 : undefined;
+      return nextPage;
+    },
   });
   useEffect(() => {
-    if (tags && tags.length < perPage) {
-      setHasNextPage(false);
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }, [tags]);
-  // Функция для отслеживания прокрутки
-  const loadMore = useCallback(
-    (entry: IntersectionObserverEntry) => {
-      if (entry.isIntersecting && hasNextPage && !isFetching) {
-        setPage((prevPage) => prevPage + 1); // Увеличиваем номер страницы для подгрузки данных
-      }
-    },
-    [hasNextPage, isFetching],
-  );
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const newObserver = new IntersectionObserver(([entry]) => loadMore(entry), {
-        rootMargin: "200px", // Начинаем загружать данные, когда остается 200px до конца
-      });
-      setObserver(newObserver);
-    }
-  }, [loadMore]);
-
-  // Создаем реф для отслеживания элемента
-  const lastTagRef = (node: HTMLElement | null) => {
-    if (node && observer) {
-      observer.observe(node); // Начинаем отслеживать последний элемент
-    }
-  };
+  }, [inView, hasNextPage, fetchNextPage]);
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
-        {Array.from({ length: 24 }).map((_, i) => (
-          <Card
-            key={i}
-            className="p-0 h-24 flex flex-col justify-evenly shadow-md transition-all duration-300 hover:scale-95 hover:shadow-lg hover:bg-foreground/10 items-center"
-          >
-            <CardHeader className="p-1 flex items-center justify-center text-center">
-              <Skeleton className="w-24 h-4 rounded-md" />
-            </CardHeader>
-            <CardContent className="flex flex-col p-1 items-center justify-center gap-1">
-              <Skeleton className="w-24 h-3 rounded-md" />
-              <Skeleton className="w-20 h-3 rounded-md" />
-            </CardContent>
-          </Card>
+        {Array.from({ length: perPage }).map((_, i) => (
+          <SkeletonTagCard key={i} />
         ))}
       </div>
     );
@@ -78,16 +48,35 @@ export function TagsList() {
 
   return (
     <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
-      {tags?.map((tag, index) => (
-        <div ref={index === tags.length - 1 ? lastTagRef : null} key={tag.id}>
-          <TagCard
-            tagSlug={tag.slug}
-            tagTitle={tag.title}
-            newsCount={tag._count.news}
-            reviewsCount={tag._count.reviews}
-          />
-        </div>
-      ))}
+      {tags?.pages.map((tags: TagsWithCounts[]) => {
+        return tags.map((tag, index) => {
+          if (tags.length == index + 1) {
+            return (
+              <div key={tag.id}>
+                <TagCard
+                  tagSlug={tag.slug}
+                  tagTitle={tag.title}
+                  newsCount={tag._count.news}
+                  reviewsCount={tag._count.reviews}
+                  innerRef={ref}
+                />
+              </div>
+            );
+          } else {
+            return (
+              <div key={tag.id}>
+                <TagCard
+                  tagSlug={tag.slug}
+                  tagTitle={tag.title}
+                  newsCount={tag._count.news}
+                  reviewsCount={tag._count.reviews}
+                />
+              </div>
+            );
+          }
+        });
+      })}
+      {isFetchingNextPage && Array.from({ length: perPage }).map((_, i) => <SkeletonTagCard key={i} />)}
     </div>
   );
 }

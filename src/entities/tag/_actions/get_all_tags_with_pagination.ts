@@ -2,7 +2,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { TagsWithCounts } from "../_domain/types";
 
-export const getAllTagsWithPagination = async (page: number, perPage: number): Promise<TagsWithCounts[] | []> => {
+export const getAllTagsWithPagination = async (pageParam: number, perPage: number): Promise<TagsWithCounts[] | []> => {
   try {
     const tags = await dataBase.tag.findMany({
       orderBy: {
@@ -11,7 +11,7 @@ export const getAllTagsWithPagination = async (page: number, perPage: number): P
       include: {
         _count: { select: { news: true, reviews: true } },
       },
-      skip: (page - 1) * perPage,
+      skip: (pageParam - 1) * perPage,
       take: perPage,
     });
 
