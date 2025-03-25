@@ -25,7 +25,7 @@ export async function publishToTelegram({
     });
     // Генерируем временные URL для всех изображений
     const imageUrls = [previewImage, ...images].map((image) => {
-      return `${privateConfig.TEST_ENV_BASE_URL}${image}`;
+      return `https://tech24view.ru${image}`;
     });
 
     console.log(imageUrls);
