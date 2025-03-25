@@ -21,7 +21,7 @@ export function LatestNews({ count }: { count: number }) {
   if (isError) return <p>Ошибка загрузки новостей.</p>;
 
   return (
-    <section className="flex justify-center">
+    <section className="flex justify-center flex-shrink ">
       <div className="flex max-w-[80%] md:max-w-[400px] lg:max-w-[600px] xl:max-w-[750px] gap-2 lg:gap-4">
         <Carousel
           className="w-full"
