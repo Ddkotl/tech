@@ -2,7 +2,7 @@ import { DeleteNewsButton } from "@/entities/news";
 import { getSingleNewsBySlug } from "@/entities/news/_actons/get_news_by_slug";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
 import { SimilarNews } from "@/entities/news/_ui/similar-news";
-import { Card, CardContent, CardFooter, CardHeader, TimeAgo } from "@/shared/components";
+import { Card, CardContent, CardHeader, TimeAgo, Title } from "@/shared/components";
 import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -73,10 +73,11 @@ export default async function NewsPage({ params }: { params: { slug: string } })
           )}
           <div className="prose" dangerouslySetInnerHTML={{ __html: news.content }} />
         </CardContent>
-        <CardFooter className="flex flex-col flex-1  p-2 gap-2 md:gap-4">
-          <SimilarNews slug={params.slug} />
-        </CardFooter>
       </Card>
+      <div className="flex flex-row gap-4  justify-between items-center ">
+        <Title size="lg" text="Похожие новости" />
+      </div>
+      <SimilarNews slug={params.slug} />
     </main>
   );
 }

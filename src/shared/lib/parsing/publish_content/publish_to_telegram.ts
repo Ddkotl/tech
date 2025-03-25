@@ -30,7 +30,7 @@ export async function publishToTelegram({
 
     console.log(imageUrls);
     // Формируем текст поста
-    const postText = `<b>${ruTitle}</b>\n\n${meta_description}\n\n<a href="${privateConfig.TEST_ENV_BASE_URL}/${type}/${slug}">Читать полностью на сайте</a>\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
+    const postText = `<b>${ruTitle}</b>\n\n${meta_description}\n\n<a href="https://tech24view.ru/${type}/${slug}">Читать полностью на сайте</a>\n\n<a href="https://tech24view.ru">Новости, обзоры, характеристики</a>`;
 
     // Создаем медиагруппу
     const mediaGroup: InputMediaPhoto[] = imageUrls.map((url, index) => ({
@@ -45,6 +45,6 @@ export async function publishToTelegram({
     await bot.sendMediaGroup(privateConfig.TELEGRAM_CHANNEL_ID, mediaGroup);
     console.log("Пост успешно опубликован в Telegram!");
   } catch (error) {
-    console.error("Ошибка при публикации поста в Telegram:", error);
+    console.log("Ошибка при публикации поста в Telegram:", error);
   }
 }
