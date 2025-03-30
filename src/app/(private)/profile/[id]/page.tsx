@@ -1,7 +1,8 @@
 import { Separator } from "@/shared/components";
 import { UpdateProfileForm } from "@/features/update-profile/update-profile-form";
 
-export default function ProfilePage({ params }: { params: { id: string } }) {
+export default async function ProfilePage({ params }: { params: { id: string } }) {
+  const pageParams = await params;
   return (
     <main className="space-y-6 py-12 px-6 container  max-w-[600px]">
       <div>
@@ -9,7 +10,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         <p className="text-sm text-muted-foreground">Это как другие пользователи видят вас на сайте</p>
       </div>
       <Separator />
-      <UpdateProfileForm userId={params.id} />
+      <UpdateProfileForm userId={pageParams.id} />
     </main>
   );
 }
