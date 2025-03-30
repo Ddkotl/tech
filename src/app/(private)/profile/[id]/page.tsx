@@ -1,7 +1,7 @@
 import { Separator } from "@/shared/components";
 import { UpdateProfileForm } from "@/features/update-profile/update-profile-form";
 
-export default async function ProfilePage({ params }: { params: { id: string } }) {
+export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const pageParams = await params;
   return (
     <main className="space-y-6 py-12 px-6 container  max-w-[600px]">
