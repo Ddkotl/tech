@@ -5,7 +5,7 @@ import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Metadata } from "next";
 import { getTagBYSlug, TagsWithCounts } from "@/entities/tag";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
   const tag: TagsWithCounts | null = await getTagBYSlug(pageParams.slug);
   return generateSEOMetadata({
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   });
 }
 
-export default async function TagPage({ params }: { params: { slug: string } }) {
+export default async function TagPage({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
   const tag: TagsWithCounts | null = await getTagBYSlug(pageParams.slug);
   return (

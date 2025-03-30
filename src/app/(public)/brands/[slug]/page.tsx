@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { BrandWithModelsCount } from "@/entities/brands";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
   const brand: BrandWithModelsCount | null = await getBrandBySlug(pageParams.slug);
   const brandName = brand?.name.toUpperCase();
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   });
 }
 
-export default async function ModelsByBrandPage({ params }: { params: { slug: string } }) {
+export default async function ModelsByBrandPage({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
   const brand: BrandWithModelsCount | null = await getBrandBySlug(pageParams.slug);
 
