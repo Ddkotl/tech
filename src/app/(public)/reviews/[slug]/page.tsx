@@ -5,7 +5,7 @@ import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Card, CardContent, CardHeader, TimeAgo, Title } from "@/shared/components";
 import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-react";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
   const review: ReviewFullInfo | null = await getReviewsFullInfoBySlug(pageParams.slug);
   return generateSEOMetadata({
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   });
 }
 
-export default async function ReviewPage({ params }: { params: { slug: string } }) {
+export default async function ReviewPage({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
   const review: ReviewFullInfo | null = await getReviewsFullInfoBySlug(pageParams.slug);
   if (!review) {

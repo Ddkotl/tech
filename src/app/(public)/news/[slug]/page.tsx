@@ -7,7 +7,7 @@ import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-r
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
   const news = await getSingleNewsBySlug(pageParams.slug);
   if (!news) notFound();
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function NewsPage({ params }: { params: { slug: string } }) {
+export default async function NewsPage({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
   const news = await getSingleNewsBySlug(pageParams.slug);
   if (!news) {

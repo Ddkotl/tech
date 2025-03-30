@@ -7,7 +7,7 @@ import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { NextAndPrevModelButtons } from "@/entities/phone_models/_ui/prev_next_model_buttons";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
   const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(pageParams.slug);
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   });
 }
 
-export default async function PhoneModelPage({ params }: { params: { slug: string } }) {
+export default async function PhoneModelPage({ params }: { params: Promise<{ slug: string }> }) {
   const pageParams = await params;
   const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(pageParams.slug);
   if (!phone) {
