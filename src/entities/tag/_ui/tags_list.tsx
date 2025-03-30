@@ -2,17 +2,18 @@
 
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getAllTagsWithPagination } from "../_actions/get_all_tags_with_pagination";
+import { getAllTagsToInfinitiScroll } from "../_actions/get_all_tags_to_infinity_scroll";
 import { useEffect } from "react";
 import { TagsWithCounts } from "../_domain/types";
 import { SkeletonTagCard, TagCard } from "./tag_card";
+import { Title } from "@/shared/components";
 
-export function TagsList() {
-  const perPage = 20;
+export function TagsList({ tagSlug, searchTerm }: { tagSlug?: string; searchTerm?: string }) {
+  const perPage = 36;
   const { ref, inView } = useInView();
 
   const {
-    data: tags,
+    data: tagsP,
     isError,
     isLoading,
     error,
@@ -20,8 +21,8 @@ export function TagsList() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["tags"],
-    queryFn: (pageParam) => getAllTagsWithPagination(pageParam.pageParam, perPage),
+    queryKey: ["tags", tagSlug ? tagSlug : "", searchTerm ? searchTerm : ""],
+    queryFn: (pageParam) => getAllTagsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPage) => {
       const nextPage = lastPage.length === perPage ? allPage.length + 1 : undefined;
@@ -48,9 +49,9 @@ export function TagsList() {
 
   return (
     <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
-      {tags?.pages.map((tags: TagsWithCounts[]) => {
-        return tags.map((tag, index) => {
-          if (tags.length == index + 1) {
+      {tagsP?.pages.length && tagsP.pages.some((page) => page.length) ? (
+        tagsP?.pages.flatMap((tags: TagsWithCounts[]) => {
+          return tags.map((tag, index) => {
             return (
               <div key={tag.id}>
                 <TagCard
@@ -58,24 +59,15 @@ export function TagsList() {
                   tagTitle={tag.title}
                   newsCount={tag._count.news}
                   reviewsCount={tag._count.reviews}
-                  innerRef={ref}
+                  innerRef={tags.length === index + 1 ? ref : undefined}
                 />
               </div>
             );
-          } else {
-            return (
-              <div key={tag.id}>
-                <TagCard
-                  tagSlug={tag.slug}
-                  tagTitle={tag.title}
-                  newsCount={tag._count.news}
-                  reviewsCount={tag._count.reviews}
-                />
-              </div>
-            );
-          }
-        });
-      })}
+          });
+        })
+      ) : (
+        <Title size="md" text="Ничего не найдено" />
+      )}
       {isFetchingNextPage && Array.from({ length: perPage }).map((_, i) => <SkeletonTagCard key={i} />)}
     </div>
   );

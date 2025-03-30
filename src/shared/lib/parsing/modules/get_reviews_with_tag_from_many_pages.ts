@@ -44,17 +44,11 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
       if (article.title ? await IsReviewAlreadyParsed(article.title) : true) {
         continue;
       }
-      // Извлечение тегов
-      const tags: string[] = await page
-        .locator(".article-tags > .float-right >  a")
-        .evaluateAll((tags) =>
-          tags.map((tag) => tag.textContent?.trim().toLowerCase()).filter((el) => el !== undefined),
-        );
-      if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
-        continue;
-      }
+      await page.waitForSelector(".float-right a");
+
       const generatedDate: Date = generateDataForPost(article.data);
 
+      let tags: string[] = [];
       const contentPages: string[] = [];
       const allImages: string[] = [];
       let mobileModelName: string = "";
@@ -67,6 +61,15 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
         } catch (error) {
           console.log(error);
           await checkRequestLimits(page);
+        }
+        // Извлечение тегов
+        if (tags.length === 0) {
+          tags = await page.locator(".article-tags .float-right a").evaluateAll((tags) => {
+            return tags.map((tag) => tag.textContent?.trim().toLowerCase()).filter((tag) => tag !== undefined);
+          });
+        }
+        if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
+          continue;
         }
         if (!mobileModelName) {
           const shortName: string | null = await page
@@ -109,7 +112,6 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
       const translatedContent: string = await safeTranslate(contentPages.join(" "), translateAndUnicText);
       const metaTitle: string = await safeTranslate(translatedTitle, GenerateMetaTitle);
       const metaDescription: string = await safeTranslate(translatedContent, GenerateMetaDescription);
-
       const translatedTags = await safeTranslate(tags.join(","), translateTags);
       const generatedTags = await safeTranslate(translatedContent, generateTags);
       const parsedTags = (() => {

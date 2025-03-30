@@ -11,10 +11,11 @@ try {
   console.error("Invalid S3_ENDPOINT:", error);
   console.error("Falling back to default hostname:", s3Hostname);
 }
-
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   compress: true,
   productionBrowserSourceMaps: false,
   trailingSlash: false,

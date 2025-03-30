@@ -1,39 +1,51 @@
-"use client";
+import { Tabs, TabsContent, TabsList, TabsTrigger, Title } from "@/shared/components";
+import { ReviewsList } from "@/entities/reviews";
+import { NewsList } from "@/entities/news";
+import { generateSEOMetadata } from "@/features/seo/generate_metadata";
+import { Metadata } from "next";
+import { getTagBYSlug, TagsWithCounts } from "@/entities/tag";
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-
-async function fetchData(slug: string, type: string) {
-  const res = await fetch(`/api/tag/${slug}?type=${type}`);
-  if (!res.ok) throw new Error("Failed to fetch data");
-  return res.json();
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const pageParams = await params;
+  const tag: TagsWithCounts | null = await getTagBYSlug(pageParams.slug);
+  return generateSEOMetadata({
+    title: `Поиск по тэгу: ${tag?.title}`,
+    description: `Список новостей и обзоров по тэгу ${tag?.title}`,
+    keywords: [
+      "тэги",
+      "брэнды смартфонов",
+      "технологии",
+      "смартфоны",
+      "обзоры",
+      "новости",
+      "новости смартфонов",
+      "гаджеты",
+      "мобильные телефоны",
+      "инновации",
+    ],
+    ogImage: "/logo_opengraf.jpg",
+    canonical: `https://tech24view.ru/tags/${tag?.slug}`,
+  });
 }
 
-export default function TagPage({ params }: { params: { slug: string } }) {
-  const [activeTab, setActiveTab] = useState("news");
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["tagData", params.slug, activeTab],
-    queryFn: () => fetchData(params.slug, activeTab),
-    keepPreviousData: true, // Оставляет старые данные, пока грузятся новые
-  });
-
+export default async function TagPage({ params }: { params: { slug: string } }) {
+  const pageParams = await params;
+  const tag: TagsWithCounts | null = await getTagBYSlug(pageParams.slug);
   return (
-    <div>
-      <h1>Tag Page: {params.slug}</h1>
-      <Tabs defaultValue="news" className="w-[400px]" onValueChange={setActiveTab}>
+    <main className="flex flex-col flex-1    gap-2 md:gap-4">
+      <Title size="xl" text={`Все, найденное по тэгу: ${tag?.title}`} />
+      <Tabs defaultValue="news">
         <TabsList>
-          <TabsTrigger value="news">News</TabsTrigger>
-          <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          <TabsTrigger value="news">{`Новости (${tag?._count.news})`}</TabsTrigger>
+          <TabsTrigger value="reviews">{`Обзоры (${tag?._count.reviews})`}</TabsTrigger>
         </TabsList>
         <TabsContent value="news">
-          {isLoading ? "Loading..." : error ? "Error loading data" : data?.content}
+          <NewsList tagSlug={pageParams.slug} />
         </TabsContent>
         <TabsContent value="reviews">
-          {isLoading ? "Loading..." : error ? "Error loading data" : data?.content}
+          <ReviewsList tagSlug={pageParams.slug} />
         </TabsContent>
       </Tabs>
-    </div>
+    </main>
   );
 }

@@ -14,7 +14,7 @@ export function LatestNews({ count }: { count: number }) {
     isError,
   } = useQuery({
     queryKey: ["latestNews", count],
-    queryFn: () => getLatestNews(count),
+    queryFn: () => getLatestNews({ count: count }),
     staleTime: 1000 * 60 * 5, // Данные актуальны 5 минут
   });
 

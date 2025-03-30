@@ -1,47 +1,34 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/shared/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
-import { PartialPhoneModel } from "../_domain/types";
-import { searchPhoneModel } from "../_actions/search_phone_model";
+import { Title, useDebounce } from "@/shared/components";
 import { PhoneModelsList } from "./phone_model_list";
 
 export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredPhoneModels, setFilteredPhoneModels] = useState<PartialPhoneModel[] | []>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, startTransition] = useTransition();
-
+  const debouncedSearchTerm = useDebounce<string>(searchTerm, 700);
   useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredPhoneModels([]);
+    if (!debouncedSearchTerm.trim()) {
       setIsOpen(false);
       return;
+    } else {
+      setIsOpen(true);
     }
-
-    // Дебаунс запросов
-    const timeout = setTimeout(() => {
-      startTransition(async () => {
-        setIsOpen(true); // Открываем модалку сразу, чтобы показать "Загрузка..."
-        const results = await searchPhoneModel(brandSlug, searchTerm);
-        setFilteredPhoneModels(results);
-      });
-    }, 700);
-
-    return () => clearTimeout(timeout);
-  }, [searchTerm, brandSlug]);
+  }, [debouncedSearchTerm]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full max-w-[350px] xs1:max-w-[800px]">
       {/* Поле ввода */}
       <Input
         type="text"
         name="search"
-        placeholder="🔍 Поиск модели текущего брэнда..."
+        placeholder="🔍 Поиск обзора по названию..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full max-w-lg text-center mx-auto md:ml-auto md:mr-0"
+        className="w-full max-w-lg text-center mx-auto md:ml-auto md:mr-0 "
       />
 
       {/* Затемнение фона при открытой модалке */}
@@ -54,7 +41,7 @@ export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-foreground/50 z-10"
+              className="fixed inset-0 bg-foreground/50 z-[60]"
               onClick={() => setIsOpen(false)}
             />
 
@@ -64,17 +51,10 @@ export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              className="absolute  top-full mt-2 w-full max-w-md -translate-x-1/2 rounded-lg border p-4 shadow-lg bg-background border-foreground/20 z-20"
+              className="absolute  top-full mt-2 min-w-[70vw] max-w-[90vw] -translate-x-1/2 left-0 md:-left-full rounded-lg border p-4 shadow-lg bg-background border-foreground/20 z-[70]"
             >
-              <h2 className="text-center text-lg font-semibold text-muted-foreground mb-2">Результаты поиска</h2>
-
-              {loading ? (
-                <p className="text-center text-muted-foreground">Загрузка...</p>
-              ) : filteredPhoneModels.length > 0 ? (
-                <PhoneModelsList models={filteredPhoneModels} />
-              ) : (
-                <p className="text-center text-muted-foreground">Бренды не найдены</p>
-              )}
+              <Title size="lg" text="Результаты поиска:" className="mb-2" />
+              <PhoneModelsList brandSlug={brandSlug} searchTerm={debouncedSearchTerm} />
             </motion.div>
           </>
         )}
