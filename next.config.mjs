@@ -33,7 +33,7 @@ const nextConfig = {
   },
 
   rewrites: async () => [{ source: "/storage/:path*", destination: `${s3Endpoint}/:path*` }],
-  staticPageGenerationTimeout: 120,
+  staticPageGenerationTimeout: 240,
   headers: async () => [
     {
       source: "/(.*)",
