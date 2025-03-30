@@ -16,9 +16,9 @@ export async function StartParse() {
     const [page, pageToImages] = await addHTTPheaders(browser, false);
     await restartTor();
 
-    await parseNewsFromManyPages(page, pageToImages, 2);
+    await parseReviewsFromManyPages(page, pageToImages, 1);
+    await parseNewsFromManyPages(page, pageToImages, 1);
     await getAllBrandsAndModels(page, pageToImages);
-    await parseReviewsFromManyPages(page, pageToImages, 2);
   } catch (error) {
     console.log("Error in StartParse", error);
   } finally {

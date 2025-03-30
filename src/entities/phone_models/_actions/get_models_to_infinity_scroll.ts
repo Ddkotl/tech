@@ -2,14 +2,15 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialPhoneModel } from "../_domain/types";
 
-export const getPhoneModelsListWithPaginaton = async (
-  slug: string,
-  page: number,
-  pageSize: number,
+export const getPhoneModelsListToInfinityScroll = async (
+  brandSlug: string,
+  pageParam: number,
+  perPage: number,
+  searchTerm?: string,
 ): Promise<PartialPhoneModel[] | []> => {
   try {
     const models = dataBase.phoneModels.findMany({
-      where: { brand: { slug: slug } },
+      where: { brand: { slug: brandSlug }, full_name: { contains: searchTerm, mode: "insensitive" } },
       orderBy: {
         createdAt: "desc",
       },
@@ -21,8 +22,8 @@ export const getPhoneModelsListWithPaginaton = async (
         slug: true,
       },
 
-      skip: (page - 1) * pageSize,
-      take: pageSize,
+      skip: (pageParam - 1) * perPage,
+      take: perPage,
     });
 
     return models;

@@ -2,9 +2,16 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { TagsWithCounts } from "../_domain/types";
 
-export const getAllTagsWithPagination = async (pageParam: number, perPage: number): Promise<TagsWithCounts[] | []> => {
+export const getAllTagsToInfinitiScroll = async (
+  pageParam: number,
+  perPage: number,
+  searchTerm?: string,
+): Promise<TagsWithCounts[] | []> => {
   try {
     const tags = await dataBase.tag.findMany({
+      where: {
+        title: { contains: searchTerm, mode: "insensitive" },
+      },
       orderBy: {
         title: "asc",
       },

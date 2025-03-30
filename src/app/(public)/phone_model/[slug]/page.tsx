@@ -8,7 +8,8 @@ import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { NextAndPrevModelButtons } from "@/entities/phone_models/_ui/prev_next_model_buttons";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(params.slug);
+  const pageParams = await params;
+  const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(pageParams.slug);
 
   return generateSEOMetadata({
     title: phone?.full_name ? phone?.full_name : "",
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function PhoneModelPage({ params }: { params: { slug: string } }) {
-  const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(params.slug);
+  const pageParams = await params;
+  const phone: PhoneModeLFullInfo | null = await getPhoneModelInfo(pageParams.slug);
   if (!phone) {
     return <div className="text-center py-10 text-foreground">Не удалось получить информацию о модели</div>;
   }
@@ -54,7 +56,7 @@ export default async function PhoneModelPage({ params }: { params: { slug: strin
             : "Описание отсутствует"}
         </div>
       </div>
-      <NextAndPrevModelButtons currentModelSlug={params.slug} brandId={phone.brandId} />
+      <NextAndPrevModelButtons currentModelSlug={pageParams.slug} brandId={phone.brandId} />
     </main>
   );
 }

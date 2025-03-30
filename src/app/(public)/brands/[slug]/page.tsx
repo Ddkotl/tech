@@ -1,34 +1,16 @@
 import { getBrandBySlug } from "@/entities/brands/_actions/get_brand_by_slug";
-import {
-  getPhoneModelsListWithPaginaton,
-  PartialPhoneModel,
-  PhoneModelSearch,
-  PhoneModelsList,
-} from "@/entities/phone_models";
+import { PhoneModelSearch, PhoneModelsList } from "@/entities/phone_models";
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
-import { PaginationControl } from "@/shared/components/custom/pagination-control";
 import { BrandWithModelsCount } from "@/entities/brands";
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { page?: string };
-}): Promise<Metadata> {
-  const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const pageParams = await params;
+  const brand: BrandWithModelsCount | null = await getBrandBySlug(pageParams.slug);
   const brandName = brand?.name.toUpperCase();
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageTitle = page > 1 ? `Модели ${brandName} - Страница ${page}` : `Модели ${brandName}`;
-  const pageDescription =
-    page > 1
-      ? `Страница ${page} списка всех доступных моделей ${brandName}`
-      : `Список всех доступных моделей ${brandName}`;
-  const canonicalUrl =
-    page > 1
-      ? `https://tech24view.ru/brands/${params.slug}?page=${page}`
-      : "https://tech24view.ru/brands/${params.slug}";
+  const pageTitle = `Модели ${brandName}`;
+  const pageDescription = `Список всех доступных моделей ${brandName}`;
+  const canonicalUrl = `https://tech24view.ru/brands/${pageParams.slug}`;
 
   return generateSEOMetadata({
     title: pageTitle,
@@ -53,22 +35,13 @@ export async function generateMetadata({
   });
 }
 
-export default async function ModelsByBrandPage({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { page?: string };
-}) {
-  const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageSize = 35;
-  const brand: BrandWithModelsCount | null = await getBrandBySlug(params.slug);
-  const models: PartialPhoneModel[] | [] = await getPhoneModelsListWithPaginaton(params.slug, page, pageSize);
+export default async function ModelsByBrandPage({ params }: { params: { slug: string } }) {
+  const pageParams = await params;
+  const brand: BrandWithModelsCount | null = await getBrandBySlug(pageParams.slug);
 
   if (!brand) {
     return <div className="text-center text-foreground text-xl mt-10">Бренд не найден</div>;
   }
-  const totalPages = Math.ceil(brand._count.phones / pageSize);
   return (
     <main className="flex flex-col flex-1   gap-2 md:gap-4">
       <div className="flex gap-2 lg:gap-4 flex-col">
@@ -76,19 +49,11 @@ export default async function ModelsByBrandPage({
           <h1 className="text-lg lg:text-2xl w-full gap-4 text-center md:text-start">
             {`Все модели ${brand.name.toUpperCase()}`}
           </h1>
-          <PhoneModelSearch brandSlug={params.slug} />
+          <PhoneModelSearch brandSlug={pageParams.slug} />
         </div>
 
-        <PhoneModelsList models={models} />
+        <PhoneModelsList brandSlug={pageParams.slug} />
       </div>
-      <PaginationControl
-        basePath={`/brands/${params.slug}`}
-        currentPage={page}
-        totalPages={totalPages}
-        pageSize={pageSize}
-        totalItems={brand._count.phones}
-        className="mt-auto "
-      />
     </main>
   );
 }
