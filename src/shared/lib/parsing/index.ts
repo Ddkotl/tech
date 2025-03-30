@@ -13,7 +13,7 @@ export async function StartParse() {
 
     // const context = await browser.newContext();
     // const page = await context.newPage();
-    const [page, pageToImages] = await addHTTPheaders(browser, true);
+    const [page, pageToImages] = await addHTTPheaders(browser, false);
     await restartTor();
 
     await parseReviewsFromManyPages(page, pageToImages, 1);
