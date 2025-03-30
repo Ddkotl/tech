@@ -18,30 +18,41 @@ import { cleanupOldMinioBackups } from "./backups/s3/s3_cleen";
 // 0 * * * * — выполнение задачи каждый час в 0 минут.
 // */5 * * * * — выполнение задачи каждые 5 минут.
 // * * 1 * * — выполнение задачи каждый день 1-го числа месяца
+let cronInitialized = false;
 export const setupCron = () => {
-  // Запуск задачи каждые 6 часов
-  cron.schedule("0 0 1 1 *", async () => {
-    console.log(" Запуск парсинга...");
-    try {
-      await StartParse();
-      console.log("Парсинг успешно завершён.");
-    } catch (error) {
-      console.error("Ошибка при выполнении парсинга:", error);
-    }
-  });
+  if (cronInitialized) return;
+  cronInitialized = true;
 
-  cron.schedule("0 3 * * *", async () => {
-    console.log("📀 Запуск создания бэкапа...");
-    try {
-      createBackup();
-      createMinioBackup();
-      cleanupOldDBBackups();
-      cleanupOldMinioBackups();
-      console.log("✅ Бэкап успешно завершён.");
-    } catch (error) {
-      console.error("❌ Ошибка при создании бэкапа:", error);
-    }
-  });
+  cron.schedule(
+    "0 0 29 1 *",
+    async () => {
+      console.log(" Запуск парсинга...");
+      try {
+        await StartParse();
+        console.log("Парсинг успешно завершён.");
+      } catch (error) {
+        console.error("Ошибка при выполнении парсинга:", error);
+      }
+    },
+    { scheduled: true },
+  );
+
+  cron.schedule(
+    "0 3 * * *",
+    async () => {
+      console.log("📀 Запуск создания бэкапа...");
+      try {
+        createBackup();
+        createMinioBackup();
+        cleanupOldDBBackups();
+        cleanupOldMinioBackups();
+        console.log("✅ Бэкап успешно завершён.");
+      } catch (error) {
+        console.error("❌ Ошибка при создании бэкапа:", error);
+      }
+    },
+    { scheduled: true },
+  );
 
   console.log("Cron задачи настроена");
 };
