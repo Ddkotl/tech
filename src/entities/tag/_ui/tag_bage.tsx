@@ -1,4 +1,4 @@
-import { Badge } from "@/shared/components";
+import { Badge, Skeleton } from "@/shared/components";
 import { PartialTag } from "../_domain/types";
 import Link from "next/link";
 
@@ -11,4 +11,8 @@ export function TagBage({ slug, title }: PartialTag): JSX.Element {
       <Link href={`tags/${slug}`}>{title}</Link>
     </Badge>
   );
+}
+
+export function TagBageSkeleton() {
+  return <Skeleton className="h-6 w-12 sm:w-16 rounded-full" />;
 }

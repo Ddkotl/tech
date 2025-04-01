@@ -25,7 +25,7 @@ export function PhoneModelSearch({ brandSlug }: { brandSlug: string }) {
       <Input
         type="text"
         name="search"
-        placeholder="🔍 Поиск обзора по названию..."
+        placeholder="🔍 Поиск модели по названию..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full max-w-lg text-center mx-auto md:ml-auto md:mr-0 "

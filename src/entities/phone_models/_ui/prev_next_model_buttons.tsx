@@ -3,13 +3,7 @@ import { NavigationButton } from "@/shared/components/custom/navigation_button";
 import { getNextAndPrevModelsInfo } from "../_actions/get_next_prev_model";
 import { useQuery } from "@tanstack/react-query";
 
-export async function NextAndPrevModelButtons({
-  currentModelSlug,
-  brandId,
-}: {
-  currentModelSlug: string;
-  brandId: string;
-}) {
+export function NextAndPrevModelButtons({ currentModelSlug, brandId }: { currentModelSlug: string; brandId: string }) {
   const { data, error, isError, isLoading } = useQuery({
     queryKey: ["phone_model_prev_next", currentModelSlug, brandId],
     queryFn: () => getNextAndPrevModelsInfo(currentModelSlug, brandId),

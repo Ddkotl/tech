@@ -33,11 +33,11 @@ export function MiniNewsCard({
 export function SceletonMiniNewsCard() {
   return (
     <Card className="w-[140px] flex-shrink-0 justify-center items-center">
-      <CardContent className="p-0 w-full flex flex-col items-center justify-center">
+      <CardContent className=" p-0 w-full flex flex-col items-center justify-center">
         <Skeleton className="w-full h-24 mb-3" />
-        <Skeleton className="w-32 h-2 mb-1" />
-        <Skeleton className="w-32 h-2 mb-1" />
-        <Skeleton className="w-32 h-2 mb-3" />
+        <Skeleton className="w-32 h-3 mb-1" />
+        <Skeleton className="w-32 h-3 mb-1" />
+        <Skeleton className="w-32 h-3 mb-3" />
       </CardContent>
     </Card>
   );

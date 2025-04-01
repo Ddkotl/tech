@@ -21,8 +21,13 @@ export default async function Home() {
           <Button variant="outline">Все новости</Button>
         </Link>
       </div>
-
       <LatestNews count={20} />
+      <div className="flex flex-row gap-4  justify-between items-center ">
+        <Title size="lg" text="Популярные обзоры" />
+        <Link href={"/reviews"}>
+          <Button variant="outline">Все обзоры</Button>
+        </Link>
+      </div>
     </main>
   );
 }
