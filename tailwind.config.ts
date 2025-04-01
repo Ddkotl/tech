@@ -9,6 +9,7 @@ const config: Config = {
         xs: "400px",
         xs1: "500px",
         md1: "825px",
+        md2: "900px",
       },
       colors: {
         fio: "hsl(var(--fio-color))",

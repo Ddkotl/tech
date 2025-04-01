@@ -3,6 +3,7 @@ import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Button, Title } from "@/shared/components";
 import Link from "next/link";
 import { LatestNews } from "@/entities/news/_ui/latest_news";
+import { LatestReviews } from "@/entities/reviews/_ui/latest_reviews";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Главная",
@@ -28,6 +29,7 @@ export default async function Home() {
           <Button variant="outline">Все обзоры</Button>
         </Link>
       </div>
+      <LatestReviews count={20} />
     </main>
   );
 }

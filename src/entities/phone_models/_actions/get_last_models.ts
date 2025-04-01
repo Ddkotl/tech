@@ -3,7 +3,7 @@
 import { dataBase } from "@/shared/lib/db_conect";
 import { PartialPhoneModel } from "../_domain/types";
 
-export async function getLastModels(): Promise<(PartialPhoneModel & { brand?: { name: string } })[] | []> {
+export async function getLastModels(count: number): Promise<PartialPhoneModel[] | []> {
   try {
     return await dataBase.phoneModels.findMany({
       select: {
@@ -12,14 +12,8 @@ export async function getLastModels(): Promise<(PartialPhoneModel & { brand?: { 
         id: true,
         slug: true,
         main_image: true,
-        brand: {
-          // Включаем имя бренда
-          select: {
-            name: true,
-          },
-        },
       },
-      take: 4, // Ограничиваем результат 5 моделями
+      take: count, // Ограничиваем результат 5 моделями
       orderBy: { createdAt: "desc" }, // Сортируем по дате создания (новые сначала)
     });
   } catch (error) {
