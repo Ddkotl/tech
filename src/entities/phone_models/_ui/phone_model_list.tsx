@@ -19,7 +19,7 @@ export function PhoneModelsList({ brandSlug, searchTerm }: { brandSlug: string; 
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["brands"],
+    queryKey: ["phone_models", brandSlug, searchTerm],
     queryFn: (pageParam) => getPhoneModelsListToInfinityScroll(brandSlug, pageParam.pageParam, perPage, searchTerm),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPage) => {

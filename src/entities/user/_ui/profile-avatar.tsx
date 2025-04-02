@@ -10,7 +10,7 @@ export const ProfileAvatar = ({ profile, className }: { profile?: Profile; class
 
   return (
     <Avatar className={cn(className)}>
-      <AvatarImage crossOrigin="anonymous" src={profile.image ?? ""} className="object-cover" />
+      <AvatarImage crossOrigin="anonymous" src={profile.image ?? ""} className="object-cover" alt="P" />
       <AvatarFallback>{getProfileLetters(profile)}</AvatarFallback>
     </Avatar>
   );

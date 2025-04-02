@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Card, CardDescription, CardTitle, Skeleton, TimeAgo } from "@/shared/components";
+import { Button, Card, CardDescription, Skeleton, TimeAgo, Title } from "@/shared/components";
 import { TagBage } from "@/entities/tag";
 import { PartialNewsWithTags } from "../_domain/types";
 
@@ -34,9 +34,11 @@ export function NewsCardForList({
         <div className="flex flex-col justify-between p-2 sm:pt-1 sm:p-4 ">
           <div>
             <Link href={`/news/${SingleNew.slug}`} className="group">
-              <CardTitle className="text-base font-semibold line-clamp-2 group-hover:text-foreground/60 duration-300 transition-colors">
-                {SingleNew.title}
-              </CardTitle>
+              <Title
+                size="lg"
+                text={SingleNew.title}
+                className="text-base font-semibold line-clamp-2 group-hover:text-foreground/60 duration-300 transition-colors"
+              />
             </Link>
 
             <CardDescription className="text-xs mt-1.5">

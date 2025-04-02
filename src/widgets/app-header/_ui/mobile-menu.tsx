@@ -21,7 +21,7 @@ export function MobileMenu({ logo, items }: { logo: React.ReactNode; items: NavI
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" name="меню" aria-label="меню">
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>

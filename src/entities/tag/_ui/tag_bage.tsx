@@ -8,7 +8,7 @@ export function TagBage({ slug, title }: PartialTag): JSX.Element {
       key={slug}
       className="h-6 bg-fio transition-colors duration-300 hover:scale-95 hover:bg-slate-950 text-slate-100 text-xs font-medium px-1.5 py-0.5 z-40"
     >
-      <Link href={`tags/${slug}`}>{title}</Link>
+      <Link href={`/tags/${slug}`}>{title}</Link>
     </Badge>
   );
 }
