@@ -17,7 +17,7 @@ fs.mkdirSync(BACKUP_DIR, { recursive: true });
 fs.mkdirSync(`${BACKUP_DIR}/db_old`, { recursive: true });
 fs.mkdirSync(`${BACKUP_DIR}/minio_old`, { recursive: true });
 
-export const createBackup = () => {
+export const createBackup = async () => {
   const date = new Date().toISOString();
   const backupFile = path.join(BACKUP_DIR, `backup_${POSTGRES_DB}_${date}.dump.bz2`);
 
@@ -32,4 +32,3 @@ export const createBackup = () => {
     console.error("❌ Ошибка создания бэкапа:", error);
   }
 };
-createBackup();

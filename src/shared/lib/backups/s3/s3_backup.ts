@@ -13,7 +13,7 @@ if (!MINIO_CONTAINER || !S3_IMAGES_BUCKET || !BACKUP_DIR || !MINIO_ROOT_USER || 
 }
 
 // Функция для создания бэкапа MinIO
-export const createMinioBackup = () => {
+export const createMinioBackup = async () => {
   // Убедимся, что директория бэкапов существует
   fs.mkdirSync(BACKUP_DIR, { recursive: true });
   fs.mkdirSync(`${BACKUP_DIR}/db_old`, { recursive: true });
@@ -49,6 +49,3 @@ export const createMinioBackup = () => {
     console.error("❌ Ошибка создания бэкапа MinIO:", error);
   }
 };
-
-// Вызов функции для создания бэкапа
-createMinioBackup();

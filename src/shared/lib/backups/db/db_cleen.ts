@@ -11,7 +11,7 @@ if (!BACKUP_DIR) {
   process.exit(1);
 }
 
-export const cleanupOldDBBackups = () => {
+export const cleanupOldDBBackups = async () => {
   const files = fs
     .readdirSync(BACKUP_DIR)
     .filter((file) => file.startsWith("backup_") && file.endsWith(".dump.bz2"))
@@ -38,4 +38,3 @@ export const cleanupOldDBBackups = () => {
 
   console.log("✅ Очистка завершена!");
 };
-cleanupOldDBBackups();

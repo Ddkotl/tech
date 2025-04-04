@@ -11,7 +11,7 @@ if (!BACKUP_DIR) {
   process.exit(1);
 }
 
-export const cleanupOldMinioBackups = () => {
+export const cleanupOldMinioBackups = async () => {
   const files = fs
     .readdirSync(BACKUP_DIR)
     .filter((file) => file.startsWith("minio_backup_") && file.endsWith(".tar.bz2"))
@@ -38,4 +38,3 @@ export const cleanupOldMinioBackups = () => {
 
   console.log("✅ Очистка завершена!");
 };
-cleanupOldMinioBackups();

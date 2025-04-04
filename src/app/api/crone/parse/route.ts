@@ -1,4 +1,4 @@
-import { setupCron } from "@/shared/lib/crone";
+import { setupCron } from "@/shared/lib/cron";
 import { NextResponse } from "next/server";
 
 export async function GET() {

@@ -23,21 +23,21 @@ export async function resetPageData(page: Page) {
 
     // 3. Очистить IndexedDB и Cache Storage
     await page.evaluate(() => {
-      try{
-      indexedDB.databases().then((dbs) => {
-        dbs.forEach((db) => indexedDB.deleteDatabase(db.name!));
-      });
-    }catch(error){
-      console.log("Нет доступа к indexedDB",error)
-    }
-    try{
-      caches.keys().then((keys) => {
-        keys.forEach((key) => caches.delete(key));
-      });
-  }catch(error){
-    console.log("Нет доступа к caches",error)
-  }
-    })
+      try {
+        indexedDB.databases().then((dbs) => {
+          dbs.forEach((db) => indexedDB.deleteDatabase(db.name!));
+        });
+      } catch (error) {
+        console.log("Нет доступа к indexedDB", error);
+      }
+      try {
+        caches.keys().then((keys) => {
+          keys.forEach((key) => caches.delete(key));
+        });
+      } catch (error) {
+        console.log("Нет доступа к caches", error);
+      }
+    });
     console.log("✅ Все данные страницы очищены!");
   } catch (error) {
     console.log("Не удалось очистить данные страницы", error);
