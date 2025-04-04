@@ -16,7 +16,8 @@
     "restore:minio": "tsx src/shared/lib/backups/s3/s3_restore.ts",
     "restore:db": "tsx src/shared/lib/backups/db/db_restore.ts",
     "restore": "bun run restore:minio && bun run restore:db",
-    "backup": "tsx src/shared/lib/backups/db/db_backup.ts && tsx src/shared/lib/backups/s3/s3_backup.ts"
+    "backup": "tsx src/shared/lib/backups/db/db_backup.ts && tsx src/shared/lib/backups/s3/s3_backup.ts",
+    "cron":"tsx src/shared/lib/crone_test.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
@@ -50,6 +51,7 @@
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.4.4",
     "html-react-parser": "^5.2.2",
+    "http": "^0.0.1-security",
     "husky": "^9.1.7",
     "lint-staged": "^15.3.0",
     "lodash-es": "^4.17.21",
