@@ -29,7 +29,7 @@ export default function NewsCard({
         <div className="relative  w-full h-40 ">
           <Image
             src={news.previewImage}
-            alt={news.title}
+            alt="картинка карточки"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={prioryty ? true : undefined}

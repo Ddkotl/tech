@@ -16,6 +16,7 @@ export const metadata: Metadata = generateSEOMetadata({
 export default async function Home() {
   return (
     <main className="flex flex-col flex-1   gap-2 md:gap-4">
+      {/* <TechHero /> */}
       <div className="flex flex-row gap-4  justify-between items-center ">
         <Title size="lg" text="Последние новости" />
         <Link href={"/news"}>

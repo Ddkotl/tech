@@ -46,7 +46,7 @@ export default function NewsList({
               <div className="sm:w-1/3">
                 <Image
                   src={item.previewImage || "/placeholder.svg"}
-                  alt={item.title}
+                  alt="картинка карточки"
                   width={200}
                   height={100}
                   className="object-scale-down sm:object-contain lg:object-contain w-full h-48 sm:h-full rounded-md"

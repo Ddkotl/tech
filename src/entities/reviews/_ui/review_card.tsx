@@ -12,7 +12,7 @@ export default function ReviewCard({ review }: { review: PartialNewsWithTags }) 
         <div className="relative  aspect-[343/214] overflow-hidden max-w-[350px] h-full flex-grow flex-shrink-0 image-safe ">
           <Image
             src={review.previewImage || "/placeholder.png"}
-            alt={review.title}
+            alt="картинка карточки"
             width={343}
             height={214}
             sizes="(max-width: 640px) 100vw, 350px"

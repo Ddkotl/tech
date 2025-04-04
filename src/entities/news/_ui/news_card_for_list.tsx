@@ -19,7 +19,7 @@ export function NewsCardForList({
         <div className="relative  aspect-[350/215] overflow-hidden max-w-[350px] h-full flex-grow flex-shrink-0 image-safe ">
           <Image
             src={SingleNew.previewImage || "/placeholder.png"}
-            alt={SingleNew.title}
+            alt="картинка карточки"
             width={350}
             height={215}
             className="  object-cover rounded-md"

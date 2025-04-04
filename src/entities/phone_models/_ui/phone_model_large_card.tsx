@@ -26,13 +26,6 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
 
       <CardContent className="p-1">
         <div className="flex flex-col md:flex-row items-center justify-center gap-2 w-full lg:gap-4">
-          {/* <Image
-              src={phone.main_image}
-              width={180}
-              height={250}
-              alt={phone.short_name}
-              className="rounded-lg object-cover shadow-md"
-            /> */}
           <ImageGalleryComponent imagePaths={images} />
           <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 md:gap-4 w-full ">
             <ModelSpecItem

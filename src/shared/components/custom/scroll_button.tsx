@@ -22,6 +22,8 @@ export function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
+      aria-label="на верх"
+      name="на верх"
       className={cn(
         "fixed bottom-5 right-5   text-fio transition-all  duration-300  rounded-full shadow-lg  hover:scale-110",
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none",

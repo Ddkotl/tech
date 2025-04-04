@@ -3,9 +3,9 @@ import React from "react";
 import { PhoneModelLitleCard, PhoneModelLitleCardSkeleton } from "./phone_litle_card";
 import { getLastModels } from "../_actions/get_last_models";
 import { useQuery } from "@tanstack/react-query";
+import { Title } from "@/shared/components";
 
-export function LastModels() {
-  const count = 4;
+export function LastModels({ count }: { count: number }) {
   const {
     data: models,
     isLoading,
@@ -19,9 +19,9 @@ export function LastModels() {
   }
 
   return (
-    <div className="space-y-2">
-      <h3 className="text-xs lg:text-base font-semibold">{`Последние модели на сайте`}</h3>
-      <ul className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-1 lg:gap-2">
+    <section className="space-y-2">
+      <Title size="md" text="Последние модели на сайте"></Title>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-1 lg:gap-2">
         {isLoading
           ? Array.from({ length: count }).map((_, index) => <PhoneModelLitleCardSkeleton key={index} />)
           : models?.map((model) => (
@@ -32,7 +32,7 @@ export function LastModels() {
                 modelSlug={model.slug}
               />
             ))}
-      </ul>
-    </div>
+      </div>
+    </section>
   );
 }

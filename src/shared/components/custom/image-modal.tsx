@@ -45,7 +45,7 @@ export function ImageModal({ images, initialIndex, isOpen, onClose }: ImageModal
         <div className="relative w-full h-[100vh]  flex items-center justify-center bg-background/90">
           <Image
             src={images[currentIndex] || "/placeholder.svg"}
-            alt={`Full screen image ${currentIndex + 1}`}
+            alt={`полноэкранное изображение ${currentIndex + 1}`}
             fill
             className="object-contain"
             sizes="100vw"

@@ -55,7 +55,7 @@ export function ImageGallery({ images }: ImageGalleryProps) {
               <div className="relative w-64 h-64">
                 <Image
                   src={src || "/placeholder.svg"}
-                  alt={`Gallery image ${index + 1}`}
+                  alt={`картинка галереи ${index + 1}`}
                   fill
                   className="object-cover rounded-md"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

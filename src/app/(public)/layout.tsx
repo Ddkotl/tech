@@ -12,7 +12,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <AppHeader variant="public" />
       <Container className="h-full flex  flex-1  gap-2 lg:gap-6 ">
         <ContentContainer className="flex flex-col  flex-1 gap-2 lg:gap-6 ">{children}</ContentContainer>
-        <Sidebar children1={<LastModels />} children2={<PopularTags count={16} />} />
+
+        <Sidebar children1={<LastModels count={4} />} children2={<PopularTags count={16} />} />
       </Container>
       <AppFooter />
     </div>

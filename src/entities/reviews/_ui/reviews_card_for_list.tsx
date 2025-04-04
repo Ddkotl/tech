@@ -19,7 +19,7 @@ export function ReviewsCardForList({
         <div className="relative  aspect-[350/150] overflow-hidden max-w-[350px] h-full flex-grow flex-shrink-0 image-safe ">
           <Image
             src={SingleReview.previewImage || "/placeholder.png"}
-            alt={SingleReview.title}
+            alt="картинка карточки"
             width={350}
             height={150}
             className="  object-cover rounded-md"

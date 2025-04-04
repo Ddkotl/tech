@@ -18,7 +18,7 @@ export function MiniNewsCard({
           <div className="aspect-[2/1.4] relative ">
             <Image
               src={previewImage || "/placeholder.png"}
-              alt={title}
+              alt="картинка карточки"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover rounded-sm "

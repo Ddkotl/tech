@@ -16,7 +16,7 @@ export function PhoneModelCard({
         <CardContent className="p-1 image-safe">
           <Image
             src={model.main_image}
-            alt={model.short_name}
+            alt="картинка карточки"
             width={100}
             height={146.5}
             className="w-14 h-20 object-fill mx-auto rounded-md"
