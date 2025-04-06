@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button, Card, CardDescription, Skeleton, TimeAgo, Title } from "@/shared/components";
 import { TagBage } from "@/entities/tag";
 import { PartialReviewsWithTags } from "../_domain/types";
+import { TagBageSkeleton } from "@/entities/tag/_ui/tag_bage";
 
 export function ReviewsCardForList({
   SingleReview,
@@ -75,7 +76,7 @@ export function ReviewsCardForListSkeleton() {
           {/* Tags placeholder */}
           <div className="absolute top-2 left-2 flex flex-wrap gap-1">
             {[...Array(3)].map((_, i) => (
-              <Skeleton key={i} className="h-6 w-12 sm:w-16 rounded-full" />
+              <TagBageSkeleton key={i} />
             ))}
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Button, Title } from "@/shared/components";
 import Link from "next/link";
 import { LatestNews } from "@/entities/news/_ui/latest_news";
 import { LatestReviews } from "@/entities/reviews/_ui/latest_reviews";
+import TechHero from "@/shared/components/custom/tech_hero";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Главная",
@@ -16,7 +17,7 @@ export const metadata: Metadata = generateSEOMetadata({
 export default async function Home() {
   return (
     <main className="flex flex-col flex-1   gap-2 md:gap-4">
-      {/* <TechHero /> */}
+      <TechHero />
       <div className="flex flex-row gap-4  justify-between items-center ">
         <Title size="lg" text="Последние новости" />
         <Link href={"/news"}>

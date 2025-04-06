@@ -26,9 +26,9 @@ export function PhoneModelLitleCard({
           <Image
             src={modelMainImage}
             alt="картинка карточки"
-            width={112} // Физический размер картинки
+            width={120}
             height={160}
-            className="w-7 h-10 object-fill mx-auto rounded-md " // Задаем фиксированные размеры
+            className="w-[30px] h-10 object-fill mx-auto rounded-md "
           />
         </CardContent>
         <CardFooter className="flex justify-center p-1">

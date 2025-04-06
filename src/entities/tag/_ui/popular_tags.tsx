@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { TagBage, TagBageSkeleton } from "./tag_bage";
 import { getPopularTags } from "../_actions/get_popular_tags";
-import { Button, Title } from "@/shared/components";
+import { Badge, Title } from "@/shared/components";
 import Link from "next/link";
 
 export function PopularTags({ count }: { count: number }): JSX.Element {
@@ -27,9 +27,9 @@ export function PopularTags({ count }: { count: number }): JSX.Element {
           : tags?.map((tag) => <TagBage key={tag.id} slug={tag.slug} title={tag.title}></TagBage>)}
         {!isLoading && (
           <Link href={"/tags"}>
-            <Button variant="default" className="px-2.5 py-1.5 h-6 w-16 text-xs font-medium hover:scale-95 ">
+            <Badge className="h-6 transition-colors duration-300 hover:scale-95 text-xs font-medium px-2 py-1 z-40">
               все тэги
-            </Button>
+            </Badge>
           </Link>
         )}
       </div>
