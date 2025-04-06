@@ -24,6 +24,7 @@ export const getModelsByBrand = async (
     await page.goto(`https://www.gsmarena.com/${model.url}`, { timeout: 60000, waitUntil: "domcontentloaded" });
     try {
       await page.waitForSelector(".specs-phone-name-title", { state: "visible", timeout: 60000 });
+      await page.waitForSelector(".specs-photo-main  img", { state: "visible", timeout: 60000 });
     } catch (error) {
       console.log(error);
       await checkRequestLimits(page);

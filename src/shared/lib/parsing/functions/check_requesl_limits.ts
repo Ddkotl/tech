@@ -23,7 +23,7 @@ export async function checkRequestLimits(page: Page): Promise<void> {
 
       console.log("Обнаружено ограничение запросов. Перезапуск Tor...");
       await restartTor();
-      await page.reload({ waitUntil: "networkidle" });
+      await page.reload({ waitUntil: "load" });
     } catch (error) {
       console.error(`Ошибка при попытке ${attempt}:`, error);
 

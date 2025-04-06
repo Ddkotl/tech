@@ -17,15 +17,15 @@ export function PhoneModelCard({
           <Image
             src={model.main_image}
             alt="картинка карточки"
-            width={100}
-            height={146.5}
-            className="w-14 h-20 object-fill mx-auto rounded-md"
+            width={60}
+            height={80}
+            className="w-[60px] h-20 object-fill mx-auto rounded-md"
             priority={false}
             loading="lazy"
           />
         </CardContent>
         <CardFooter className="flex justify-center p-1">
-          <CardTitle className="text-xs flex text-center items-center justify-center">{model.short_name}</CardTitle>
+          <h2 className="text-xs flex text-center items-center justify-center">{model.short_name}</h2>
         </CardFooter>
       </Card>
     </Link>

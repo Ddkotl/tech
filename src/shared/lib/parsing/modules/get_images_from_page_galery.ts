@@ -65,7 +65,11 @@ export const getImagesFromPageGallery = async (page: Page): Promise<string[]> =>
       if (currentImageSrc === firstImageSrc) break;
       if (!imgUrlList.includes(currentImageSrc)) imgUrlList.push(currentImageSrc);
     }
-
+    const closeGalleryButtonLocator = "div[title='Close gallery']";
+    const closeButton = page.locator(closeGalleryButtonLocator);
+    await closeButton.waitFor({ state: "visible" });
+    await closeButton.click();
+    await page.waitForTimeout(5000);
     return imgUrlList;
   } catch (e) {
     console.error("Ошибка:", e);

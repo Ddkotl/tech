@@ -45,14 +45,17 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
       if (article.title ? await IsNewsAlresdyParsed(article.title) : true) {
         continue;
       }
-      const generatedDate = generateDataForPost(article.data);
+
       await page.goto(`https://www.gsmarena.com/${article.link}`, { timeout: 60000, waitUntil: "domcontentloaded" });
       try {
         await page.waitForSelector(".review-body", { state: "visible", timeout: 60000 });
+        await page.waitForSelector(".article-tags .float-right", { state: "visible", timeout: 60000 });
+        await page.waitForSelector(".review-body p", { state: "visible", timeout: 60000 });
       } catch (error) {
         console.log(error);
         await checkRequestLimits(page);
       }
+      const generatedDate = generateDataForPost(article.data);
       const content: string[] = await page.locator(".review-body p").allTextContents();
       const contentResponse: string = content.join(" ");
       const tags = await page

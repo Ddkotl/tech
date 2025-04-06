@@ -2,7 +2,7 @@ import { Browser, Page } from "playwright";
 
 export const addHTTPheaders = async (browser: Browser, isTest: boolean = false): Promise<Page[]> => {
   try {
-    const context = await browser.newContext({
+    const contextToImages = await browser.newContext({
       bypassCSP: true,
       javaScriptEnabled: true,
       viewport: {
@@ -41,7 +41,7 @@ export const addHTTPheaders = async (browser: Browser, isTest: boolean = false):
     });
 
     // Добавляем stealth-плагин
-    await context.addInitScript(() => {
+    await contextToImages.addInitScript(() => {
       Object.defineProperty(navigator, "plugins", {
         get: () => [1, 2, 3, 4, 5],
       });
@@ -49,11 +49,20 @@ export const addHTTPheaders = async (browser: Browser, isTest: boolean = false):
         get: () => ["en-US", "en"],
       });
     });
-
+    const context = await browser.newContext({
+      ...(isTest
+        ? {
+            recordVideo: {
+              dir: `./img_for_test/v2-${new Date().toISOString()}`,
+              size: { width: 1280, height: 720 },
+            },
+          }
+        : {}),
+    });
     const page = await context.newPage();
-    const pageToImages = await context.newPage();
+    const pageToImages = await contextToImages.newPage();
     // Эмулируем человеческий ввод
-    await pageToImages.emulateMedia({ media: "screen" });
+    // await pageToImages.emulateMedia({ media: "screen" });
     // await pageToImages.setExtraHTTPHeaders({
     //   DNT: "1",
     //   "Accept-Encoding": "gzip, deflate, br",
