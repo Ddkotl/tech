@@ -70,9 +70,9 @@ export async function ParseNews(
       type: "news",
       slug: slug,
       meta_description: metaDescription,
-      images: images,
       previewImage: previewImage,
       ruTitle: ruTitle,
+      tags: tags,
     });
   }
 }
