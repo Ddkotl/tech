@@ -12,7 +12,7 @@ export function Layout({
   mobileNav?: React.ReactNode;
 }) {
   return (
-    <header className="flex items-center justify-center sticky  top-0  z-[55] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
+    <header className="flex items-center justify-center  w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
       <div className="xl:container w-full justify-between  flex h-14 items-center lg:py-6 py-2">
         <div className="md:hidden mr-2 flex flex-row gap-2">
           {logo}

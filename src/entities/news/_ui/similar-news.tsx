@@ -19,7 +19,7 @@ export function SimilarNews({ slug }: { slug: string }) {
   });
 
   if (isError) return <p>Ошибка загрузки новостей.</p>;
-
+  if (similarNews && similarNews.length === 0) return <p>Нет новостей</p>;
   return (
     <section className="flex justify-center">
       <div className="flex max-w-[80%] md:max-w-[400px] lg:max-w-[600px] xl:max-w-[750px] gap-2 lg:gap-4">

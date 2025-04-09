@@ -45,7 +45,7 @@ export function PhoneModelsList({ brandSlug, searchTerm }: { brandSlug: string; 
     );
   }
   return (
-    <div className=" grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
+    <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
       {phoneModelP?.pages.length && phoneModelP.pages.some((page) => page.length) ? (
         phoneModelP?.pages.map((models) => {
           return models.map((model, index) => {

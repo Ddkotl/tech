@@ -23,7 +23,7 @@ export function setupCron() {
   );
 
   cron.schedule(
-    "0 3 * * *",
+    "0 0 3 * *",
     async () => {
       console.log("📀 Запуск создания бэкапа...");
       try {

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  AdminIcon,
   Button,
   DropdownMenu,
   DropdownMenuContent,
@@ -17,10 +18,12 @@ import { SignInButton } from "@/features/auth/sign-in-button";
 import { useSignOut } from "@/features/auth/use-sign-out";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { FaRegBookmark } from "react-icons/fa";
+import { ROLES } from "@/entities/user";
 
 export function Profile() {
   const session = useAppSession();
+  const role = session.data?.user.role;
+
   const { signOut, isPending } = useSignOut();
   if (session.status === "loading") {
     return <Skeleton className="w-8 h-8 rounded-full" />;
@@ -52,12 +55,14 @@ export function Profile() {
               <span>Профиль</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={`/bookmarks/${user?.id}`}>
-              <FaRegBookmark className="mr-2 h-4 w-4" />
-              <span>Закладки</span>
-            </Link>
-          </DropdownMenuItem>
+          {role === ROLES.ADMIN && (
+            <DropdownMenuItem asChild>
+              <Link href="/admin" aria-label="админка">
+                <AdminIcon className="mr-2 h-4 w-4" />
+                <span>Админка</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem disabled={isPending} onClick={() => signOut()}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Выход</span>

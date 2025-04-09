@@ -22,7 +22,7 @@ export function MobileMenu({ logo, items }: { logo: React.ReactNode; items: NavI
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" name="меню" aria-label="меню">
-          <Menu className="h-5 w-5" />
+          <Menu className="text-fio h-5 w-5" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left">

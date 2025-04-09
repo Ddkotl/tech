@@ -20,10 +20,8 @@ export * from "./ui/badge";
 export * from "./ui/carousel";
 
 export * from "./custom/logo-icon";
-export * from "./custom/admin-logo";
 export * from "./custom/logo";
 export * from "./custom/profile";
-// export * from "./custom/app-breadcrumb";
 export * from "./custom/app-container";
 export * from "./custom/app-title";
 export { TimeAgo } from "./custom/get-time";

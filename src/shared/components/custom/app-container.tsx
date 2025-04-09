@@ -8,5 +8,5 @@ export const Container: React.FC<React.PropsWithChildren<Props>> = ({ className,
 };
 
 export const ContentContainer: React.FC<React.PropsWithChildren<Props>> = ({ className, children }) => {
-  return <div className={cn(" w-full ", className)}>{children}</div>;
+  return <div className={cn(" w-full max-w-[900px]", className)}>{children}</div>;
 };

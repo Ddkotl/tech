@@ -49,7 +49,7 @@ export function PhoneModelLitleCardSkeleton({ className }: { className?: string 
       </CardContent>
       <CardFooter className="flex justify-center p-1">
         <CardTitle className="text-xs lg:text-sm font-thin flex text-start items-center justify-center">
-          <Skeleton className="w-20 h-4 " />
+          <Skeleton className="w-16 h-4 " />
         </CardTitle>
       </CardFooter>
     </Card>

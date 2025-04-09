@@ -18,7 +18,7 @@ export function LatestNews({ count }: { count: number }) {
   });
 
   if (isError) return <p>Ошибка загрузки новостей.</p>;
-  if (latestNews && latestNews.length === 0) return <p>Нет обзоров</p>;
+  if (latestNews && latestNews.length === 0) return <p>Нет новостей</p>;
   return (
     <section className="flex justify-center flex-shrink ">
       <div className="flex max-w-[80%] md:max-w-[400px] md1:max-w-[450px] md2:max-w-[500px] lg:max-w-[600px] xl:max-w-[750px] gap-2 lg:gap-4">

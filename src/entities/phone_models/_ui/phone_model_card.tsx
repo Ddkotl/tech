@@ -33,20 +33,16 @@ export function PhoneModelCard({
 }
 export function PhoneModelCardSkeleton() {
   return (
-    <div className="h-full">
-      <Card className="shadow-md transition-all duration-300 hover:scale-95 hover:shadow-lg hover:bg-foreground/10 p-0 h-full flex flex-col">
-        {/* Image placeholder */}
-        <CardContent className="p-1 image-safe">
-          <Skeleton className="w-14 h-20 mx-auto rounded-md" style={{ aspectRatio: "100/146.5" }} />
-        </CardContent>
+    <Card className=" shadow-md transition-all  duration-300 hover:scale-95  hover:shadow-lg hover:bg-foreground/10  p-0 h-full flex flex-col">
+      <CardContent className="p-1 ">
+        <Skeleton className="w-[60px] h-20 mx-auto rounded-md object-fill " style={{ aspectRatio: "60/80" }} />
+      </CardContent>
 
-        {/* Title placeholder */}
-        <CardFooter className="flex justify-center p-1">
-          <CardTitle className="text-xs text-center w-full">
-            <Skeleton className="h-4 w-3/4 mx-auto" />
-          </CardTitle>
-        </CardFooter>
-      </Card>
-    </div>
+      <CardFooter className="flex justify-center p-1">
+        <CardTitle className="text-xs text-center w-full">
+          <Skeleton className="h-4 w-3/4 mx-auto" />
+        </CardTitle>
+      </CardFooter>
+    </Card>
   );
 }
