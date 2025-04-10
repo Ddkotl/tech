@@ -5,6 +5,7 @@ import { Button, Card, CardDescription, Skeleton, TimeAgo, Title } from "@/share
 import { TagBage } from "@/entities/tag";
 import { PartialNewsWithTags } from "../_domain/types";
 import { TagBageSkeleton } from "@/entities/tag/_ui/tag_bage";
+import { BookmarksButton } from "@/shared/components/custom/bookmark_button";
 
 export function NewsCardForList({
   SingleNew,
@@ -42,8 +43,9 @@ export function NewsCardForList({
               />
             </Link>
 
-            <CardDescription className="text-xs mt-1.5">
+            <CardDescription className="text-xs mt-1.5 flex flex-row items-center justify-between ">
               <TimeAgo date={SingleNew.createdAt} />
+              <BookmarksButton id={SingleNew.id} type="news" />
             </CardDescription>
 
             <p className="text-sm line-clamp-3 mt-2 text-muted-foreground">{SingleNew.meta_description}</p>

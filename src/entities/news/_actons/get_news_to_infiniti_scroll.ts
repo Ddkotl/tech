@@ -7,10 +7,12 @@ export const getNewsToInfinitiScroll = async (
   perPage: number,
   searchTerm?: string,
   tagSlug?: string,
+  newsIds?: string[],
 ): Promise<PartialNewsWithTags[]> => {
   try {
     const news = await dataBase.news.findMany({
       where: {
+        id: newsIds ? { in: newsIds } : undefined,
         title: { contains: searchTerm, mode: "insensitive" },
         tags: tagSlug ? { some: { slug: tagSlug } } : undefined,
       },

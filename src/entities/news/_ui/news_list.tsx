@@ -7,7 +7,15 @@ import { useEffect } from "react";
 import { PartialNewsWithTags } from "../_domain/types";
 import { Title } from "@/shared/components";
 
-export function NewsList({ tagSlug, searchTerm }: { tagSlug?: string; searchTerm?: string }) {
+export function NewsList({
+  tagSlug,
+  searchTerm,
+  newsIds,
+}: {
+  tagSlug?: string;
+  searchTerm?: string;
+  newsIds?: string[];
+}) {
   const perPage = 9;
   const { ref, inView } = useInView();
   const {
@@ -19,8 +27,8 @@ export function NewsList({ tagSlug, searchTerm }: { tagSlug?: string; searchTerm
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["news", tagSlug ? tagSlug : "", searchTerm ? searchTerm : ""],
-    queryFn: (pageParam) => getNewsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm, tagSlug),
+    queryKey: ["news", tagSlug ? tagSlug : "", searchTerm ? searchTerm : "", newsIds ? newsIds : ""],
+    queryFn: (pageParam) => getNewsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm, tagSlug, newsIds),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPage) => {
       const nextPage = lastPage.length === perPage ? allPage.length + 1 : undefined;
