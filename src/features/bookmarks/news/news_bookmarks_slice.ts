@@ -1,41 +1,55 @@
 // features/bookmarks/bookmarksSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface NewsBookmarksState {
-  ids: string[]; // Будем хранить только ID новостей
-}
-
-const initialState: NewsBookmarksState = {
-  ids: [], // Начинаем с пустого массива
-};
 const key = "news_bookmarks";
+
+interface NewsBookmarksState {
+  news_ids: string[];
+  isNewsBookmarksStateInit: boolean;
+}
+const initialNewsBookmarksState: NewsBookmarksState = {
+  news_ids: [],
+  isNewsBookmarksStateInit: false,
+};
+
 export const newsBbookmarksSlice = createSlice({
   name: key,
-  initialState: initialState,
+  initialState: initialNewsBookmarksState,
   reducers: {
     toggleNewsBookmark: (state, action: PayloadAction<string>) => {
-      const index = state.ids.indexOf(action.payload);
+      const index = state.news_ids.indexOf(action.payload);
       if (index === -1) {
         // Добавляем ID, если его нет
-        state.ids.push(action.payload);
+        state.news_ids.push(action.payload);
       } else {
         // Удаляем ID, если он есть
-        state.ids.splice(index, 1);
+        state.news_ids.splice(index, 1);
       }
+      localStorage.setItem(key, JSON.stringify(state.news_ids));
     },
     clearNewsBookmarks: (state) => {
-      state.ids = [];
+      state.news_ids = [];
+      localStorage.removeItem(key);
+    },
+    initNewsBookmarks: (state) => {
+      if (typeof window !== "undefined") {
+        const data = localStorage.getItem(key);
+        state.news_ids = data ? JSON.parse(data) : [];
+      }
+      state.isNewsBookmarksStateInit = true;
     },
   },
 });
 
-export const { toggleNewsBookmark, clearNewsBookmarks } = newsBbookmarksSlice.actions;
+export const { toggleNewsBookmark, clearNewsBookmarks, initNewsBookmarks } = newsBbookmarksSlice.actions;
 
 // Селекторы
-export const selectNewsBookmarkIds = (state: { newsBookmarks: NewsBookmarksState }) => state.newsBookmarks.ids;
+export const selectNewsBookmarkIds = (state: { newsBookmarks: NewsBookmarksState }) => state.newsBookmarks.news_ids;
 export const selectNewsBookmarksCount = (state: { newsBookmarks: NewsBookmarksState }) =>
-  state.newsBookmarks.ids.length;
+  state.newsBookmarks.news_ids.length;
 export const selectIsNewsBookmarked = (state: { newsBookmarks: NewsBookmarksState }, id: string) =>
-  state.newsBookmarks.ids.includes(id);
+  state.newsBookmarks.news_ids.includes(id);
+export const selectIsNewsBookmarksStateInit = (state: { newsBookmarks: NewsBookmarksState }) =>
+  state.newsBookmarks.isNewsBookmarksStateInit;
 
 export const newsBookmarksReducer = newsBbookmarksSlice.reducer;

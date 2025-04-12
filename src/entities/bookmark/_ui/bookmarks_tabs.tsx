@@ -1,13 +1,16 @@
 "use client";
 import { RootState } from "@/app/store";
 import { NewsList } from "@/entities/news";
-import { selectNewsBookmarkIds } from "@/features/bookmarks/news/news_bookmarks_slice";
+import { selectIsNewsBookmarksStateInit, selectNewsBookmarkIds } from "@/features/bookmarks/news/news_bookmarks_slice";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components";
 import { useSelector } from "react-redux";
 
 export function BookmarksTabs() {
   const newsBookmarksIds = useSelector((state: RootState) => {
     return selectNewsBookmarkIds(state);
+  });
+  const isNewsBookmarksStateInit = useSelector((state: RootState) => {
+    return selectIsNewsBookmarksStateInit(state);
   });
   return (
     <Tabs defaultValue="news">
@@ -16,7 +19,7 @@ export function BookmarksTabs() {
         <TabsTrigger value="reviews">{`Обзоры`}</TabsTrigger>
       </TabsList>
       <TabsContent value="news">
-        <NewsList newsIds={newsBookmarksIds} />
+        <NewsList newsIds={newsBookmarksIds} isNewsBookmarksStateInit={isNewsBookmarksStateInit} />
       </TabsContent>
       <TabsContent value="reviews">{/* <ReviewsList /> */}</TabsContent>
     </Tabs>

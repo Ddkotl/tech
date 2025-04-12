@@ -11,10 +11,12 @@ export function NewsList({
   tagSlug,
   searchTerm,
   newsIds,
+  isNewsBookmarksStateInit,
 }: {
   tagSlug?: string;
   searchTerm?: string;
   newsIds?: string[];
+  isNewsBookmarksStateInit?: boolean;
 }) {
   const perPage = 9;
   const { ref, inView } = useInView();
@@ -27,13 +29,20 @@ export function NewsList({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["news", tagSlug ? tagSlug : "", searchTerm ? searchTerm : "", newsIds ? newsIds : ""],
+    queryKey: [
+      "news",
+      tagSlug && tagSlug,
+      searchTerm && searchTerm,
+      isNewsBookmarksStateInit && newsIds && "newsBookmarks",
+    ],
     queryFn: (pageParam) => getNewsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm, tagSlug, newsIds),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPage) => {
       const nextPage = lastPage.length === perPage ? allPage.length + 1 : undefined;
       return nextPage;
     },
+    staleTime: newsIds ? 0 : 1000 * 60 * 5,
+    gcTime: newsIds ? 0 : 1000 * 60 * 5,
   });
   useEffect(() => {
     if (inView && hasNextPage) {
