@@ -7,7 +7,7 @@ import { Profile } from "../../shared/components/custom/profile";
 import { ToggleTheme } from "@/features/theme/toggle-theme";
 import { Actions } from "./_ui/actions";
 import { Container } from "@/shared/components";
-import { BookmarksIcon } from "@/shared/components/custom/bookmarks_icon";
+import { BookmarksIcon } from "@/features/bookmarks/_ui/bookmarks_icon";
 
 export function AppHeader({ variant }: { variant: "auth" | "private" | "public" | "admin" }) {
   const isProfile = variant !== "auth";

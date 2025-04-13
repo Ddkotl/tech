@@ -1,7 +1,7 @@
 // features/bookmarks/bookmarksSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const key = "news_bookmarks";
+const news_bookmarks_key = "news_bookmarks";
 
 interface NewsBookmarksState {
   news_ids: string[];
@@ -13,7 +13,7 @@ const initialNewsBookmarksState: NewsBookmarksState = {
 };
 
 export const newsBbookmarksSlice = createSlice({
-  name: key,
+  name: news_bookmarks_key,
   initialState: initialNewsBookmarksState,
   reducers: {
     toggleNewsBookmark: (state, action: PayloadAction<string>) => {
@@ -25,15 +25,15 @@ export const newsBbookmarksSlice = createSlice({
         // Удаляем ID, если он есть
         state.news_ids.splice(index, 1);
       }
-      localStorage.setItem(key, JSON.stringify(state.news_ids));
+      localStorage.setItem(news_bookmarks_key, JSON.stringify(state.news_ids));
     },
     clearNewsBookmarks: (state) => {
       state.news_ids = [];
-      localStorage.removeItem(key);
+      localStorage.removeItem(news_bookmarks_key);
     },
     initNewsBookmarks: (state) => {
       if (typeof window !== "undefined") {
-        const data = localStorage.getItem(key);
+        const data = localStorage.getItem(news_bookmarks_key);
         state.news_ids = data ? JSON.parse(data) : [];
       }
       state.isNewsBookmarksStateInit = true;

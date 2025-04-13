@@ -1,7 +1,7 @@
 "use client";
 import { FaRegBookmark } from "react-icons/fa";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../../shared/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import {
@@ -10,7 +10,7 @@ import {
   selectNewsBookmarksCount,
 } from "@/features/bookmarks/news/news_bookmarks_slice";
 import { useEffect } from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../../shared/components/ui/skeleton";
 
 export function BookmarksIcon() {
   const dispatch = useDispatch();
