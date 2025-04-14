@@ -2,8 +2,8 @@
 import { RootState } from "@/app/store";
 import { selectIsNewsBookmarked, toggleNewsBookmark } from "@/features/bookmarks/news/news_bookmarks_slice";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../ui/button";
-import { FaRegBookmark } from "react-icons/fa";
+import { Button } from "@/shared/components/ui/button";
+import { FaBookmark } from "react-icons/fa";
 
 export function BookmarksButton({ id, type = "news" }: { id: string; type: "news" | "reviews" }) {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export function BookmarksButton({ id, type = "news" }: { id: string; type: "news
       size="icon"
       name="закладка"
     >
-      <FaRegBookmark className={`text-fio h-4 w-4 ${isBookmarked ? " text-yellow-500" : "text-fio"}`} />
+      <FaBookmark className={`text-fio h-4 w-4 ${isBookmarked ? " text-yellow-500" : "text-fio/80"}`} />
     </Button>
   );
 }
