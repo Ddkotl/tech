@@ -6,6 +6,9 @@ export async function getNewsBookmarks(userId: string) {
       where: {
         userId: userId,
       },
+      select: {
+        newsId: true,
+      },
     });
     return news_bookmarks;
   } catch (error) {

@@ -26,11 +26,9 @@ export function PopularTags({ count }: { count: number }): JSX.Element {
           ? Array.from({ length: count }).map((_, i) => <TagBageSkeleton key={i} />)
           : tags?.map((tag) => <TagBage key={tag.id} slug={tag.slug} title={tag.title}></TagBage>)}
         {!isLoading && (
-          <Link href={"/tags"}>
-            <Badge className="h-6 transition-colors duration-300 hover:scale-95 text-xs font-medium px-2 py-1 z-40">
-              все тэги
-            </Badge>
-          </Link>
+          <Badge className="h-6 transition-colors duration-300 hover:scale-95 text-xs font-medium px-2 py-1 z-40">
+            <Link href="/tags">все тэги</Link>
+          </Badge>
         )}
       </div>
     </div>

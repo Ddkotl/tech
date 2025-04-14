@@ -1,5 +1,5 @@
 "use client";
-import { FaRegBookmark } from "react-icons/fa";
+import { IoBookmarks } from "react-icons/io5";
 import Link from "next/link";
 import { Button } from "../../../shared/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,6 @@ import { Skeleton } from "../../../shared/components/ui/skeleton";
 
 export function BookmarksIcon() {
   const dispatch = useDispatch();
-
   const isNewsBookmarksStateInit = useSelector((state: RootState) => {
     return selectIsNewsBookmarksStateInit(state);
   });
@@ -24,6 +23,7 @@ export function BookmarksIcon() {
   useEffect(() => {
     dispatch(initNewsBookmarks());
   }, [dispatch]);
+
   if (!isNewsBookmarksStateInit) {
     return (
       <Button
@@ -34,24 +34,18 @@ export function BookmarksIcon() {
         className="relative cursor-auto"
         disabled
       >
-        <FaRegBookmark className=" text-fio h-4 w-4" />
-        <Skeleton className="h-4 w-4  rounded-full  absolute -top-2 -right-1" />
+        <IoBookmarks className=" text-fio h-4 w-4" />
+        <Skeleton className="h-4 w-4  rounded-full  absolute -top-1 -right-1" />
       </Button>
     );
   }
   return (
     <Link href={`/bookmarks`}>
       <Button variant="ghost" size="icon" name="закладки" aria-label="закладки" className="relative">
-        <FaRegBookmark className=" text-fio h-4 w-4" />
-        {newsCount < 100 ? (
-          <span className="absolute -top-2 -right-1  bg-fio text-white text-xs font-bold rounded-full h-4 p-1 flex items-center justify-center">
-            {newsCount}
-          </span>
-        ) : (
-          <span className="absolute -top-2 -right-1 bg-fio text-white text-xs font-bold rounded-full h-4  flex items-center justify-center">
-            99+
-          </span>
-        )}
+        <IoBookmarks className=" text-fio h-4 w-4" />
+        <span className="absolute -top-1 -right-1  bg-fio text-white text-xs font-bold rounded-full h-4 p-1 flex items-center justify-center">
+          {newsCount < 100 ? newsCount : "99+"}
+        </span>
       </Button>
     </Link>
   );
