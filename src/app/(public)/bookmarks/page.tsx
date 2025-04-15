@@ -1,6 +1,6 @@
 import { BookmarksTabs } from "@/entities/bookmark/_ui/bookmarks_tabs";
 import { getAppSessionServer } from "@/entities/user/get-app-session.server";
-import { CleareBookmarksButton } from "@/features/bookmarks/_ui/clear_bookmark_button";
+import { CleareBookmarksButton } from "@/features/bookmarks/ui/clear_bookmark_button";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { Title } from "@/shared/components";
 import { Metadata } from "next";

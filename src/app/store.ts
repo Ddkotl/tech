@@ -1,5 +1,5 @@
 // app/store.ts
-import { newsBookmarksReducer } from "@/features/bookmarks/news/news_bookmarks_slice";
+import { newsBookmarksReducer } from "@/features/bookmarks/slices/news_bookmarks_slice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({

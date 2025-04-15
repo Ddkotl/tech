@@ -4,13 +4,13 @@ import Link from "next/link";
 import { Button } from "../../../shared/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import { useEffect } from "react";
+import { Skeleton } from "../../../shared/components/ui/skeleton";
 import {
   initNewsBookmarks,
   selectIsNewsBookmarksStateInit,
   selectNewsBookmarksCount,
-} from "@/features/bookmarks/news/news_bookmarks_slice";
-import { useEffect } from "react";
-import { Skeleton } from "../../../shared/components/ui/skeleton";
+} from "../slices/news_bookmarks_slice";
 
 export function BookmarksIcon() {
   const dispatch = useDispatch();
@@ -20,6 +20,10 @@ export function BookmarksIcon() {
   const newsCount = useSelector((state: RootState) => {
     return selectNewsBookmarksCount(state);
   });
+  // const newsBookmarksLocal = useSelector((state: RootState) => {
+  //   return selectNewsBookmarkIds(state);
+  // });
+  // console.log("newsBookmarksLocal", newsBookmarksLocal);
   useEffect(() => {
     dispatch(initNewsBookmarks());
   }, [dispatch]);

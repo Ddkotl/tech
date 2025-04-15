@@ -1,7 +1,6 @@
 // features/bookmarks/bookmarksSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-const news_bookmarks_key = "news_bookmarks";
+import { news_bookmarks_key } from "../keys";
 
 interface NewsBookmarksState {
   news_ids: string[];

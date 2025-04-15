@@ -5,7 +5,7 @@ import { Button, Card, CardDescription, Skeleton, TimeAgo, Title } from "@/share
 import { TagBage } from "@/entities/tag";
 import { PartialNewsWithTags } from "../_domain/types";
 import { TagBageSkeleton } from "@/entities/tag/_ui/tag_bage";
-import { BookmarksButton } from "@/features/bookmarks/_ui/bookmark_button";
+import { BookmarksButton } from "@/features/bookmarks/ui/bookmark_button";
 
 export function NewsCardForList({
   SingleNew,

@@ -1,6 +1,6 @@
 "use client";
 import { RootState } from "@/app/store";
-import { selectIsNewsBookmarked, toggleNewsBookmark } from "@/features/bookmarks/news/news_bookmarks_slice";
+import { selectIsNewsBookmarked, toggleNewsBookmark } from "@/features/bookmarks/slices/news_bookmarks_slice";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/shared/components/ui/button";
 import { FaBookmark } from "react-icons/fa";

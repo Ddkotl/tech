@@ -1,3 +1,4 @@
+"use server";
 import { dataBase } from "@/shared/lib/db_conect";
 
 export async function deleteAllNewsBookmarksByUser(userId: string) {
@@ -9,6 +10,7 @@ export async function deleteAllNewsBookmarksByUser(userId: string) {
     });
   } catch (error) {
     console.log(error);
+    throw new Error("Failed to delete bookmarks");
   }
 }
 
@@ -22,5 +24,6 @@ export async function deleteNewsBookmarkByUser(userId: string, newsId: string) {
     });
   } catch (error) {
     console.log(error);
+    throw new Error("Failed to delete bookmarks");
   }
 }

@@ -1,3 +1,4 @@
+"use server";
 import { dataBase } from "@/shared/lib/db_conect";
 
 export async function toggleNewsBookmark(userId: string, newsId: string) {
