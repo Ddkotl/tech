@@ -9,10 +9,16 @@ import { Skeleton } from "../../../shared/components/ui/skeleton";
 import {
   initNewsBookmarks,
   selectIsNewsBookmarksStateInit,
+  selectNewsBookmarkIds,
   selectNewsBookmarksCount,
 } from "../slices/news_bookmarks_slice";
+import { useAppSession } from "@/entities/user/session";
+import { addNewsBookmarks } from "@/entities/bookmark/_actions/add_news_bookmarks";
+import { news_bookmarks_key } from "../keys";
 
 export function BookmarksIcon() {
+  const session = useAppSession();
+  const userId = session?.data?.user.id;
   const dispatch = useDispatch();
   const isNewsBookmarksStateInit = useSelector((state: RootState) => {
     return selectIsNewsBookmarksStateInit(state);
@@ -20,14 +26,21 @@ export function BookmarksIcon() {
   const newsCount = useSelector((state: RootState) => {
     return selectNewsBookmarksCount(state);
   });
-  // const newsBookmarksLocal = useSelector((state: RootState) => {
-  //   return selectNewsBookmarkIds(state);
-  // });
+  const newsBookmarksLocal = useSelector((state: RootState) => {
+    return selectNewsBookmarkIds(state);
+  });
   // console.log("newsBookmarksLocal", newsBookmarksLocal);
   useEffect(() => {
     dispatch(initNewsBookmarks());
   }, [dispatch]);
-
+  useEffect(() => {
+    if (userId && typeof window !== undefined) {
+      (async () => {
+        const updatedNewsBookmarks = await addNewsBookmarks(newsBookmarksLocal, userId);
+        window.localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
+      })();
+    }
+  }, [newsBookmarksLocal, userId]);
   if (!isNewsBookmarksStateInit) {
     return (
       <Button

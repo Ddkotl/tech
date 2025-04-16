@@ -6,6 +6,7 @@ import { PhoneModelLargeCard } from "@/entities/phone_models/_ui/phone_model_lar
 import { Metadata } from "next";
 import { generateSEOMetadata } from "@/features/seo/generate_metadata";
 import { NextAndPrevModelButtons } from "@/entities/phone_models/_ui/prev_next_model_buttons";
+import { DeleteModelButton } from "@/entities/phone_models/_ui/delete_model_button";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const pageParams = await params;
@@ -45,6 +46,7 @@ export default async function PhoneModelPage({ params }: { params: Promise<{ slu
   return (
     <main className="flex flex-col  flex-1 gap-2 lg:gap-6 ">
       {/* Карточка телефона */}
+      <DeleteModelButton slug={pageParams.slug} />
       <PhoneModelLargeCard phone={phone} />
 
       {/* Раздел "Описание" */}
