@@ -36,6 +36,8 @@ const ERROR_PATTERNS = [
   "i cannot help with this request",
   "this content violates our guidelines",
   "this request is not allowed",
+  "Request",
+  "error",
   "data",
   "content",
   "role",
@@ -54,6 +56,7 @@ export const safeTranslate = async (
 ): Promise<string> => {
   for (let i = 0; i < retries; i++) {
     try {
+      await sleep(5000);
       const response = await translateFunction(text, fullName); // Упрощенный вызов
 
       if (response && !containsError(response)) {
