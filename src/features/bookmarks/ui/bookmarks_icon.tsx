@@ -29,19 +29,20 @@ export function BookmarksIcon() {
   const newsBookmarksLocal = useSelector((state: RootState) => {
     return selectNewsBookmarkIds(state);
   });
-  // console.log("newsBookmarksLocal", newsBookmarksLocal);
+
   useEffect(() => {
-    dispatch(initNewsBookmarks());
-  }, [dispatch]);
-  useEffect(() => {
-    if (userId && typeof window !== "undefined" && isNewsBookmarksStateInit) {
+    if (!isNewsBookmarksStateInit) {
+      dispatch(initNewsBookmarks());
+    }
+    if (userId && typeof window !== "undefined" && isNewsBookmarksStateInit && newsBookmarksLocal.length > 0) {
       const syncBookmarks = async () => {
         const updatedNewsBookmarks = await addNewsBookmarks(newsBookmarksLocal, userId);
         window.localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
+        dispatch(initNewsBookmarks());
       };
       syncBookmarks();
     }
-  }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit]);
+  }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit, dispatch]);
   if (!isNewsBookmarksStateInit) {
     return (
       <Button

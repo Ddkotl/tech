@@ -45,7 +45,7 @@ export async function addNewsBookmarks(newsIds: string[], userId: string) {
       ),
     );
     const updatedBookmarks = await dataBase.newsBookmark.findMany({
-      where: { id: userId },
+      where: { userId: userId },
       select: {
         newsId: true,
       },

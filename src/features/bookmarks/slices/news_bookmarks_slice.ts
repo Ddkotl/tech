@@ -11,7 +11,7 @@ const initialNewsBookmarksState: NewsBookmarksState = {
   isNewsBookmarksStateInit: false,
 };
 
-export const newsBbookmarksSlice = createSlice({
+export const newsBookmarksSlice = createSlice({
   name: news_bookmarks_key,
   initialState: initialNewsBookmarksState,
   reducers: {
@@ -40,7 +40,7 @@ export const newsBbookmarksSlice = createSlice({
   },
 });
 
-export const { toggleNewsBookmark, clearNewsBookmarks, initNewsBookmarks } = newsBbookmarksSlice.actions;
+export const { toggleNewsBookmark, clearNewsBookmarks, initNewsBookmarks } = newsBookmarksSlice.actions;
 
 // Селекторы
 export const selectNewsBookmarkIds = (state: { newsBookmarks: NewsBookmarksState }) => state.newsBookmarks.news_ids;
@@ -51,4 +51,4 @@ export const selectIsNewsBookmarked = (state: { newsBookmarks: NewsBookmarksStat
 export const selectIsNewsBookmarksStateInit = (state: { newsBookmarks: NewsBookmarksState }) =>
   state.newsBookmarks.isNewsBookmarksStateInit;
 
-export const newsBookmarksReducer = newsBbookmarksSlice.reducer;
+export const newsBookmarksReducer = newsBookmarksSlice.reducer;
