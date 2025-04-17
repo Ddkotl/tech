@@ -44,13 +44,13 @@ export async function addNewsBookmarks(newsIds: string[], userId: string) {
         }),
       ),
     );
-    const updatedUser = await dataBase.user.findUnique({
+    const updatedBookmarks = await dataBase.newsBookmark.findMany({
       where: { id: userId },
       select: {
-        newsDookmarks: true,
+        newsId: true,
       },
     });
-    return updatedUser?.newsDookmarks || [];
+    return updatedBookmarks.map((e) => e.newsId);
   } catch (error) {
     console.error("Ошибка при добавлении закладок:", error);
     return [];
