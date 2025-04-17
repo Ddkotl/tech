@@ -22,7 +22,7 @@ export function PhoneModelLitleCard({
           className,
         )}
       >
-        <CardContent className="p-1 image-safe">
+        <CardContent className="p-1 image-safe w-[30px] h-10">
           <Image
             src={modelMainImage}
             alt="картинка карточки"
@@ -32,7 +32,7 @@ export function PhoneModelLitleCard({
           />
         </CardContent>
         <CardFooter className="flex justify-center p-1">
-          <CardTitle className="text-xs lg:text-sm font-thin flex text-start items-center justify-center">
+          <CardTitle className="text-xs lg:text-sm font-thin flex text-start items-center justify-center line-clamp-2 ">
             {modelFullName}
           </CardTitle>
         </CardFooter>

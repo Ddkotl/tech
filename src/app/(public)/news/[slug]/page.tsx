@@ -2,6 +2,8 @@ import { DeleteNewsButton } from "@/entities/news";
 import { getSingleNewsBySlug } from "@/entities/news/_actons/get_news_by_slug";
 import { increaseNewsViewsCountAction } from "@/entities/news/_actons/increase_news_views_count_action";
 import { SimilarNews } from "@/entities/news/_ui/similar-news";
+import { TagBage } from "@/entities/tag";
+import { BookmarksButton } from "@/features/bookmarks/ui/bookmark_button";
 import { Card, CardContent, CardHeader, TimeAgo, Title } from "@/shared/components";
 import { ImageGalleryComponent } from "@/shared/components/custom/image-galery-react";
 import { Metadata } from "next";
@@ -62,10 +64,14 @@ export default async function NewsPage({ params }: { params: Promise<{ slug: str
         <CardHeader className="p-2">
           <DeleteNewsButton slug={pageParams.slug} />
           <h1 className="lg:text-xl text-base lg:font-bold font-semibold">{news.title}</h1>
-          <div className="md:text-base text-sm flex flex-col sm:flex-row justify-between items-start sm:items-center text-foreground/80">
-            <span>
+          <div className="md:text-base text-sm flex flex-col  justify-between items-start sm:items-center text-foreground/80">
+            <div className="text-xs w-full mt-1.5 flex flex-row items-center justify-between ">
               <TimeAgo date={news.createdAt} />
-            </span>
+              <BookmarksButton id={news.id} type="news" />
+            </div>
+            <div className="items-start w-full flex flex-wrap gap-2">
+              {news?.tags.map((tag) => <TagBage key={tag.slug} slug={tag.slug} title={tag.title} />)}
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-2">
