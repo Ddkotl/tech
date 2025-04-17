@@ -34,13 +34,14 @@ export function BookmarksIcon() {
     dispatch(initNewsBookmarks());
   }, [dispatch]);
   useEffect(() => {
-    if (userId && typeof window !== undefined) {
-      (async () => {
+    if (userId && typeof window !== "undefined" && isNewsBookmarksStateInit) {
+      const syncBookmarks = async () => {
         const updatedNewsBookmarks = await addNewsBookmarks(newsBookmarksLocal, userId);
         window.localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
-      })();
+      };
+      syncBookmarks();
     }
-  }, [newsBookmarksLocal, userId]);
+  }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit]);
   if (!isNewsBookmarksStateInit) {
     return (
       <Button
