@@ -3,7 +3,6 @@ import { getImageName } from "./image/get_image_name";
 import { replaceWatermarkWithSharp } from "./image/add_watermarck";
 import { fileStorage } from "../../file-storage";
 import { removeImageBackgroundWithRetry } from "./image/remove_bg/rm_image_bg";
-import { restartTor } from "../../tor";
 import { removeWattermarkWithRetry } from "./image/remove_watermarc/rm_image_watermarc";
 import { incriaseImageWithRetry } from "./image/incriase_image/incriase_image";
 import { сompressImageWithRetry } from "./image/compress_image/compress_image";
@@ -23,14 +22,6 @@ export const downloadImageForS3 = async (
   },
 ) => {
   try {
-    try {
-      if (config.proxy_tor) {
-        await restartTor();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
     if (!config.page) {
       console.log("Problem with playwright page");
       return null;
@@ -45,23 +36,35 @@ export const downloadImageForS3 = async (
     });
     const contentType = response.headers["content-type"] || "application/octet-stream";
     let processedImageBuffer = response.data;
-    if (config.incriase) {
-      processedImageBuffer = await incriaseImageWithRetry(processedImageBuffer, config.page);
-      // console.log("изображение увеличено");
+    try {
+      if (config.incriase) {
+        processedImageBuffer = await incriaseImageWithRetry(processedImageBuffer, config.page);
+      }
+    } catch (error) {
+      console.log("Failed to increase image:", url, error);
     }
-    if (config.remove_wattermark) {
-      processedImageBuffer = await removeWattermarkWithRetry(processedImageBuffer, config.page, config.textDelete);
-      // console.log("удалена вотермарка");
+    try {
+      if (config.remove_wattermark) {
+        processedImageBuffer = await removeWattermarkWithRetry(processedImageBuffer, config.page, config.textDelete);
+      }
+    } catch (error) {
+      console.log("Failed to remove watermark:", url, error);
     }
-    if (config.convert_to_png) {
-      processedImageBuffer = await removeImageBackgroundWithRetry(processedImageBuffer, config.page);
-      // console.log("удален фон");
+    try {
+      if (config.convert_to_png) {
+        processedImageBuffer = await removeImageBackgroundWithRetry(processedImageBuffer, config.page);
+      }
+    } catch (error) {
+      console.log("Failed to remove background:", url, error);
     }
 
     processedImageBuffer = await replaceWatermarkWithSharp(processedImageBuffer, "tech24view.ru");
-    // console.log("вотермарка добавлена");
-    processedImageBuffer = await сompressImageWithRetry(processedImageBuffer, config.page);
-    // console.log("изображение сжато");
+    try {
+      processedImageBuffer = await сompressImageWithRetry(processedImageBuffer, config.page);
+    } catch (error) {
+      console.log("Failed to compress image:", url, error);
+    }
+
     // Создаем Blob из массива байтов
     const blob = new Blob([processedImageBuffer], { type: contentType });
 

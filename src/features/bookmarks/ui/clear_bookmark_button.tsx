@@ -29,10 +29,10 @@ export function CleareBookmarksButton() {
     },
   });
   const handleClearBookmarks = () => {
-    dispatch(clearNewsBookmarks());
     if (userId) {
       deleteServerNewsBookmarks.mutate(userId);
     }
+    dispatch(clearNewsBookmarks());
   };
 
   return (

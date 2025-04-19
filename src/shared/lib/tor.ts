@@ -2,7 +2,7 @@ import { exec } from "child_process";
 
 const TOR_CONTAINER_NAME = "tor_proxy"; // Замените на имя вашего контейнера
 
-const waitForContainerToBeHealthy = (containerName: string, timeout: number = 300000): Promise<void> => {
+const waitForContainerToBeHealthy = (containerName: string, timeout: number = 30000): Promise<void> => {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
 
@@ -28,24 +28,36 @@ const waitForContainerToBeHealthy = (containerName: string, timeout: number = 30
   });
 };
 
-export const restartTor = async (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    exec(`docker restart ${TOR_CONTAINER_NAME}`, async (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Ошибка при перезапуске Tor: ${stderr}`);
-        return reject(error);
+export const restartTor = async (maxRetries = 5): Promise<void> => {
+  let attempt = 0;
+
+  while (attempt < maxRetries) {
+    attempt++;
+    console.log(`⚙️ Попытка перезапуска Tor (${attempt}/${maxRetries})`);
+
+    try {
+      await new Promise<void>((resolve, reject) => {
+        exec(`docker restart ${TOR_CONTAINER_NAME}`, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`Ошибка при перезапуске Tor: ${stderr}`);
+            return reject(error);
+          }
+          resolve();
+        });
+      });
+
+      console.log("⏳ Ожидание, пока контейнер станет healthy...");
+      await waitForContainerToBeHealthy(TOR_CONTAINER_NAME);
+      console.log("✅ Tor контейнер готов к использованию");
+      return; // Успешно, выходим
+    } catch (err) {
+      console.warn(`⚠️ Попытка ${attempt} не удалась: ${err}`);
+      if (attempt >= maxRetries) {
+        console.error("❌ Все попытки перезапуска Tor не увенчались успехом");
+        throw err;
       }
-      // Ждем, пока контейнер станет "healthy"
-      try {
-        await waitForContainerToBeHealthy(TOR_CONTAINER_NAME);
-        // console.log(
-        //   `Контейнер ${stdout} перезапущен и готов к использованию.`,
-        // );
-        resolve();
-      } catch (err) {
-        console.error("Ошибка при ожидании состояния Tor контейнера:", err);
-        reject(err);
-      }
-    });
-  });
+
+      console.log("🔁 Повторная попытка перезапуска...");
+    }
+  }
 };

@@ -1,5 +1,5 @@
 import { Page } from "playwright";
-import { restartTor } from "../../tor";
+// import { restartTor } from "../../tor";
 
 export async function checkRequestLimits(page: Page): Promise<void> {
   const MAX_RETRIES = 20;
@@ -22,7 +22,7 @@ export async function checkRequestLimits(page: Page): Promise<void> {
       }
 
       console.log("Обнаружено ограничение запросов. Перезапуск Tor...");
-      await restartTor();
+      // await restartTor();
       await page.reload({ waitUntil: "load" });
     } catch (error) {
       console.error(`Ошибка при попытке ${attempt}:`, error);

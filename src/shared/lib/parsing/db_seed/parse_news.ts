@@ -76,8 +76,9 @@ export async function ParseNews(
     });
   }
   // await delay(1000);
-  // await publishWithInstagrapi({
+  // await publishToInstagram({
   //   type: "news",
+  //   slug: slug,
   //   meta_description: metaDescription,
   //   previewImage: previewImage,
   //   ruTitle: ruTitle,
