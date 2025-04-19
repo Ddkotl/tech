@@ -15,7 +15,8 @@ import {
 import { useAppSession } from "@/entities/user/session";
 import { addNewsBookmarks } from "@/entities/bookmark/_actions/add_news_bookmarks";
 import { news_bookmarks_key } from "../keys";
-
+import { useDebouncedCallback } from "use-debounce";
+import { toast } from "sonner";
 export function BookmarksIcon() {
   const session = useAppSession();
   const userId = session?.data?.user.id;
@@ -29,20 +30,27 @@ export function BookmarksIcon() {
   const newsBookmarksLocal = useSelector((state: RootState) => {
     return selectNewsBookmarkIds(state);
   });
-
   useEffect(() => {
-    if (!isNewsBookmarksStateInit) {
+    if (typeof window !== "undefined" && !isNewsBookmarksStateInit) {
       dispatch(initNewsBookmarks());
     }
-    if (userId && typeof window !== "undefined" && isNewsBookmarksStateInit && newsBookmarksLocal.length > 0) {
-      const syncBookmarks = async () => {
-        const updatedNewsBookmarks = await addNewsBookmarks(newsBookmarksLocal, userId);
-        window.localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
-        dispatch(initNewsBookmarks());
-      };
-      syncBookmarks();
+  }, [dispatch, isNewsBookmarksStateInit]);
+  const syncBookmarks = useDebouncedCallback(async (bookmarks: string[], userId: string) => {
+    try {
+      const updatedNewsBookmarks = await addNewsBookmarks(bookmarks, userId);
+      localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
+      dispatch(initNewsBookmarks());
+    } catch (error) {
+      toast.error("Не удалось сохранить закладки");
+      console.error("Bookmarks sync error:", error);
     }
-  }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit, dispatch]);
+  }, 1000);
+
+  // Эффект для запуска синхронизации
+  useEffect(() => {
+    if (!userId || !isNewsBookmarksStateInit || newsBookmarksLocal.length === 0) return;
+    syncBookmarks(newsBookmarksLocal, userId);
+  }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit, syncBookmarks]);
   if (!isNewsBookmarksStateInit) {
     return (
       <Button

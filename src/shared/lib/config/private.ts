@@ -27,7 +27,9 @@ const privateConfigSchema = z.object({
 
   TELEGRAM_BOT_KEY: z.string().optional(),
   TELEGRAM_CHANNEL_ID: z.string().optional(),
-
+  INSTAGRAM_LOGIN: z.string().optional(),
+  INSTAGRAM_PASSWORD: z.string().optional(),
+  INSTAGRAM_SESSION_ID: z.string().optional(),
   TEST_ENV_BASE_URL: z.string().optional(),
 
   NODE_ENV: z.string().optional(),

@@ -23,9 +23,14 @@ export const downloadImageForS3 = async (
   },
 ) => {
   try {
-    if (config.proxy_tor) {
-      await restartTor();
+    try {
+      if (config.proxy_tor) {
+        await restartTor();
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     if (!config.page) {
       console.log("Problem with playwright page");
       return null;

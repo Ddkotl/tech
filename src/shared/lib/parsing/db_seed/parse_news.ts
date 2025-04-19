@@ -75,4 +75,12 @@ export async function ParseNews(
       tags: tags,
     });
   }
+  // await delay(1000);
+  // await publishWithInstagrapi({
+  //   type: "news",
+  //   meta_description: metaDescription,
+  //   previewImage: previewImage,
+  //   ruTitle: ruTitle,
+  //   tags: tags,
+  // });
 }
