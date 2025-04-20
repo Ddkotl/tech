@@ -81,7 +81,7 @@ services:
     container_name: tor_proxy
     restart: unless-stopped
     ports:
-      - "9050:9050" # SOCKS5 Proxy
+      - "127.0.0.1:9050:9050" # SOCKS5 Proxy
     environment:
       - TZ=UTC
 

@@ -2,7 +2,7 @@ import { exec } from "child_process";
 
 const TOR_CONTAINER_NAME = "tor_proxy"; // Замените на имя вашего контейнера
 
-const waitForContainerToBeHealthy = (containerName: string, timeout: number = 30000): Promise<void> => {
+const waitForContainerToBeHealthy = (containerName: string, timeout: number = 500000): Promise<void> => {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
 
@@ -28,7 +28,7 @@ const waitForContainerToBeHealthy = (containerName: string, timeout: number = 30
   });
 };
 
-export const restartTor = async (maxRetries = 5): Promise<void> => {
+export const restartTor = async (maxRetries = 2): Promise<void> => {
   let attempt = 0;
 
   while (attempt < maxRetries) {

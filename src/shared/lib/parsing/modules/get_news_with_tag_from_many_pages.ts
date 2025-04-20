@@ -63,7 +63,7 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
         .evaluateAll((tags) =>
           tags.map((tag) => tag.textContent?.trim().toLowerCase()).filter((tag) => tag !== undefined),
         );
-      if (tags.includes("gsmarena") || tags.includes("weekly poll")) {
+      if (tags.includes("gsmarena") || tags.includes("weekly poll") || tags.includes("deals")) {
         continue;
       }
       const translatedTitle = article.title ? await safeTranslate(article.title, translateAndUnicTitle) : "";

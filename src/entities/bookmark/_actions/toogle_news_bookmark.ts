@@ -1,7 +1,7 @@
 "use server";
 import { dataBase } from "@/shared/lib/db_conect";
 
-export async function toggleNewsBookmark(userId: string, newsId: string) {
+export async function toggleNewsBookmarkAction(userId: string, newsId: string) {
   try {
     const bookmark = await dataBase.newsBookmark.findFirst({
       where: {
