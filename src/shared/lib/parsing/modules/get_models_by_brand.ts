@@ -11,6 +11,7 @@ import { translateStorageAI } from "../openai/generate_model_spec/translate_stor
 import { translateRamAI } from "../openai/generate_model_spec/translate_ram";
 import { dataBase } from "../../db_conect";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
+import { cleaneText } from "../functions/cleane_text";
 export const getModelsByBrand = async (
   modelNotExist: {
     model: string;
@@ -129,12 +130,12 @@ export const getModelsByBrand = async (
       slug,
       brandName,
       modelImgPath: modelImgPath ? modelImgPath : "/placeholder.png",
-      releaseDate: translatedReleaseDate,
+      releaseDate: cleaneText(translatedReleaseDate).replace(/"месяц или квартал"/gi, ""),
       weight: translatedWeight,
       thicknes: translatedThicknes,
       os,
-      storage: translatedStorage.replace(/[а-я:'";ОЗУПН]/g, ""),
-      ram: translatedRam.replace(/[а-яОЗУРАМН:'";]/g, ""),
+      storage: cleaneText(translatedStorage).replace(/[а-я:'";ОЗУПН]/g, ""),
+      ram: cleaneText(translatedRam).replace(/[а-яОЗУРАМН:'";]/g, ""),
       processor,
       screen_duim: screen_duim.replace(/[^0-9.]/g, ""),
       screen_px: screen_px.split(" ")[0],
