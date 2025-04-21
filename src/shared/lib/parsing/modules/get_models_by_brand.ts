@@ -130,7 +130,7 @@ export const getModelsByBrand = async (
       slug,
       brandName,
       modelImgPath: modelImgPath ? modelImgPath : "/placeholder.png",
-      releaseDate: cleaneText(translatedReleaseDate).replace(/"месяц или квартал"/gi, ""),
+      releaseDate: cleaneText(translatedReleaseDate).replace(/месяц или квартал/gi, ""),
       weight: translatedWeight,
       thicknes: translatedThicknes,
       os,
