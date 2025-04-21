@@ -131,8 +131,8 @@ export const getModelsByBrand = async (
       brandName,
       modelImgPath: modelImgPath ? modelImgPath : "/placeholder.png",
       releaseDate: cleaneText(translatedReleaseDate)
-        .replace(/", месяц или квартал"/gi, "")
-        .replace(/"месяц или квартал"/gi, ""),
+        .replace(/, месяц или квартал/gi, "")
+        .replace(/месяц или квартал/gi, ""),
       weight: translatedWeight,
       thicknes: translatedThicknes,
       os,
