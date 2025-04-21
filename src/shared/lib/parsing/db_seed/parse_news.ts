@@ -5,6 +5,7 @@ import { isTagExist } from "./is_tag_exist";
 import { dataBase } from "../../db_conect";
 import { publishToTelegram } from "../publish_content/publish_to_telegram";
 import { privateConfig } from "../../config/private";
+import { publishToInstagram } from "../publish_content/publish_to_instagram";
 
 export async function ParseNews(
   metaTitle: string,
@@ -74,14 +75,14 @@ export async function ParseNews(
       ruTitle: ruTitle,
       tags: tags,
     });
+    await delay(1000);
+    await publishToInstagram({
+      type: "news",
+      slug: slug,
+      meta_description: metaDescription,
+      previewImage: previewImage,
+      ruTitle: ruTitle,
+      tags: tags,
+    });
   }
-  // await delay(1000);
-  // await publishToInstagram({
-  //   type: "news",
-  //   slug: slug,
-  //   meta_description: metaDescription,
-  //   previewImage: previewImage,
-  //   ruTitle: ruTitle,
-  //   tags: tags,
-  // });
 }

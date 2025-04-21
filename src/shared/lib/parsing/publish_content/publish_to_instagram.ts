@@ -1,116 +1,95 @@
-// import { IgApiClient } from "instagram-private-api";
-// import { readFile, writeFile } from "fs/promises";
-// import { existsSync, readFileSync, writeFileSync } from "fs";
-// import { tmpdir } from "os";
-// import { join } from "path";
-// import axios from "axios";
-// import readline from "readline";
-// import { privateConfig } from "../../config/private";
+import { privateConfig } from "../../config/private";
 
-// const SESSION_FILE = "ig-session.json";
+export async function publishToInstagram({
+  type,
+  slug,
+  meta_description,
+  ruTitle,
+  previewImage,
+  tags,
+}: {
+  type: "news" | "reviews";
+  slug: string;
+  ruTitle: string;
+  meta_description: string;
+  previewImage: string;
+  tags: string[];
+}) {
+  try {
+    if (!privateConfig.FACEBOOK_ACCESS_TOKEN || !privateConfig.INSTAGRAM_BUSINESS_ACCOUNT_ID) {
+      console.log("Не настроены параметры для публикации в Instagram");
+      return;
+    }
 
-// async function getInstagramClient(): Promise<IgApiClient> {
-//   const ig = new IgApiClient();
-//   ig.state.generateDevice(privateConfig.INSTAGRAM_LOGIN || "");
+    const imageUrl = `https://tech24view.ru${previewImage}`;
+    const icon = type === "news" ? "📰" : "📱";
+    const postText = `
+${icon} ${ruTitle}
+────────────────
+${meta_description}
 
-//   if (existsSync(SESSION_FILE)) {
-//     const saved = JSON.parse(readFileSync(SESSION_FILE, "utf-8"));
-//     await ig.state.deserialize(saved);
-//     console.log("✅ Сессия Instagram восстановлена.");
-//     return ig;
-//   }
+🔗 Читать полностью: https://tech24view.ru/${type}/${slug}
+────────────────
+🏷️ Теги: ${type === "news" ? "#Новости #Технологии" : "#Обзоры #Гаджеты"} ${tags.map((tag) => `#${tag}`).join(" ")}
+    `.trim();
 
-//   try {
-//     await ig.account.login(privateConfig.INSTAGRAM_LOGIN || "", privateConfig.INSTAGRAM_PASSWORD || "");
-//     console.log("✅ Успешный вход в Instagram.");
-//     const session = await ig.state.serialize();
-//     delete session.constants;
-//     writeFileSync(SESSION_FILE, JSON.stringify(session));
-//     return ig;
-//   } catch (error) {
-//     if (error === "IgCheckpointError") {
-//       console.log("⚠️ Требуется подтверждение (checkpoint).");
+    // 1. Создаем контейнер для медиа
+    const creationResponse = await fetch(
+      `https://graph.facebook.com/v22.0/${privateConfig.INSTAGRAM_BUSINESS_ACCOUNT_ID}/media`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image_url: imageUrl,
+          caption: postText,
+          access_token: privateConfig.FACEBOOK_ACCESS_TOKEN,
+        }),
+      },
+    );
 
-//       await ig.challenge.auto(true);
-//       const step_name = ig.state.checkpoint;
+    const creationData = await creationResponse.json();
+    const creationId = creationData.id;
 
-//       console.log(`📲 Challenge step: ${step_name}`);
+    if (!creationId) {
+      throw new Error("Не удалось создать контейнер медиа");
+    }
 
-//       const code = await promptCode("Введите код из Instagram: ");
-//       await ig.challenge.sendSecurityCode(code);
+    // 2. Публикуем контейнер
+    const publishResponse = await fetch(
+      `https://graph.facebook.com/v22.0/${privateConfig.INSTAGRAM_BUSINESS_ACCOUNT_ID}/media_publish`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          creation_id: creationId,
+          access_token: privateConfig.FACEBOOK_ACCESS_TOKEN,
+        }),
+      },
+    );
 
-//       const session = await ig.state.serialize();
-//       delete session.constants;
-//       writeFileSync(SESSION_FILE, JSON.stringify(session));
-//       console.log("✅ Challenge пройден, сессия сохранена.");
-//       return ig;
-//     }
+    const publishData = await publishResponse.json();
 
-//     console.error("❌ Ошибка входа в Instagram:", error);
-//     throw error;
-//   }
-// }
+    if (publishData.error) {
+      throw new Error(publishData.error.message);
+    }
 
-// function promptCode(promptText: string): Promise<string> {
-//   return new Promise((resolve) => {
-//     const rl = readline.createInterface({
-//       input: process.stdin,
-//       output: process.stdout,
-//     });
+    console.log("Пост успешно опубликован в Instagram! ID:", publishData.id);
+  } catch (error) {
+    console.log("Ошибка при публикации поста в Instagram:", error);
+  }
+}
 
-//     rl.question(promptText, (answer: string) => {
-//       rl.close();
-//       resolve(answer.trim());
-//     });
+// (async () => {
+//   await publishToInstagram({
+//     type: "news",
+//     slug: "slug111",
+//     meta_description: "metaDescription1111",
+//     previewImage: "https://ggscore.com/media/logo/t41813.png?27",
+//     ruTitle: "ruTitle11111",
+//     tags: ["tags"],
 //   });
-// }
-
-// export async function publishToInstagram({
-//   type,
-//   slug,
-//   meta_description,
-//   ruTitle,
-//   previewImage,
-//   tags,
-// }: {
-//   type: "news" | "reviews";
-//   slug: string;
-//   ruTitle: string;
-//   meta_description: string;
-//   previewImage: string;
-//   tags: string[];
-// }) {
-//   try {
-//     if (!privateConfig.INSTAGRAM_LOGIN || !privateConfig.INSTAGRAM_PASSWORD) {
-//       console.log("❌ Instagram credentials not set.");
-//       return;
-//     }
-
-//     const ig = await getInstagramClient();
-
-//     const imageUrl = `https://tech24view.ru${previewImage}`;
-//     const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
-
-//     const tempPath = join(tmpdir(), `insta-${Date.now()}.jpg`);
-//     await writeFile(tempPath, response.data);
-
-//     const caption = `
-// ${type === "news" ? "📰" : "📱"} ${ruTitle}
-
-// ${meta_description}
-
-// 🔗 tech24view.ru/${type}/${slug}
-
-// ${tags.map((tag) => `#${tag}`).join(" ")} ${type === "news" ? "#Новости #Технологии" : "#Обзоры #Гаджеты"}
-//     `.trim();
-
-//     await ig.publish.photo({
-//       file: await readFile(tempPath),
-//       caption,
-//     });
-
-//     console.log("✅ Пост успешно опубликован в Instagram!");
-//   } catch (error) {
-//     console.error("❌ Ошибка при публикации в Instagram:", error);
-//   }
-// }
+// })();
