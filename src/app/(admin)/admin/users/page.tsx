@@ -1,19 +1,21 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components";
+import { getAllUsers } from "@/entities/user/_actions/get-all-user";
+import { columns } from "@/entities/user/_ui/users_table_colums";
+import { Button } from "@/shared/components";
+import { DataTable } from "@/shared/components/custom/data-table";
+import { Search } from "@/shared/components/custom/search";
+import Link from "next/link";
 
 export default async function UsersPage() {
+  const users = await getAllUsers();
   return (
-    <Tabs defaultValue="all">
-      <div className="flex items-center">
-        <TabsList>
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="draft">Draft</TabsTrigger>
-          <TabsTrigger value="archived" className="hidden sm:flex">
-            Archived
-          </TabsTrigger>
-        </TabsList>
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between p-4">
+        <Search placeholder="Поиск пользователя" />
+        <Link href="/admin/user/create">
+          <Button variant="default">Добавить пользователя</Button>
+        </Link>
       </div>
-      <TabsContent value="all"></TabsContent>
-    </Tabs>
+      <DataTable columns={columns} data={users} />
+    </div>
   );
 }

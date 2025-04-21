@@ -48,7 +48,7 @@ export const getImagesFromPageGallery = async (page: Page): Promise<string[]> =>
     imgUrlList.push(firstImageSrc);
 
     let iteration = 0;
-    const MAX_ITERATIONS = 20;
+    const MAX_ITERATIONS = 9;
 
     while (iteration++ < MAX_ITERATIONS) {
       const nextButton = page.locator(nextButtonLocator).first();
