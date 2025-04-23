@@ -45,6 +45,7 @@ ${meta_description}
           image_url: imageUrl,
           caption: postText,
           access_token: privateConfig.FACEBOOK_ACCESS_TOKEN,
+          crossposting_places: [`${privateConfig.FACEBOOK_PAGE_ID}`],
         }),
       },
     );
