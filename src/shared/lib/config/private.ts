@@ -29,6 +29,7 @@ const privateConfigSchema = z.object({
   TELEGRAM_CHANNEL_ID: z.string().optional(),
   FACEBOOK_ACCESS_TOKEN: z.string().optional(),
   INSTAGRAM_BUSINESS_ACCOUNT_ID: z.string().optional(),
+  FACEBOOK_PAGE_ID: z.string().optional(),
 
   TEST_ENV_BASE_URL: z.string().optional(),
 
