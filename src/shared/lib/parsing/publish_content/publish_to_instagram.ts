@@ -22,6 +22,7 @@ export async function publishToInstagram({
     }
 
     const imageUrl = `https://tech24view.ru${previewImage}`;
+    // const imageUrl = "https://cdn.pixabay.com/photo/2024/05/30/22/14/bird-8799413_1280.jpg";
     const icon = type === "news" ? "📰" : "📱";
     const postText = `
 ${icon} ${ruTitle}
@@ -45,7 +46,6 @@ ${meta_description}
           image_url: imageUrl,
           caption: postText,
           access_token: privateConfig.FACEBOOK_ACCESS_TOKEN,
-          crossposting_places: [`${privateConfig.FACEBOOK_PAGE_ID}`],
         }),
       },
     );

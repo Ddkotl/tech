@@ -34,6 +34,8 @@ const privateConfigSchema = z.object({
   TEST_ENV_BASE_URL: z.string().optional(),
 
   NODE_ENV: z.string().optional(),
+
+  PAYLOAD_SECRET: z.string().optional(),
 });
 
 export const privateConfig = privateConfigSchema.parse(process.env);
