@@ -2,8 +2,6 @@
 import { useDispatch } from "react-redux";
 import { Button } from "@/shared/components";
 import { clearNewsBookmarks } from "../slices/news_bookmarks_slice";
-import { deleteAllNewsBookmarksByUser } from "@/entities/bookmark/_actions/delete_news_bookmarks";
-import { useAppSession } from "@/entities/user/session";
 
 export function CleareBookmarksButton() {
   const dispatch = useDispatch();
@@ -12,7 +10,7 @@ export function CleareBookmarksButton() {
 
   const handleClearBookmarks = () => {
     // if (userId) {
-      // deleteAllNewsBookmarksByUser(userId);
+    // deleteAllNewsBookmarksByUser(userId);
     // }
     dispatch(clearNewsBookmarks());
   };
