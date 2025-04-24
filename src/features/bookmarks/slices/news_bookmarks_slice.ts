@@ -24,14 +24,18 @@ export const newsBookmarksSlice = createSlice({
         // Удаляем ID, если он есть
         state.news_ids.splice(index, 1);
       }
-      localStorage.setItem(news_bookmarks_key, JSON.stringify(state.news_ids));
+      if (typeof window !== "undefined") {
+        localStorage.setItem(news_bookmarks_key, JSON.stringify(state.news_ids));
+      }
     },
     clearNewsBookmarks: (state) => {
       state.news_ids = [];
-      localStorage.removeItem(news_bookmarks_key);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem(news_bookmarks_key);
+      }
     },
     initNewsBookmarks: (state) => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && state.isNewsBookmarksStateInit === false) {
         const data = localStorage.getItem(news_bookmarks_key);
         state.news_ids = data ? JSON.parse(data) : [];
       }
