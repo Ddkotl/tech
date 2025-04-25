@@ -63,7 +63,7 @@ export const safeTranslate = async (
       await sleep(5000);
       const response = await translateFunction(text, fullName); // Упрощенный вызов
       console.log(response);
-      if (response && !containsError(response)) {
+      if (response && !containsError(response) && response.length > 20) {
         return response;
       }
       console.log(`Попытка ${i + 1} не удалась, повторяем...`);
