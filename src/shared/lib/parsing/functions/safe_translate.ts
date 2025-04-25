@@ -56,14 +56,14 @@ export const safeTranslate = async (
   text: string,
   translateFunction: (text: string, fullName?: string) => Promise<string>,
   fullName?: string,
-  retries: number = 15,
+  retries: number = 20,
 ): Promise<string> => {
   for (let i = 0; i < retries; i++) {
     try {
       await sleep(5000);
       const response = await translateFunction(text, fullName); // Упрощенный вызов
-
-      if (response && !containsError(response) && response.length>20) {
+      console.log(response);
+      if (response && !containsError(response) && response.length > 20) {
         return response;
       }
       console.log(`Попытка ${i + 1} не удалась, повторяем...`);
