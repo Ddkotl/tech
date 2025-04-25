@@ -9,17 +9,11 @@ import { Skeleton } from "../../../shared/components/ui/skeleton";
 import {
   initNewsBookmarks,
   selectIsNewsBookmarksStateInit,
-  selectNewsBookmarkIds,
   selectNewsBookmarksCount,
 } from "../slices/news_bookmarks_slice";
-import { useAppSession } from "@/entities/user/session";
-import { addNewsBookmarks } from "@/entities/bookmark/_actions/add_news_bookmarks";
-import { news_bookmarks_key } from "../keys";
-import { useDebouncedCallback } from "use-debounce";
-import { toast } from "sonner";
 export function BookmarksIcon() {
-  const session = useAppSession();
-  const userId = session?.data?.user.id;
+  // const session = useAppSession();
+  // const userId = session?.data?.user.id;
   const dispatch = useDispatch();
   const isNewsBookmarksStateInit = useSelector((state: RootState) => {
     return selectIsNewsBookmarksStateInit(state);
@@ -27,30 +21,29 @@ export function BookmarksIcon() {
   const newsCount = useSelector((state: RootState) => {
     return selectNewsBookmarksCount(state);
   });
-  const newsBookmarksLocal = useSelector((state: RootState) => {
-    return selectNewsBookmarkIds(state);
-  });
+  // const newsBookmarksLocal = useSelector((state: RootState) => {
+  //   return selectNewsBookmarkIds(state);
+  // });
   useEffect(() => {
     if (typeof window !== "undefined" && !isNewsBookmarksStateInit) {
       dispatch(initNewsBookmarks());
     }
   }, [dispatch, isNewsBookmarksStateInit]);
-  const syncBookmarks = useDebouncedCallback(async (bookmarks: string[], userId: string) => {
-    try {
-      const updatedNewsBookmarks = await addNewsBookmarks(bookmarks, userId);
-      localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
-      dispatch(initNewsBookmarks());
-    } catch (error) {
-      toast.error("Не удалось сохранить закладки");
-      console.error("Bookmarks sync error:", error);
-    }
-  }, 1000);
+  // const syncBookmarks = useDebouncedCallback(async (bookmarks: string[], userId: string) => {
+  //   try {
+  //     const updatedNewsBookmarks = await addNewsBookmarks(bookmarks, userId);
+  //     localStorage.setItem(news_bookmarks_key, JSON.stringify(updatedNewsBookmarks));
+  //     dispatch(initNewsBookmarks());
+  //   } catch (error) {
+  //     toast.error("Не удалось сохранить закладки");
+  //     console.error("Bookmarks sync error:", error);
+  //   }
+  // }, 1000);
 
-  // Эффект для запуска синхронизации
-  useEffect(() => {
-    if (!userId || !isNewsBookmarksStateInit || newsBookmarksLocal.length === 0) return;
-    syncBookmarks(newsBookmarksLocal, userId);
-  }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit, syncBookmarks]);
+  // useEffect(() => {
+  //   if (!userId || !isNewsBookmarksStateInit || newsBookmarksLocal.length === 0) return;
+  //   syncBookmarks(newsBookmarksLocal, userId);
+  // }, [newsBookmarksLocal, userId, isNewsBookmarksStateInit, syncBookmarks]);
   if (!isNewsBookmarksStateInit) {
     return (
       <Button
