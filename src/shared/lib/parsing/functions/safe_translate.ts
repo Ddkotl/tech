@@ -56,7 +56,7 @@ export const safeTranslate = async (
   text: string,
   translateFunction: (text: string, fullName?: string) => Promise<string>,
   fullName?: string,
-  retries: number = 15,
+  retries: number = 20,
 ): Promise<string> => {
   for (let i = 0; i < retries; i++) {
     try {
