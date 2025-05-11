@@ -6,7 +6,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   return (
     <>
       {" "}
-      <AppHeader variant="private" />
+      <AppHeader />
       <AuthorizedGuard>{children}</AuthorizedGuard>
     </>
   );
