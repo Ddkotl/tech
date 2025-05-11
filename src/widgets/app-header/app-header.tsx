@@ -10,7 +10,7 @@ import { Container } from "@/shared/components";
 import { BookmarksIcon } from "@/features/bookmarks/ui/bookmarks_icon";
 
 export function AppHeader({ variant }: { variant: "auth" | "private" | "public" | "admin" }) {
-  const isProfile = variant !== "auth";
+  // const isProfile = variant !== "auth";
 
   return (
     <Container className="sticky  top-0  z-[55]">
@@ -18,7 +18,7 @@ export function AppHeader({ variant }: { variant: "auth" | "private" | "public" 
         logo={<Logo />}
         mobileNav={<MobileMenu items={mainNavItems} logo={<Logo />} />}
         nav={<MainNav items={mainNavItems} />}
-        profile={isProfile && <Profile />}
+        // profile={isProfile && <Profile />}
         actions={<Actions bookmarks={<BookmarksIcon />} theme={<ToggleTheme />} />}
       />
     </Container>
