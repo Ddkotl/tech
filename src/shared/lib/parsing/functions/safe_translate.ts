@@ -19,6 +19,7 @@ const ERROR_PATTERNS = [
   "я не могу обработать этот текст",
   "не могу предоставить ответ",
   "не имею возможности обработать этот запрос",
+  "авторские права",
   "i cannot process",
   "i can't translate",
   "this violates copyright",
@@ -45,6 +46,9 @@ const ERROR_PATTERNS = [
   "data",
   "content",
   "role",
+  "bot limit",
+  "limit exceeded",
+  "blocked by",
 ];
 
 const containsError = (response: string): boolean => {
