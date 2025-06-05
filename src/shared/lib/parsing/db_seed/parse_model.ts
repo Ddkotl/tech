@@ -76,7 +76,6 @@ export const parseModel = async ({
         },
       },
     });
-
     console.log("Model created: ", createdModel.full_name);
   } catch (error) {
     console.log("Error creating model: ", error);
