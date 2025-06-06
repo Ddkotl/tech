@@ -48,18 +48,16 @@ export const getModelsByBrand = async (
     const translatedReleaseDate = await safeTranslate(releaseDate, translateReleaseDateAI, fullName);
 
     const weightAndThicknes = await page.locator('span[data-spec="body-hl"]').innerText();
-     const splitedWeightAndThicknes = weightAndThicknes.split(",");
-     const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
-     const thicknes = splitedWeightAndThicknes[1]
-       ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
-       : "";
-  //  const translatedWeight = await safeTranslate(weightAndThicknes, translateWeightAI, fullName);
-  //  const translatedThicknes = await safeTranslate(weightAndThicknes, translateThicknesAI, fullName);
-//console.log(weightAndThicknes)
-//console.log(translatedWeight)
-//console.log(translatedThicknes)
-//console.log(weight)
-//console.log(thicknes)
+    const splitedWeightAndThicknes = weightAndThicknes.split(",");
+    const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
+    const thicknes = splitedWeightAndThicknes[1] ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "") : "";
+    //  const translatedWeight = await safeTranslate(weightAndThicknes, translateWeightAI, fullName);
+    //  const translatedThicknes = await safeTranslate(weightAndThicknes, translateThicknesAI, fullName);
+    //console.log(weightAndThicknes)
+    //console.log(translatedWeight)
+    //console.log(translatedThicknes)
+    //console.log(weight)
+    //console.log(thicknes)
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
 
     const storage = await page.locator('span[data-spec="storage-hl"]').innerText();

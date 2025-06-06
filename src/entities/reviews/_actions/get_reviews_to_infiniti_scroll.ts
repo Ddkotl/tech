@@ -7,10 +7,12 @@ export const getReviewsToInfinitiScroll = async (
   perPage: number,
   searchTerm?: string,
   tagSlug?: string,
+  reviewsIds?: string[],
 ): Promise<PartialReviewsWithTags[]> => {
   try {
     const reviews = await dataBase.reviews.findMany({
       where: {
+        id: reviewsIds ? { in: reviewsIds } : undefined,
         title: { contains: searchTerm, mode: "insensitive" },
         tags: tagSlug ? { some: { slug: tagSlug } } : undefined,
       },

@@ -198,7 +198,7 @@ body {
     }
 
     p {
-      @apply text-sm lg:text-base text-foreground/80;
+      @apply indent-3 lg:indent-6 text-justify text-sm lg:text-base text-foreground/80;
 
       b {
         @apply text-base lg:text-lg text-foreground;

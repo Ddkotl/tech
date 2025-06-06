@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import { Button } from "@/shared/components";
 import { clearNewsBookmarks } from "../slices/news_bookmarks_slice";
+import { clearReviewsBookmarks } from "../slices/reviwes_bookmarks_slice";
 
 export function CleareBookmarksButton() {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ export function CleareBookmarksButton() {
     // deleteAllNewsBookmarksByUser(userId);
     // }
     dispatch(clearNewsBookmarks());
+    dispatch(clearReviewsBookmarks());
   };
 
   return (

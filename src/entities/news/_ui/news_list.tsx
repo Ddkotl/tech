@@ -34,6 +34,7 @@ export function NewsList({
       tagSlug && tagSlug,
       searchTerm && searchTerm,
       isNewsBookmarksStateInit && newsIds && "newsBookmarks",
+      newsIds,
     ],
     queryFn: (pageParam) => getNewsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm, tagSlug, newsIds),
     initialPageParam: 1,
