@@ -70,11 +70,11 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
               title="Батарея"
               value={`${phone.specifications[0].batary_capasity} `}
             />
-            <ModelSpecItem icon={<Weight size={20} />} title="Вес" value={`${phone.specifications[0].weight} г`} />
+            <ModelSpecItem icon={<Weight size={20} />} title="Вес" value={`${phone.specifications[0].weight} ? ${phone.specifications[0].weight} г : "-"`} />
             <ModelSpecItem
               icon={<Ruler size={20} />}
               title="Толщина"
-              value={`${phone.specifications[0].thickness} мм`}
+              value={`${phone.specifications[0].thickness} ? ${phone.specifications[0].thickness} мм : "-"`}
             />
           </div>
         </div>
