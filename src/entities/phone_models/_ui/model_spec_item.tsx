@@ -15,6 +15,6 @@ export const ModelSpecItem = ({
 
     <span className="font-medium text-sm foreground/70">{title}:</span>
     </div>
-    <span className="text-xs text-foreground/60 ml-auto text-end line-clamp-1 w-full ">{value ? value : "-"}</span>
+    <span className="text-xs text-foreground/60 ml-auto text-end line-clamp-1 ">{value ? value : "-"}</span>
   </div>
 );
