@@ -48,7 +48,9 @@ export function NewsCardForList({
               <BookmarksButton id={SingleNew.id} type="news" />
             </CardDescription>
 
-            <p className=" indent-2 lg:indent-4 text-justify text-sm line-clamp-3 mt-2 text-muted-foreground">{SingleNew.meta_description}</p>
+            <p className=" indent-2 lg:indent-4 text-justify text-sm line-clamp-3 mt-2 text-muted-foreground">
+              {SingleNew.meta_description}
+            </p>
           </div>
 
           <div className=" pt-2">

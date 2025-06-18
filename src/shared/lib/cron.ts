@@ -39,3 +39,4 @@ export function setupCron() {
     { scheduled: true },
   );
 }
+setupCron();

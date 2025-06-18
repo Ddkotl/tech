@@ -97,4 +97,23 @@ export async function ParseReviews(
 
   console.log(`Created review with title: ${createdReview.title}`);
   await delay(1000);
+  if (privateConfig.NODE_ENV === "production") {
+    console.log("start parse to tg");
+    await publishToTelegram({
+      type: "reviews",
+      slug:slug,
+      meta_description: metaDescription,
+      previewImage: previewImage,
+      ruTitle: ruTitle,
+      tags: tags,
+    });
+    await delay(1000);
+    await publishToInstagram({
+      type: "reviews",
+      content: content,
+      previewImage: previewImage,
+      ruTitle: ruTitle,
+      tags: tags,
+    });
+  }
 }

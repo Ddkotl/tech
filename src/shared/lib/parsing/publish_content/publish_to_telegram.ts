@@ -40,16 +40,6 @@ ${meta_description}
     await bot.sendPhoto(privateConfig.TELEGRAM_CHANNEL_ID, imageUrl, {
       caption: postText,
       parse_mode: "HTML",
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "🌐 <Смотреть на сайте>",
-              url: `https://tech24view.ru/${type}/${slug}`,
-            },
-          ],
-        ],
-      },
     });
 
     // // Генерируем временные URL для всех изображений
