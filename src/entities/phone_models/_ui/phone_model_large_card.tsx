@@ -27,7 +27,7 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
       <CardContent className="p-1">
         <div className="flex flex-col md:flex-row items-center justify-center gap-2 w-full lg:gap-4">
           <ImageGalleryComponent imagePaths={images} />
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 md:gap-4 w-full ">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2 md:gap-4 w-full ">
             <ModelSpecItem
               icon={<CalendarCheck2 size={20} />}
               title="Дата релиза"
@@ -70,11 +70,11 @@ export function PhoneModelLargeCard({ phone }: { phone: PhoneModeLFullInfo }) {
               title="Батарея"
               value={`${phone.specifications[0].batary_capasity} `}
             />
-            <ModelSpecItem icon={<Weight size={20} />} title="Вес" value={`${phone.specifications[0].weight} ? ${phone.specifications[0].weight} г : "-"`} />
+            <ModelSpecItem icon={<Weight size={20} />} title="Вес" value={${phone.specifications[0].weight} ? `${phone.specifications[0].weight} г` : "-"} />
             <ModelSpecItem
               icon={<Ruler size={20} />}
               title="Толщина"
-              value={`${phone.specifications[0].thickness} ? ${phone.specifications[0].thickness} мм : "-"`}
+              value={phone.specifications[0].thickness ? `${phone.specifications[0].thickness} мм`: "-"}
             />
           </div>
         </div>
