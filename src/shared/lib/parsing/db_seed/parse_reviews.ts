@@ -3,6 +3,9 @@ import { delay } from "./delay";
 import { transliterateToUrl } from "../../transliteration";
 import { isTagExist } from "./is_tag_exist";
 import { dataBase } from "../../db_conect";
+import { publishToTelegram } from "../publish_content/publish_to_telegram";
+import { privateConfig } from "../../config/private";
+import { publishToInstagram } from "../publish_content/publish_to_instagram";
 
 export async function ParseReviews(
   metaTitle: string,
