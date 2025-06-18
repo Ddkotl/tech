@@ -78,7 +78,7 @@ export async function ParseNews(
     await delay(1000);
     await publishToInstagram({
       type: "news",
-      content: content,
+      meta_description: metaDescription,
       previewImage: previewImage,
       ruTitle: ruTitle,
       tags: tags,
