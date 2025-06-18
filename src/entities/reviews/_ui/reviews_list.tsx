@@ -7,7 +7,17 @@ import { PartialReviewsWithTags } from "../_domain/types";
 import { ReviewsCardForList, ReviewsCardForListSkeleton } from "./reviews_card_for_list";
 import { Title } from "@/shared/components";
 
-export function ReviewsList({ tagSlug, searchTerm }: { tagSlug?: string; searchTerm?: string }) {
+export function ReviewsList({
+  tagSlug,
+  searchTerm,
+  reviewsIds,
+  isReviewsBookmarksStateInit,
+}: {
+  tagSlug?: string;
+  searchTerm?: string;
+  reviewsIds?: string[];
+  isReviewsBookmarksStateInit?: boolean;
+}) {
   const perPage = 9;
   const { ref, inView } = useInView();
   const {
@@ -19,8 +29,14 @@ export function ReviewsList({ tagSlug, searchTerm }: { tagSlug?: string; searchT
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["reviews", tagSlug ? tagSlug : "", searchTerm ? searchTerm : ""],
-    queryFn: (pageParam) => getReviewsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm, tagSlug),
+    queryKey: [
+      "reviews",
+      tagSlug ? tagSlug : "",
+      searchTerm ? searchTerm : "",
+      isReviewsBookmarksStateInit && "reviews_bookmarks",
+      reviewsIds,
+    ],
+    queryFn: (pageParam) => getReviewsToInfinitiScroll(pageParam.pageParam, perPage, searchTerm, tagSlug, reviewsIds),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPage) => {
       const nextPage = lastPage.length === perPage ? allPage.length + 1 : undefined;

@@ -5,6 +5,7 @@ import { Button, Card, CardDescription, Skeleton, TimeAgo, Title } from "@/share
 import { TagBage } from "@/entities/tag";
 import { PartialReviewsWithTags } from "../_domain/types";
 import { TagBageSkeleton } from "@/entities/tag/_ui/tag_bage";
+import { BookmarksButton } from "@/features/bookmarks/ui/bookmark_button";
 
 export function ReviewsCardForList({
   SingleReview,
@@ -42,11 +43,12 @@ export function ReviewsCardForList({
               />
             </Link>
 
-            <CardDescription className="text-xs mt-1.5">
+            <CardDescription className="text-xs mt-1.5 flex flex-row items-center justify-between ">
               <TimeAgo date={SingleReview.createdAt} />
+              <BookmarksButton id={SingleReview.id} type="reviews" />
             </CardDescription>
 
-            <p className="text-sm line-clamp-3 mt-2 text-muted-foreground">{SingleReview.meta_description}</p>
+            <p className=" indent-2 lg:indent-4 text-justify text-sm line-clamp-3 mt-2 text-muted-foreground">{SingleReview.meta_description}</p>
           </div>
 
           <div className=" pt-2">

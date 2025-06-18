@@ -5,8 +5,6 @@ import { safeTranslate } from "../functions/safe_translate";
 import { generateModelDescription } from "../openai/generate_model_description";
 import { parseModel } from "../db_seed/parse_model";
 import { translateReleaseDateAI } from "../openai/generate_model_spec/translate_release_date";
-import { translateWeightAI } from "../openai/generate_model_spec/translate_weight";
-import { translateThicknesAI } from "../openai/generate_model_spec/translate_thicknes";
 import { translateStorageAI } from "../openai/generate_model_spec/translate_storage";
 import { translateRamAI } from "../openai/generate_model_spec/translate_ram";
 import { dataBase } from "../../db_conect";
@@ -50,14 +48,16 @@ export const getModelsByBrand = async (
     const translatedReleaseDate = await safeTranslate(releaseDate, translateReleaseDateAI, fullName);
 
     const weightAndThicknes = await page.locator('span[data-spec="body-hl"]').innerText();
-    // const splitedWeightAndThicknes = weightAndThicknes.split(",");
-    // const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
-    // const thicknes = splitedWeightAndThicknes[1]
-    //   ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "")
-    //   : "";
-    const translatedWeight = await safeTranslate(weightAndThicknes, translateWeightAI, fullName);
-    const translatedThicknes = await safeTranslate(weightAndThicknes, translateThicknesAI, fullName);
-
+    const splitedWeightAndThicknes = weightAndThicknes.split(",");
+    const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
+    const thicknes = splitedWeightAndThicknes[1] ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "") : "";
+    //  const translatedWeight = await safeTranslate(weightAndThicknes, translateWeightAI, fullName);
+    //  const translatedThicknes = await safeTranslate(weightAndThicknes, translateThicknesAI, fullName);
+    //console.log(weightAndThicknes)
+    //console.log(translatedWeight)
+    //console.log(translatedThicknes)
+    //console.log(weight)
+    //console.log(thicknes)
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
 
     const storage = await page.locator('span[data-spec="storage-hl"]').innerText();
@@ -133,8 +133,8 @@ export const getModelsByBrand = async (
       releaseDate: cleaneText(translatedReleaseDate)
         .replace(/, месяц или квартал/gi, "")
         .replace(/месяц или квартал/gi, ""),
-      weight: translatedWeight,
-      thicknes: translatedThicknes,
+      weight: weight,
+      thicknes: thicknes,
       os,
       storage: cleaneText(translatedStorage).replace(/[а-я:'";ОЗУПН]/g, ""),
       ram: cleaneText(translatedRam).replace(/[а-яОЗУРАМН:'";]/g, ""),

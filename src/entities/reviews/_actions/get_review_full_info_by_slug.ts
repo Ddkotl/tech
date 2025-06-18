@@ -17,6 +17,7 @@ export const getReviewsFullInfoBySlug = async (slug: string): Promise<ReviewFull
             main_image: true,
           },
         },
+        tags: true,
       },
     });
   } catch (error) {
