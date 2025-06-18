@@ -113,7 +113,7 @@ export async function ParseReviews(
     await delay(1000);
     await publishToInstagram({
       type: "reviews",
-      content: content,
+      meta_description: metaDescription,
       previewImage: previewImage,
       ruTitle: ruTitle,
       tags: tags,
