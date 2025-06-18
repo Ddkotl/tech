@@ -11,9 +11,9 @@ export const ModelSpecItem = ({
 }) => (
   <div className="flex items-center gap-2 border-b border-foreground/30 pb-1 text-safe justify-between">
     <div className="flex gap-2">
-    <span>{icon}</span>
+      <span>{icon}</span>
 
-    <span className="font-medium text-sm foreground/70">{title}:</span>
+      <span className="font-medium text-sm foreground/70">{title}:</span>
     </div>
     <span className="text-xs text-foreground/60 ml-auto text-end line-clamp-1 ">{value ? value : "-"}</span>
   </div>
