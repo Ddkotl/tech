@@ -2,14 +2,14 @@ import { privateConfig } from "../../config/private";
 
 export async function publishToInstagram({
   type,
-  content,
+  meta_description,
   ruTitle,
   previewImage,
   tags,
 }: {
   type: "news" | "reviews";
   ruTitle: string;
-  content: string;
+  meta_description: string;
   previewImage: string;
   tags: string[];
 }) {
@@ -25,7 +25,7 @@ export async function publishToInstagram({
     const postText = `
 ${icon} ${ruTitle}
 ────────────────
-${content}
+${meta_description}
 
 🔗 Больше новостей и обзоров на https://tech24view.ru
 ────────────────
