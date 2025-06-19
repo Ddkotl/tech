@@ -139,7 +139,7 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
         : "";
 
       // Сохранение всех изображений из обзора
-              const slicedImgSrc = imagesSrc.slice(0,4)
+      const slicedImgSrc = allImages.slice(0,4)
 
       const contentImagesPaths: string[] = [];
       for (const imgSrc of slicedImgSrc) {
