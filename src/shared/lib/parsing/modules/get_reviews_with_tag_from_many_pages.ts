@@ -89,6 +89,7 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
           .locator(".review-body > img")
           .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("src")).filter((src) => src !== null))) as string[];
         allImages.push(...imagesSrc);
+      
 
         // Проверка на наличие кнопки "Next page"
         const nextPageElement = await page.locator(".pages-next").nth(0);
@@ -138,8 +139,10 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
         : "";
 
       // Сохранение всех изображений из обзора
+      const slicedImgSrc = allImages.slice(0,4)
+
       const contentImagesPaths: string[] = [];
-      for (const imgSrc of allImages) {
+      for (const imgSrc of slicedImgSrc) {
         if (imgSrc) {
           const savedPath = await downloadImageForS3(imgSrc, slug, "reviews", {
             page: pageToImages,
