@@ -4,7 +4,7 @@ import { getModelsUrlByBrand } from "./get_models_url_by_brand";
 import { checkModelsExisting } from "../db_seed/check_models_existing";
 import { getModelsByBrand } from "./get_models_by_brand";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
-import {MODELS_LIMIT} from "../limits.ts"
+import {MODELS_LIMIT} from "../limits"
 
 export const getAllBrandsAndModels = async (page: Page, pageToImages: Page) => {
   await page.goto("https://www.gsmarena.com/makers.php3", { timeout: 60000, waitUntil: "domcontentloaded" });
