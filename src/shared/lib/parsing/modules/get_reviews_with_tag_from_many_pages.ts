@@ -13,6 +13,7 @@ import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
+import {REVIEWS_LIMIT} from "../limits"
 
 export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, n: number) => {
   for (let i = n; 0 < i; i--) {
@@ -36,8 +37,11 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
         previewImageUrl: el.querySelector(".review-item-media-wrap > a > img")?.getAttribute("src"),
       })),
     );
-
+let reviews_limit =0
     for (const article of articles.reverse()) {
+      if(reviews_limit >= REVIEWS_LIMIT){
+        continue
+      }
       if (!article.link) {
         continue;
       }
@@ -168,6 +172,7 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
         parsedTags ? parsedTags : [],
         mobileModelName,
       );
+      reviews_limit++
     }
   }
 };

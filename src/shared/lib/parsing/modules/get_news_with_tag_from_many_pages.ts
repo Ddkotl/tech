@@ -14,6 +14,7 @@ import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
 import { getImagesFromPageGallery } from "./get_images_from_page_galery";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
+import { NEWS_LIMIT } from "../limits";
 
 export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: number) => {
   for (let i = 1; i <= n; i++) {
@@ -37,14 +38,18 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
         previewImageUrl: el.querySelector("img")?.getAttribute("src"),
       })),
     );
-
+let news_limit = 0
     for (const article of articles) {
+      if(news_limit>= NEWS_LIMIT){
+        continue
+      }
       if (!article.link) {
         continue;
       }
       if (article.title ? await IsNewsAlresdyParsed(article.title) : true) {
         continue;
       }
+
 
       await page.goto(`https://www.gsmarena.com/${article.link}`, { timeout: 60000, waitUntil: "domcontentloaded" });
       try {
@@ -130,6 +135,7 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
         contentImagesPaths,
         parsedTags ? parsedTags : [""],
       );
+    news_limit++
     }
   }
 };
