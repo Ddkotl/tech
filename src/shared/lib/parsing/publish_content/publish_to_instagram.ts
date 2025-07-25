@@ -2,14 +2,12 @@ import { privateConfig } from "../../config/private";
 
 export async function publishToInstagram({
   type,
-  slug,
   meta_description,
   ruTitle,
   previewImage,
   tags,
 }: {
   type: "news" | "reviews";
-  slug: string;
   ruTitle: string;
   meta_description: string;
   previewImage: string;
@@ -29,7 +27,7 @@ ${icon} ${ruTitle}
 ────────────────
 ${meta_description}
 
-🔗 Читать полностью: https://tech24view.ru/${type}/${slug}
+🔗 Больше новостей и обзоров на https://tech24view.ru
 ────────────────
 🏷️ Теги: ${type === "news" ? "#Новости #Технологии" : "#Обзоры #Гаджеты"} ${tags.map((tag) => `#${tag}`).join(" ")}
     `.trim();

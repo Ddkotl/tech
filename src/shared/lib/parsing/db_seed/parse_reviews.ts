@@ -3,6 +3,9 @@ import { delay } from "./delay";
 import { transliterateToUrl } from "../../transliteration";
 import { isTagExist } from "./is_tag_exist";
 import { dataBase } from "../../db_conect";
+import { publishToTelegram } from "../publish_content/publish_to_telegram";
+import { privateConfig } from "../../config/private";
+import { publishToInstagram } from "../publish_content/publish_to_instagram";
 
 export async function ParseReviews(
   metaTitle: string,
@@ -97,4 +100,23 @@ export async function ParseReviews(
 
   console.log(`Created review with title: ${createdReview.title}`);
   await delay(1000);
+  if (privateConfig.NODE_ENV === "production") {
+    console.log("start parse to tg");
+    await publishToTelegram({
+      type: "reviews",
+      slug:slug,
+      meta_description: metaDescription,
+      previewImage: previewImage,
+      ruTitle: ruTitle,
+      tags: tags,
+    });
+    await delay(1000);
+    await publishToInstagram({
+      type: "reviews",
+      meta_description: metaDescription,
+      previewImage: previewImage,
+      ruTitle: ruTitle,
+      tags: tags,
+    });
+  }
 }
