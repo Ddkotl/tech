@@ -13,7 +13,7 @@ import { generateTags } from "../openai/generate_tags";
 import { cleaneText } from "../functions/cleane_text";
 import { safeTranslate } from "../functions/safe_translate";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
-import {REVIEWS_LIMIT} from "../limits"
+import { REVIEWS_LIMIT } from "../limits";
 
 export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, n: number) => {
   for (let i = n; 0 < i; i--) {
@@ -37,10 +37,10 @@ export const parseReviewsFromManyPages = async (page: Page, pageToImages: Page, 
         previewImageUrl: el.querySelector(".review-item-media-wrap > a > img")?.getAttribute("src"),
       })),
     );
-let reviews_limit =0
+    let reviews_limit = 0;
     for (const article of articles.reverse()) {
-      if(reviews_limit >= REVIEWS_LIMIT){
-        continue
+      if (reviews_limit >= REVIEWS_LIMIT) {
+        continue;
       }
       if (!article.link) {
         continue;
@@ -93,7 +93,6 @@ let reviews_limit =0
           .locator(".review-body > img")
           .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("src")).filter((src) => src !== null))) as string[];
         allImages.push(...imagesSrc);
-      
 
         // Проверка на наличие кнопки "Next page"
         const nextPageElement = await page.locator(".pages-next").nth(0);
@@ -143,7 +142,7 @@ let reviews_limit =0
         : "";
 
       // Сохранение всех изображений из обзора
-      const slicedImgSrc = allImages.slice(0,4)
+      const slicedImgSrc = allImages.slice(0, 4);
 
       const contentImagesPaths: string[] = [];
       for (const imgSrc of slicedImgSrc) {
@@ -172,7 +171,7 @@ let reviews_limit =0
         parsedTags ? parsedTags : [],
         mobileModelName,
       );
-      reviews_limit++
+      reviews_limit++;
     }
   }
 };

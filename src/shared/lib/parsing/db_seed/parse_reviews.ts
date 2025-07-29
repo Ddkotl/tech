@@ -104,7 +104,7 @@ export async function ParseReviews(
     console.log("start parse to tg");
     await publishToTelegram({
       type: "reviews",
-      slug:slug,
+      slug: slug,
       meta_description: metaDescription,
       previewImage: previewImage,
       ruTitle: ruTitle,

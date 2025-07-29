@@ -38,10 +38,10 @@ export const parseNewsFromManyPages = async (page: Page, pageToImages: Page, n: 
         previewImageUrl: el.querySelector("img")?.getAttribute("src"),
       })),
     );
-let news_limit = 0
+    let news_limit = 0;
     for (const article of articles) {
-      if(news_limit>= NEWS_LIMIT){
-        continue
+      if (news_limit >= NEWS_LIMIT) {
+        continue;
       }
       if (!article.link) {
         continue;
@@ -49,7 +49,6 @@ let news_limit = 0
       if (article.title ? await IsNewsAlresdyParsed(article.title) : true) {
         continue;
       }
-
 
       await page.goto(`https://www.gsmarena.com/${article.link}`, { timeout: 60000, waitUntil: "domcontentloaded" });
       try {
@@ -79,7 +78,7 @@ let news_limit = 0
 
       const imgGalery = await getImagesFromPageGallery(page);
       imagesSrc = imagesSrc.concat(imgGalery);
-        const slicedImgSrc = imagesSrc.slice(0,4)
+      const slicedImgSrc = imagesSrc.slice(0, 4);
 
       const translatedContent = await safeTranslate(contentResponse, translateAndUnicText);
       const metaTitle = await safeTranslate(translatedTitle, GenerateMetaTitle);
@@ -135,7 +134,7 @@ let news_limit = 0
         contentImagesPaths,
         parsedTags ? parsedTags : [""],
       );
-    news_limit++
+      news_limit++;
     }
   }
 };

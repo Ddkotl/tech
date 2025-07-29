@@ -4,7 +4,7 @@ import { getModelsUrlByBrand } from "./get_models_url_by_brand";
 import { checkModelsExisting } from "../db_seed/check_models_existing";
 import { getModelsByBrand } from "./get_models_by_brand";
 import { checkRequestLimits } from "../functions/check_requesl_limits";
-import {MODELS_LIMIT} from "../limits"
+import { MODELS_LIMIT } from "../limits";
 
 export const getAllBrandsAndModels = async (page: Page, pageToImages: Page) => {
   await page.goto("https://www.gsmarena.com/makers.php3", { timeout: 60000, waitUntil: "domcontentloaded" });
@@ -27,17 +27,17 @@ export const getAllBrandsAndModels = async (page: Page, pageToImages: Page) => {
       await parseBrands(article.brand);
     }
   }
-  let models_limit = 0
+  let models_limit = 0;
   console.log("brands parsed");
   for (const article of articles) {
-    if(models_limit>= MODELS_LIMIT){
-      continue
+    if (models_limit >= MODELS_LIMIT) {
+      continue;
     }
     if (article.brand && article.brandListUrl) {
       const modelsUrl = await getModelsUrlByBrand(article.brandListUrl, page);
       const modelNotExist = await checkModelsExisting(modelsUrl);
       await getModelsByBrand(modelNotExist, article.brand, page, pageToImages);
-      models_limit = models_limit + modelNotExist.length
+      models_limit = models_limit + modelNotExist.length;
       await page.waitForTimeout(2000);
     }
   }
