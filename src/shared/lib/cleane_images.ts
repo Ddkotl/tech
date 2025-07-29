@@ -3,7 +3,7 @@ import { dataBase } from "./db_conect";
 import { fileStorage } from "./file-storage";
 import { privateConfig } from "./config/private";
 
-async function cleaneImages() {
+async function cleaneNewsImages() {
   try {
     const news = await dataBase.news.findMany({
       select: {
@@ -22,7 +22,7 @@ async function cleaneImages() {
             images: news[i].images.slice(0,4),
           },
         });}
-        all_news_images.push(...news[i].images.slice(0,3).map((e)=>e.replace("/storage/images/","")));
+        all_news_images.push(...news[i].images.slice(0,4).map((e)=>e.replace("/storage/images/","")));
         all_news_preview.push(news[i].previewImage?.replace("/storage/images/",""));
       
     }
@@ -61,4 +61,4 @@ console.log(s3_img_to_delete)
   }
 }
 
-cleaneImages();
+cleaneNewsImages();
