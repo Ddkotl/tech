@@ -52,6 +52,9 @@ const ERROR_PATTERNS = [
   "rate limit",
   "rate limit of this model",
   "limit of this model is reached",
+  "502 Bad Gateway",
+  "502",
+  
 ];
 
 const containsError = (response: string): boolean => {
