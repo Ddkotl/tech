@@ -9,7 +9,7 @@ export function setupCron() {
   console.log("⏳ Cron задачи инициализированы...");
 
   cron.schedule(
-    "5 5 * * *",
+    "0 5 * * *",
     async () => {
       console.log("🚀 Запуск парсинга...");
       try {
