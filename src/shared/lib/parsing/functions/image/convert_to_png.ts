@@ -135,7 +135,7 @@ export const convertToPNG = async (file: File, options: { resizeWidth?: number }
     rgbaChannels.delete();
     rgbChannels.delete();
 
-    return new File([pngBuffer], file.name.replace(/\.[^.]+$/, ".png"), {
+    return new File([new Blob([new Uint8Array(pngBuffer)])], file.name.replace(/\.[^.]+$/, ".png"), {
       type: "image/png",
       lastModified: Date.now(),
     });
