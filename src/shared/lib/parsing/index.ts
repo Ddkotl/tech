@@ -8,7 +8,7 @@ import { addHTTPheaders } from "./functions/addHTTPheaders";
 export async function StartParse() {
   let timer: NodeJS.Timeout | undefined
   const timeoutPromise = new Promise((_, rej) => {
-   timer = setTimeout(() => rej(new Error("Tech parse time out after 5 hours")), 5 * 60 * 60 * 1000);
+   timer = setTimeout(() => rej(new Error("Tech parse time out after 5 hours")), 5 * 60 * 60 * 1000 - 5*60*1000);
   });
   try {
    await Promise.race([ExeParse(), timeoutPromise]);
