@@ -1,3 +1,5 @@
 import { StartParse } from ".";
 
-await StartParse();
+(async () => {
+  await StartParse();
+})();
