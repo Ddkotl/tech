@@ -54,7 +54,6 @@ const ERROR_PATTERNS = [
   "limit of this model is reached",
   "502 Bad Gateway",
   "502",
-  
 ];
 
 const containsError = (response: string): boolean => {
@@ -73,7 +72,7 @@ export const safeTranslate = async (
     try {
       await sleep(5000);
       const response = await translateFunction(text, fullName);
-      // console.log(response);
+      console.log(response);
       if (response && !containsError(response)) {
         return response;
       }
