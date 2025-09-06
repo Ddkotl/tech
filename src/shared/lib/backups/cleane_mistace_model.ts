@@ -2,14 +2,10 @@ import { dataBase } from "../db_conect";
 
 async function deleteWrongPhoneModels() {
   try {
-    // Находим все спецификации с неправильным description
+    // Находим все спецификации, где description начинается с "#" или "Произошла"
     const wrongSpecs = await dataBase.specification.findMany({
       where: {
-        description: {
-          not: {
-            startsWith: "<h2>",
-          },
-        },
+        OR: [{ description: { startsWith: "#" } }, { description: { startsWith: "Произошла" } }],
       },
       select: { phoneModelId: true },
     });
@@ -19,12 +15,10 @@ async function deleteWrongPhoneModels() {
 
     if (modelIds.length === 0) return;
 
-    // Удаляем модели (каскадно удалятся и спецификации, и связанные ревью)
+    // Удаляем модели (каскадно удалятся и спецификации, и связанные данные)
     await dataBase.phoneModels.deleteMany({
       where: {
-        id: {
-          in: modelIds,
-        },
+        id: { in: modelIds },
       },
     });
 
@@ -33,6 +27,7 @@ async function deleteWrongPhoneModels() {
     console.error("deleteWrongPhoneModels error", error);
   }
 }
+
 (async () => {
   deleteWrongPhoneModels();
 })();
