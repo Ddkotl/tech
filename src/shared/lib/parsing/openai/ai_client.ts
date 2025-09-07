@@ -5,5 +5,5 @@ export const client = new OpenAI({
   baseURL: "http://localhost:1337/v1",
 });
 
-export const TEXT_AI_MODEL = "gpt-4";
+export const TEXT_AI_MODEL = "gpt-4o-mini";
 export const IMAGE_AI_MODEL = "flux";
