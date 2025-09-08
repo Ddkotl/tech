@@ -1,5 +1,7 @@
+import { TEXT_AI_MODELS } from "../openai/ai_client";
+
 const ERROR_PATTERNS = [
-   "произошла ошибка",
+  "произошла ошибка",
   "ошибка при генерации",
   "не могу выполнить",
   "не могу обработать",
@@ -63,17 +65,19 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const safeTranslate = async (
   text: string,
-  translateFunction: (text: string, fullName?: string) => Promise<string>,
+  translateFunction: (ai_model: string, text: string, fullName?: string) => Promise<string>,
   fullName?: string,
   retries: number = 50,
 ): Promise<string> => {
-  // console.log(text);
   for (let i = 0; i < retries; i++) {
+    const model_count = TEXT_AI_MODELS.length;
+    const current_ai_model = TEXT_AI_MODELS[i % model_count];
     try {
-      await sleep(5000);
-      const response = await translateFunction(text, fullName);
-      console.log(response);
+      console.log("use : ", current_ai_model);
+      await sleep(1000);
+      const response = await translateFunction(current_ai_model, text, fullName);
       if (response && !containsError(response)) {
+        console.log("ai ok");
         return response;
       }
       console.log(`Попытка ${i + 1} не удалась, повторяем...`);

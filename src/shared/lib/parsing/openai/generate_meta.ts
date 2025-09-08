@@ -1,6 +1,6 @@
-import { client, TEXT_AI_MODEL } from "./ai_client";
+import { client } from "./ai_client";
 
-export const GenerateMetaTitle = async (title: string): Promise<string> => {
+export const GenerateMetaTitle = async (ai_model: string, title: string): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
@@ -17,7 +17,7 @@ export const GenerateMetaTitle = async (title: string): Promise<string> => {
         },
       ],
       temperature: 0.5,
-      model: TEXT_AI_MODEL,
+      model: ai_model,
     });
 
     return chatCompletion.choices[0].message.content as string;
@@ -44,7 +44,7 @@ export const GenerateMetaDescription = async (text: string): Promise<string> => 
         },
       ],
       temperature: 0.5,
-      model: TEXT_AI_MODEL,
+      model: "",
     });
     return chatCompletion.choices[0].message.content as string;
   } catch (error) {

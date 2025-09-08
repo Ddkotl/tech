@@ -42,9 +42,9 @@ async function ExeParse() {
     pageToImages = data.pageToImages;
     context = data.context;
     contextToImages = data.contextToImages;
-    await parseNewsFromManyPages(page, pageToImages, 1);
+    //await parseNewsFromManyPages(page, pageToImages, 1);
     await getAllBrandsAndModels(page, pageToImages);
-    await parseReviewsFromManyPages(page, pageToImages, 1);
+   // await parseReviewsFromManyPages(page, pageToImages, 1);
   } catch (error) {
     console.log("Error in StartParse", error);
   } finally {

@@ -1,6 +1,6 @@
-import { client, TEXT_AI_MODEL } from "../ai_client";
+import { client } from "../ai_client";
 
-export const translateWeightAI = async (text: string, fullName: string | undefined): Promise<string> => {
+export const translateWeightAI = async (ai_model:string,text: string, fullName: string | undefined): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
@@ -20,7 +20,7 @@ export const translateWeightAI = async (text: string, fullName: string | undefin
         },
       ],
       temperature: 0,
-      model: TEXT_AI_MODEL,
+      model: ai_model,
     });
     return chatCompletion.choices[0].message.content
       ? chatCompletion.choices[0].message.content.replace(/[^0-9.]/g, "")

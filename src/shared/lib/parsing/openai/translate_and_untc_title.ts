@@ -1,6 +1,6 @@
-import { client, TEXT_AI_MODEL } from "./ai_client";
+import { client } from "./ai_client";
 
-export const translateAndUnicTitle = async (text: string): Promise<string> => {
+export const translateAndUnicTitle = async (ai_model:string,text: string): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
@@ -20,7 +20,7 @@ export const translateAndUnicTitle = async (text: string): Promise<string> => {
         },
       ],
       temperature: 0.5,
-      model: TEXT_AI_MODEL,
+      model: ai_model,
     });
     return chatCompletion.choices[0].message.content as string;
   } catch (error) {
