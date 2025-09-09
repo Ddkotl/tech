@@ -51,7 +51,7 @@ export const getModelsByBrand = async (
     const splitedWeightAndThicknes = weightAndThicknes.split(",");
     const weight = splitedWeightAndThicknes[0].replace(/[^0-9.]/g, "");
     const thicknes = splitedWeightAndThicknes[1] ? splitedWeightAndThicknes[1].replace(/[^0-9.]/g, "") : "";
-    
+
     const os = await page.locator('span[data-spec="os-hl"]').innerText();
 
     const storage = await page.locator('span[data-spec="storage-hl"]').innerText();
@@ -68,7 +68,7 @@ export const getModelsByBrand = async (
     const camera_video = await page.locator('div[data-spec="videopixels-hl"]').innerText();
     const batary_capasity = await page.locator('strong[class="accent accent-battery"]').innerText();
     const description = await page.locator('div[id="specs-list"]').innerHTML();
-    const translatedDescription = await safeTranslate(description, generateModelDescription);
+    const translatedDescription = await safeTranslate(description, generateModelDescription, "", 100, "<h2>");
 
     const modelImgPath = imgUrl
       ? await downloadImageForS3(imgUrl, slug, "models_preview", {
