@@ -32,7 +32,7 @@ export const GenerateMetaTitle = async (ai_model: string, title: string): Promis
   }
 };
 
-export const GenerateMetaDescription = async (text: string): Promise<string> => {
+export const GenerateMetaDescription = async (ai_model:string,text: string): Promise<string> => {
   try {
     const chatCompletion = await client.chat.completions.create({
       messages: [
