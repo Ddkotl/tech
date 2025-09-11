@@ -6,6 +6,7 @@ export const client = new OpenAI({
 });
 
 export const TEXT_AI_MODELS =  [
+  "gpt-5",
   "gpt-4.1",
   "gpt-4",
   "gpt-4o-mini",
