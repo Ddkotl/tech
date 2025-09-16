@@ -14,7 +14,7 @@ export const GenerateMetaTitle = async (ai_model: string, title: string): Promis
 Ответь строго строкой.
 Не добавляй комментарии,вопросы, пояснения, символы(\`'"/|\<>)
 Вот текст из которого нужно брать информацию для генерации:
-${text}`,
+${title}`,
         },
       ],
       temperature: 0.5,
