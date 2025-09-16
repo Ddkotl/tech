@@ -51,7 +51,10 @@ export function TagsList({ tagSlug, searchTerm }: { tagSlug?: string; searchTerm
     <div className=" grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 lg:gap-4 auto-rows-fr">
       {tagsP?.pages.length && tagsP.pages.some((page) => page.length) ? (
         tagsP?.pages.flatMap((tags: TagsWithCounts[]) => {
-          return tags.map((tag, index) => {
+          const sorted_tags = tags.sort(
+            (a, b) => b._count.news + b._count.reviews - (a._count.news + a._count.reviews),
+          );
+          return sorted_tags.map((tag, index) => {
             return (
               <div key={tag.id}>
                 <TagCard

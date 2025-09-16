@@ -56,17 +56,20 @@ const ERROR_PATTERNS = [
   "limit of this model is reached",
   "502 Bad Gateway",
   "502",
+  "вот ваш",
+  "here's yours",
+  "here's your",
 ];
 
 const containsError = (response: string, must_contain?: string): boolean => {
-  const contain_er = ERROR_PATTERNS.some((pattern) => response.toLowerCase().includes(pattern))
-  if(contain_er){
-    return contain_er
+  const contain_er = ERROR_PATTERNS.some((pattern) => response.toLowerCase().includes(pattern));
+  if (contain_er) {
+    return contain_er;
   }
   if (must_contain && response.search(must_contain) === -1) {
     return true;
   }
-  return false
+  return false;
 };
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
