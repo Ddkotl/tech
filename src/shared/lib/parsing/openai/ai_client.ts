@@ -5,10 +5,5 @@ export const client = new OpenAI({
   baseURL: "http://localhost:1337/v1",
 });
 
-export const TEXT_AI_MODELS =  [
-  "gpt-4.1",
-  "gpt-4",
-  "gpt-4o-mini",
-  "gpt-3.5-turbo",
-];
+export const TEXT_AI_MODELS =  ["deepseek-v3","deepseek-v3.1","llama","gpt-4"]
 export const IMAGE_AI_MODEL = "flux";
