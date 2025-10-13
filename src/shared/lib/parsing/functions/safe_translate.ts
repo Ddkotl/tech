@@ -84,7 +84,9 @@ const ERROR_PATTERNS = [
   "который вы предоставили",
   "cant engage in discussions",
   "ip",
-  "chat"
+  "chat",
+  "и я подготовлю",
+  "предоставьте",
 ];
 
 const containsError = (response: string, must_contain?: string): boolean => {
